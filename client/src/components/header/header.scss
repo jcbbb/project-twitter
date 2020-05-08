@@ -1,0 +1,35 @@
+@import '../../vars';
+
+.header {
+    height: 53px;
+    margin: auto;
+    display: flex;
+    align-items:center; 
+    &__icon {
+        font-size: 26px;
+        margin-top: 4px;
+        margin-left: 1px;
+    }
+    &__icon-background {
+        width: 46px;
+        height: 42px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 200ms ease-in-out;
+        margin-right: 20px;
+        &:hover {
+            background: $primary-light;
+        }
+    }
+    &__actions {
+        max-width: 240px;
+        display:flex;
+        margin-left: auto;
+    }
+    &__login-action {
+        margin-right: 10px;
+    }
+}

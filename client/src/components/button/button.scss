@@ -1,0 +1,33 @@
+@import '../../vars';
+
+.button {
+    background: transparent;
+    border: 1px solid $primary;
+    outline: none;
+    color: $primary;
+    padding: 5px 15px; 
+    font-size: 15px;
+    font-weight: $bold;
+    border-radius: 9999px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    &:hover {
+        background: $primary-light; 
+    }
+    &:disabled {
+        opacity: 0.5;
+    }
+    &__filled {
+        background: $primary;
+        color: #fff;
+        &:hover {
+            background: $primary-dark;
+        }
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+    }
+}

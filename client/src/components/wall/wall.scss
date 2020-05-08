@@ -1,0 +1,10 @@
+@import '../../vars';
+
+.wall {
+    max-width: 600px;
+    width: 600px;
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    height: 100vh;
+    min-height: 720px;
+}

@@ -1,0 +1,43 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+
+html {
+    font-size: 15px;
+}
+body {
+    background: rgb(21,32,43);
+}
+.container-1000 {
+    max-width: 1000px;
+}
+.container-600 {
+   max-width: 600px;
+}
+.container-990 {
+    max-width: 990px;
+    margin: auto;
+}
+.flex {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.svg-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+fill: #fff;
+}
+
+.svg-icon circle {
+    stroke: #fff;
+    stroke-width: 1;
+}
