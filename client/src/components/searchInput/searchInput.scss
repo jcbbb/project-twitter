@@ -1,0 +1,54 @@
+@import '../../vars';
+
+.search-group {
+    position: relative;
+    width: 100%;
+    &__input {
+        background: $primary-background-light;
+        border: 1px solid transparent;
+        outline: none;
+        color: #fff;
+        font-size: 15px;
+        padding: 6px 32px 6px 50px;
+        border-radius: 9999px;
+        width: 100%;
+        &:focus {
+            border-color: $primary;
+            background: transparent;
+        }
+        &:focus ~ .search-group__results {
+            display: block;
+        }
+        &:not(:placeholder-shown) ~ .search-group__results {
+            display: block;
+        } 
+        &:focus + .search-group__icon path{
+            fill: $primary;
+        }
+        &::placeholder {
+            color: $non-active;
+        }
+    }
+    &__icon {
+        position: absolute;
+        left: 10px;
+        font-size: 17px;
+        top: 4px;
+        path {
+            fill: $non-active;
+        }
+    }
+    &__results {
+        background: $primary-background;
+        min-height: 70px;
+        padding: 20px;
+        box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 15px, rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
+        display: none;
+        position: absolute;
+        width: 100%;
+    }
+    &__instruction {
+        color: $non-active;
+        text-align:center;
+    }
+}

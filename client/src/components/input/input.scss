@@ -1,0 +1,33 @@
+@import '../../vars';
+
+.form-group {
+    background: $primary-background-light;
+    width: 100%;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column-reverse;
+    &__input {
+        font-size: 15px;
+        border: none;
+        outline: none;
+        border-bottom: 2px solid $non-active;
+        background: rgb(25,39,53);
+        color: #fff;
+        font-size: 19px;
+        padding: 4px 8px;
+        border-radius: 2px;
+        width: 100%;
+        &:focus {
+            border-color: $primary;
+        }
+        &:focus + .form-group__label {
+            color: $primary; 
+        }
+    }
+    &__label {
+        color: $non-active;
+        display: block;
+        margin-left: 6px;
+        margin-top: 6px;
+    }
+}
