@@ -6,12 +6,13 @@
     border-radius: 2px;
     display: flex;
     flex-direction: column-reverse;
+    position: relative;
     &__input {
         font-size: 15px;
         border: none;
         outline: none;
         border-bottom: 2px solid $non-active;
-        background: rgb(25,39,53);
+        background: $primary-background-light;
         color: #fff;
         font-size: 19px;
         padding: 4px 8px;
@@ -29,5 +30,21 @@
         display: block;
         margin-left: 6px;
         margin-top: 6px;
+        &--error {
+            color: $error;
+        }
     }
+    &__error{
+        position: absolute;
+        left: 8px;
+        bottom: -25px;
+        color: $error;;
+    }
+}
+
+.error {
+    color: $error !important;
+}
+.input-error {
+    border-bottom-color: $error !important;
 }

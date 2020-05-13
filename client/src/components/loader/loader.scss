@@ -1,0 +1,24 @@
+@import '../../vars';
+
+.loader {
+    border: 3px solid $primary-light;
+    border-top-color: $primary;
+    width: 27px;
+    border-radius: 50%;
+    height: 27px;
+    animation: spin 600ms linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
