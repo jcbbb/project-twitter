@@ -1038,6 +1038,18 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@formiz/core@^1.0.0-rc.11":
+  version "1.0.0-rc.11"
+  resolved "https://registry.yarnpkg.com/@formiz/core/-/core-1.0.0-rc.11.tgz#f81b71b8a85d744e019ac65f8d1acfc8569740da"
+  integrity sha512-AOI5jejhG7bK+YpkGmpdDxH/6ynQi3ZxYKK6Qjr4w3Uhi8pAubE80JIMnP+6sykm0BAzCwfOHrA/6rVeJSxvGQ==
+  dependencies:
+    fast-memoize "2.5.2"
+
+"@formiz/validations@^1.0.0-rc.10":
+  version "1.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@formiz/validations/-/validations-1.0.0-rc.10.tgz#cb90725b00f0fcd93251b2e1c294fb9ac273237a"
+  integrity sha512-t/lrv/A54+u+xOQEgb9j4R6fO4DV2bf7TWEz8977yzBItqRl1dX2sweZ6pYBjjHeNYBwUj0LW/vYZLK0U2U99g==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -4409,6 +4421,11 @@ fast-levenshtein@~2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+fast-memoize@2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.2.tgz#79e3bb6a4ec867ea40ba0e7146816f6cdce9b57e"
+  integrity sha512-Ue0LwpDYErFbmNnZSF0UH6eImUwDmogUO1jyE+JbN2gsQz/jICm1Ve7t9QT0rNSsfJt+Hs4/S3GnsDVjL4HVrw==
 
 faye-websocket@^0.10.0:
   version "0.10.0"

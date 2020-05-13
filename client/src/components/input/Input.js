@@ -1,29 +1,49 @@
 import React from 'react';
+import { useField } from '@formiz/core';
 import './input.scss';
 
-const Input = ({ type, name, label, value, placeholder, onChange, className, groupClassName, error, ...props }) => {
+const Input = (props) => {
+    const {
+        setValue,
+        value,
+        isValid,
+        isPristine,
+        resetKey,
+        errorMessage,
+        id,
+        isSubmitted,
+        defaultValue,
+    } = useField(props);
+    const { label, type, required, groupClassName, className, placeholder, emailTaken } = props;
+    const showError = !isValid && (!isPristine || isSubmitted);
     return (
         <div className={`${groupClassName} form-group`}>
             <input
-                className={`${className} form-group__input`}
-                value={value}
-                onChange={onChange}
+                key={resetKey}
+                className={`${className} form-group__input ${
+                    showError || emailTaken ? 'input-error' : ''
+                }`}
+                value={value ?? ''}
+                onChange={(e) => setValue(e.target.value)}
+                aria-invalid={showError}
+                aria-required={!!required}
                 placeholder={placeholder}
-                type={type}
-                name={name}
-                id={name}
+                type={type || ''}
+                id={id}
+                defaultValue={defaultValue}
             />
             <label
-                htmlFor={name}
-                className={`${className}-label form-group__label`}
-                style={error && { color: 'rgb(224, 36, 94)' }}
+                htmlFor={id}
+                className={`${className}-label form-group__label ${
+                    showError || emailTaken ? 'error' : ''
+                }`}
             >
                 {label}
             </label>
-            {error && <small style={{ color: 'rgb(224, 36, 94)' }}>{error}</small>}
+            {emailTaken && <p className="form-group__error">Email is already taken</p>}
+            {showError && <p className="form-group__error">{errorMessage}</p>}
         </div>
     );
 };
 
 export default Input;
-

@@ -9,7 +9,7 @@ const SearchInput = () => {
             <span className="search-group__icon">
                 <SearchIcon />
             </span>
-            <div class="search-group__results">
+            <div className="search-group__results">
                 <p className="search-group__instruction">Try to search for people, topics or keywords.</p>
             </div>
         </div>

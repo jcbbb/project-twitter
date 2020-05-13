@@ -3,14 +3,13 @@
 .signup {
     max-width: 80vw;
     width: 600px;
-    min-height: 400px;
-    max-height: 90vh;
+    min-height: 600px;
+    height: 90vh;
     background: $primary-background;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     padding: 10px 30px;
+    position: absolute;
+    z-index: 9999;
+    border-radius: 14px;
     &__header  {
         display: flex;
         align-items: center;
@@ -44,8 +43,33 @@
     }
     &__form {
         margin-top: 30px;
+        display: flex;
+        flex-direction: column;
     }
     &__form-group {
-        margin-bottom: 42px;
+        margin-bottom: 36px;
+    }
+    &__char-count {
+        color: $non-active;
+        font-size: 15px;
+        align-self: flex-end;
+        margin: 4px 8px;
+    }
+    &__register-btn {
+        padding: 14px;
+    }
+    &__tos {
+        color: #fff;
+        margin: 50px 0 20px 0;
+        a {
+            color: $primary;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    &__code-info {
+        color: $non-active;
+        margin: -10px 0 10px 0;
     }
 }
