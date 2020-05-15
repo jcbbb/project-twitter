@@ -6,16 +6,16 @@ import Input from '../input/Input';
 import Overlay from '../overlay/Overlay';
 //import useDebounce from '../../hooks/useDebounce';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
-import { isEmail, isMinLength, isMaxLength, isNumber } from '@formiz/validations';
+import { isEmail, isNumber, isMinLength } from '@formiz/validations';
 import { useHttp } from '../../hooks/useHttp';
 import './signup.scss';
 
 const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
 const Signup = () => {
-    //const debouncedEmail = useDebounce(values.email, 1000);
-
     const [emailTaken, setEmailTaken] = useState(false);
+    const [isCodeMatched, setIsCodeMatched] = useState(false);
+    const [matchedCode, setMatchedCode] = useState(null);
 
     const myForm = useForm();
 
@@ -24,17 +24,49 @@ const Signup = () => {
     const handleSubmit = (values) => {
         alert(JSON.stringify(values));
     };
-    const handleSendEmail = (ev) => {
-        ev.preventDefault();
-    };
+
+    const handleSendEmail = useCallback(
+        async (ev) => {
+            ev.preventDefault();
+            try {
+                const { email } = myForm.values;
+                const { status, verificationCode } = await request('/api/auth/tempuser', 'POST', {
+                    email,
+                });
+                if (status === 201) {
+                    const response = await request('/api/send/confirmation', 'POST', {
+                        email,
+                        verificationCode,
+                    });
+                }
+            } catch (e) {}
+        },
+        [request, myForm.values],
+    );
+
+    const verifyCode = useCallback(
+        async (email, verificationCode) => {
+            setIsCodeMatched(false);
+            try {
+                const response = await request('/api/auth/email/verify', 'POST', {
+                    email,
+                    verificationCode,
+                });
+                if (response.isMatch) {
+                    setIsCodeMatched(true);
+                }
+            } catch (err) {}
+        },
+        [request],
+    );
 
     const checkExistingEmail = useCallback(
         async (email) => {
             setEmailTaken(false);
             try {
-                const response = await request('/api/auth/check', 'POST', { email });
+                const response = await request('/api/auth/email/check', 'POST', { email });
                 if (response.status === 400) setEmailTaken(true);
-            } catch (e) {}
+            } catch (err) {}
         },
         [request],
     );
@@ -45,11 +77,31 @@ const Signup = () => {
         }
     };
 
+    const checkIsLength = (code) => {
+        if (code) {
+            return code.length > 5;
+        }
+    };
+
     useEffect(() => {
-        if (checkIsEmail(myForm.values.email)) {
-            checkExistingEmail(myForm.values.email);
+        const { email } = myForm.values;
+        if (checkIsEmail(email)) {
+            checkExistingEmail(email);
         }
     }, [myForm.values.email, checkExistingEmail]);
+
+    useEffect(() => {
+        const { verificationCode, email } = myForm.values;
+        if (checkIsLength(verificationCode)) {
+            verifyCode(email, verificationCode);
+        }
+    }, [myForm.values.verificationCode]);
+
+    useEffect(() => {
+        if (isCodeMatched) {
+            setMatchedCode(myForm.values.verificationCode);
+        } else setMatchedCode(null);
+    }, [isCodeMatched, myForm.values.verificationCode]);
 
     return (
         <Overlay>
@@ -70,7 +122,7 @@ const Signup = () => {
                         >
                             Next
                         </Button>
-                    ) : (
+                    ) : myForm.currentStep.name === 'step2' ? null : (
                         <Button
                             className="button__filled signup__next"
                             onClick={myForm.nextStep}
@@ -106,7 +158,6 @@ const Signup = () => {
                                 type="email"
                                 name="email"
                                 groupClassName="signup__form-group"
-                                debounce={600}
                                 required
                                 emailTaken={emailTaken}
                                 onChange={(value) =>
@@ -138,13 +189,23 @@ const Signup = () => {
                             />
                             <div className="signup__tos">
                                 <p className="signup__tos-text">
-                                    Регистрируясь, вы соглашаетесь с{' '}
-                                    <a href="#">Условиями предоставления услуг</a> и{' '}
-                                    <a href="#">Политикой конфиденциальности</a>, включая{' '}
-                                    <a href="#">Политику использования файлов cookie.</a> Вас можно
-                                    будет найти по адресу электронной почты или номеру телефона,
-                                    если вы его укажете.{' '}
-                                    <a href="#">Параметры конфиденциальности</a>
+                                    By signing up, you agree with{' '}
+                                    <a href="#" className="signup__link">
+                                        Terms of service
+                                    </a>{' '}
+                                    and{' '}
+                                    <a className="signup__link" href="#">
+                                        Privacy policy
+                                    </a>
+                                    , including{' '}
+                                    <a className="signup__link" href="#">
+                                        Cookie policy.
+                                    </a>{' '}
+                                    You can be found by your email address or phone number if you
+                                    specified.{' '}
+                                    <a className="signup__link" href="#">
+                                        Privacy Settings
+                                    </a>
                                 </p>
                             </div>
                             <Button
@@ -163,17 +224,22 @@ const Signup = () => {
                             </p>
                             <Input
                                 type="text"
-                                label="Confirmation code"
-                                name="confirmationCode"
-                                required="This field is required!"
+                                label="Verification Code"
+                                name="verificationCode"
+                                required="This field is required"
                                 validations={[
                                     {
-                                        rule: isMaxLength(6),
-                                        message: 'Maximum of 6 characters',
+                                        rule: isMinLength(6),
+                                        message: 'Minimum of 6 characters',
                                     },
                                     {
                                         rule: isNumber(),
-                                        message: 'Enter numeric values',
+                                        message: 'Only numeric values are allowed',
+                                    },
+                                    {
+                                        rule: (value) => matchedCode === value,
+                                        deps: [matchedCode],
+                                        message: `No match, value mathedCode is ${matchedCode}`,
                                     },
                                 ]}
                             />

@@ -61,11 +61,12 @@
     &__tos {
         color: #fff;
         margin: 50px 0 20px 0;
-        a {
-            color: $primary;
-            &:hover {
-                text-decoration: underline;
-            }
+    }
+    &__link {
+        color: $primary;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
         }
     }
     &__code-info {
