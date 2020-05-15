@@ -17,7 +17,7 @@ app.use(compression());
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
-
+app.use('/api/send', require('./routes/send'));
 app.set('port', process.env.PORT || 5000);
 
 module.exports = app;

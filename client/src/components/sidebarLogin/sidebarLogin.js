@@ -48,7 +48,9 @@ const SidebarLogin = () => {
                         <Button className="sidebar__form-login">Log in</Button>
                         <p className="sidebar__or">or</p>
                         <Link to="/signup">
-                            <Button className="button__filled sidebar__form-register">Register</Button>
+                            <Button className="button__filled sidebar__form-register">
+                                Register
+                            </Button>
                         </Link>
                     </form>
                 </Formiz>

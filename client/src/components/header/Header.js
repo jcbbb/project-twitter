@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './header.scss';
 import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
 import SearchInput from '../searchInput/SearchInput';
@@ -17,11 +18,12 @@ const Header = () => {
             </div>
             <div className="header__actions">
                 <Button className="header__login-action">Login</Button>
-                <Button className="button__filled header__login-action">Register</Button>
+                <Link to="/signup">
+                    <Button className="button__filled header__login-action">Register</Button>
+                </Link>
             </div>
         </header>
     );
 };
 
 export default Header;
-
