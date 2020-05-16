@@ -1039,9 +1039,9 @@
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
 "@formiz/core@^1.0.0-rc.11":
-  version "1.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/@formiz/core/-/core-1.0.0-rc.11.tgz#f81b71b8a85d744e019ac65f8d1acfc8569740da"
-  integrity sha512-AOI5jejhG7bK+YpkGmpdDxH/6ynQi3ZxYKK6Qjr4w3Uhi8pAubE80JIMnP+6sykm0BAzCwfOHrA/6rVeJSxvGQ==
+  version "1.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/@formiz/core/-/core-1.0.0-rc.12.tgz#d25859bdfa77402fbf36d843be317f7cb91c1493"
+  integrity sha512-u4G/tTh6L83ARnPlONICnOb4wY+cO5dZ21rKI6FDyIVmdNxV//lSTgfNOiiCSibsRxDF4ayd/L/LOl95LBjrgw==
   dependencies:
     fast-memoize "2.5.2"
 

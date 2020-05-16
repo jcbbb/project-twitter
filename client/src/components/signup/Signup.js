@@ -14,8 +14,7 @@ const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^
 
 const Signup = () => {
     const [emailTaken, setEmailTaken] = useState(false);
-    const [isCodeMatched, setIsCodeMatched] = useState(false);
-    const [matchedCode, setMatchedCode] = useState(null);
+    const [hasMatch, setHasMatch] = useState(false);
 
     const myForm = useForm();
 
@@ -34,7 +33,7 @@ const Signup = () => {
                     email,
                 });
                 if (status === 201) {
-                    const response = await request('/api/send/confirmation', 'POST', {
+                    await request('/api/send/verification', 'POST', {
                         email,
                         verificationCode,
                     });
@@ -46,14 +45,14 @@ const Signup = () => {
 
     const verifyCode = useCallback(
         async (email, verificationCode) => {
-            setIsCodeMatched(false);
+            setHasMatch(false);
             try {
                 const response = await request('/api/auth/email/verify', 'POST', {
                     email,
                     verificationCode,
                 });
                 if (response.isMatch) {
-                    setIsCodeMatched(true);
+                    setHasMatch(true);
                 }
             } catch (err) {}
         },
@@ -77,31 +76,12 @@ const Signup = () => {
         }
     };
 
-    const checkIsLength = (code) => {
-        if (code) {
-            return code.length > 5;
-        }
-    };
-
     useEffect(() => {
         const { email } = myForm.values;
         if (checkIsEmail(email)) {
             checkExistingEmail(email);
         }
     }, [myForm.values.email, checkExistingEmail]);
-
-    useEffect(() => {
-        const { verificationCode, email } = myForm.values;
-        if (checkIsLength(verificationCode)) {
-            verifyCode(email, verificationCode);
-        }
-    }, [myForm.values.verificationCode]);
-
-    useEffect(() => {
-        if (isCodeMatched) {
-            setMatchedCode(myForm.values.verificationCode);
-        } else setMatchedCode(null);
-    }, [isCodeMatched, myForm.values.verificationCode]);
 
     return (
         <Overlay>
@@ -227,6 +207,11 @@ const Signup = () => {
                                 label="Verification Code"
                                 name="verificationCode"
                                 required="This field is required"
+                                onChange={(value) => {
+                                    if (value?.length >= 5) {
+                                        verifyCode(myForm.values.email, value);
+                                    }
+                                }}
                                 validations={[
                                     {
                                         rule: isMinLength(6),
@@ -237,9 +222,9 @@ const Signup = () => {
                                         message: 'Only numeric values are allowed',
                                     },
                                     {
-                                        rule: (value) => matchedCode === value,
-                                        deps: [matchedCode],
-                                        message: `No match, value mathedCode is ${matchedCode}`,
+                                        rule: () => hasMatch,
+                                        deps: [hasMatch],
+                                        message: 'No match',
                                     },
                                 ]}
                             />
