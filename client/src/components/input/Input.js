@@ -14,16 +14,7 @@ const Input = (props) => {
         isSubmitted,
         defaultValue,
     } = useField(props);
-    const {
-        label,
-        type,
-        required,
-        groupClassName,
-        className,
-        placeholder,
-        emailTaken,
-        isCodeMatch,
-    } = props;
+    const { label, type, required, groupClassName, className, placeholder, emailTaken } = props;
     const showError = !isValid && (!isPristine || isSubmitted);
     return (
         <div className={`${groupClassName} form-group`}>

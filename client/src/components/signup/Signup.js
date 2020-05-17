@@ -92,7 +92,9 @@ const Signup = () => {
                             <BackArrowIcon />
                         </span>
                     )}
-                    <TwitterWhiteIcon />
+                    <span className="signup__header-icon">
+                        <TwitterWhiteIcon />
+                    </span>
                     {myForm.isLastStep ? (
                         <Button
                             className="button__filled signup__next"
@@ -224,7 +226,7 @@ const Signup = () => {
                                     {
                                         rule: () => hasMatch,
                                         deps: [hasMatch],
-                                        message: 'No match',
+                                        message: "Verification code doesn't match",
                                     },
                                 ]}
                             />

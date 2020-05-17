@@ -6,6 +6,7 @@ import SidebarLogin from './components/sidebarLogin/sidebarLogin';
 import Signup from './components/signup/Signup';
 import Login from './components/login/Login';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Nav from './components/nav/Nav';
 
 const App = () => {
     return (
