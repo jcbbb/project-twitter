@@ -45,10 +45,10 @@ const SidebarLogin = () => {
                                 },
                             ]}
                         />
-                        <Button className="sidebar__form-login">Log in</Button>
+                        <Button style={{ padding: '10px', marginTop: '30px' }}>Log in</Button>
                         <p className="sidebar__or">or</p>
                         <Link to="/signup">
-                            <Button className="button__filled sidebar__form-register">
+                            <Button className="button__filled" style={{ padding: '10px' }}>
                                 Register
                             </Button>
                         </Link>

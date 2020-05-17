@@ -1,0 +1,39 @@
+@import '../../vars';
+
+.navlink {
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 10px;
+    transition: 200ms ease-in-out;
+    &:hover {
+        background: $primary-light;
+        color: $primary;
+    }
+    &:hover &__icon path{
+        fill: $primary;
+    }
+    &--active {
+        color: $primary;
+        .navlink__icon path {
+            fill: $primary;
+        }
+    }
+    &__icon {
+        font-size: 28px;
+        height: 28px;
+        path {
+            transition: 200ms ease-in-out;
+        }
+    }
+    &__text {
+        font-size: 19px;
+        font-weight: $bold;
+        margin: 0 20px;
+        transition: 200ms ease-in-out;
+    }
+}
+
