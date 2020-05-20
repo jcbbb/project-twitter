@@ -7,13 +7,15 @@
     display: flex;
     align-items: center;
     width: fit-content;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     transition: 200ms ease-in-out;
-    &:hover {
+    outline: none;
+    border: 2px solid transparent;
+    &:hover, &:focus {
         background: $primary-light;
         color: $primary;
     }
-    &:hover &__icon path{
+    &:hover &__icon path, &:focus &__icon path {
         fill: $primary;
     }
     &--active {

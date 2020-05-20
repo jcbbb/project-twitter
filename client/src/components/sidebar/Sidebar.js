@@ -20,7 +20,7 @@ const Sidebar = () => (
                 <h2 className="sidebar__heading">Who to follow</h2>
             </div>
             <ul className="sidebar__list">
-                <li className="sidebar__list-item">
+                <li className="sidebar__list-item" tabindex="0">
                     <div className="sidebar__list-item-image-container">
                         <img src={TeslaLogo} alt="Tesla logo" />
                     </div>
@@ -30,7 +30,7 @@ const Sidebar = () => (
                     </div>
                     <Button className="sidebar__list-item-action">Follow</Button>
                 </li>
-                <li className="sidebar__list-item">
+                <li className="sidebar__list-item" tabindex="0">
                     <div className="sidebar__list-item-image-container">
                         <img src={HuaweiLogo} alt="Huawei logo" />
                     </div>
@@ -40,7 +40,7 @@ const Sidebar = () => (
                     </div>
                     <Button className="sidebar__list-item-action">Follow</Button>
                 </li>
-                <li className="sidebar__list-item">
+                <li className="sidebar__list-item" tabindex="0">
                     <div className="sidebar__list-item-image-container">
                         <img src={SamsungLogo} alt="Huawei logo" />
                     </div>
