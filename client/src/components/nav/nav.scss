@@ -1,9 +1,70 @@
+@import '../../vars';
+
 .nav {
     width: 275px;
     padding: 0 20px;
+    position: sticky;
     top: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     &__icon {
         font-size: 32px;
-        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        &:hover {
+            background: $primary-light;
+        }
+    }
+    &__profile-container {
+        background: red;
+        margin-top: auto;
+    }
+    &__profile {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 9999px;
+        &:hover {
+            background: $primary-light;
+        }
+    }
+    &__profile-icon {
+        font-size: 24px;
+        height: 24px;
+    }
+    &__profile-info {
+        margin: 0 30px 0 10px;
+        overflow: hidden;
+    }
+    &__profile-handle-container, &__profile-name-container {
+       overflow-wrap: break-word;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       color: #fff;
+    }
+    &__profile-handle-container {
+        color: $non-active;
+    }
+    &__profile-name {
+        color: #fff;
+    }
+    &__profile-handle {
+        color: $non-active;
+    }
+    &__profile-image {
+        min-width: 40px;
+        max-width: 40px;
+        img {
+            max-width: 100%;
+            border-radius: 50%;
+        }
     }
 }

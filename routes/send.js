@@ -7,8 +7,8 @@ const transport = {
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-        user: 'richie.mills55@ethereal.email',
-        pass: 'e4hRgMeKWCFUN3FdyD',
+        user: 'dino.ward88@ethereal.email',
+        pass: 'unT8h8Yav6jWAqtg7B',
     },
 };
 
