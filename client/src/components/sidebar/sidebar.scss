@@ -1,0 +1,72 @@
+@import '../../vars';
+
+.sidebar {
+    width: 350px; 
+    margin-top: 5px;
+    &__trends, &__who-to-follow {
+        background: $primary-background-light;
+        border-radius: 14px;
+    }
+    &__trends {
+        margin: 15px 0;
+    }
+    &__header {
+        border-bottom: 1px solid $border;
+        padding: 12px 15px;
+        &--radius {
+            border-radius: 14px;
+        }
+    }
+    &__footer {
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 14px;
+        &:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+    }
+    &__footer-link {
+        color: $primary;
+    }
+    &__list-item {
+        display: flex;
+        padding: 12px 15px;
+        align-items: flex-start;
+        cursor: pointer;
+        border-bottom: 1px solid $border;
+        &:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+    }
+    &__list-item-info {
+       flex-grow: 1;
+       align-self: center;
+       margin-left: 10px;
+    }
+    &__list-item-name {
+        color: #fff;
+        font-weight: $bold;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    &__list-item-handle {
+        color: $non-active;
+    }
+    &__list-item-action {
+        width: fit-content;
+    }
+    &__list-item-image-container {
+        width: 50px;
+        img {
+            max-width: 100%;
+            border-radius: 50%;
+        }
+    }
+    &__heading {
+        color: #fff;
+        font-size: 19px;
+        font-weight: $bold;
+    }
+}

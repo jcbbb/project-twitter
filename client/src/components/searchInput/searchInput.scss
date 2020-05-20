@@ -3,6 +3,14 @@
 .search-group {
     position: relative;
     width: 100%;
+    &--lg {
+        .search-group__input {
+            padding: 10px 32px 10px 50px;
+        }
+        .search-group__icon {
+            top: 12px;
+        }
+    }
     &__input {
         background: $search-input-background;
         border: 1px solid transparent;

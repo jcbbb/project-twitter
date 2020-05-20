@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const compression = require('compression');
+const helmet = require('helmet');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { MONGOURI } = require('./config/secrets');
 
 const app = express();
@@ -14,10 +17,19 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression());
+app.use(helmet());
+app.use(cookieParser());
+app.use(
+    cors({
+        origin: ['http://localhost:3000'],
+        credentials: true,
+    }),
+);
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/send', require('./routes/send'));
+
 app.set('port', process.env.PORT || 5000);
 
 module.exports = app;

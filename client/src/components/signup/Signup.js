@@ -3,7 +3,7 @@ import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-w
 import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
 import Button from '../button/Button';
 import Input from '../input/Input';
-import Overlay from '../overlay/Overlay';
+import Backdrop from '../backdrop/Backdrop';
 //import useDebounce from '../../hooks/useDebounce';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
@@ -84,7 +84,7 @@ const Signup = () => {
     }, [myForm.values.email, checkExistingEmail]);
 
     return (
-        <Overlay>
+        <Backdrop>
             <div className="signup">
                 <div className="signup__header">
                     {!myForm.isFirstStep && (
@@ -252,7 +252,7 @@ const Signup = () => {
                     </form>
                 </Formiz>
             </div>
-        </Overlay>
+        </Backdrop>
     );
 };
 

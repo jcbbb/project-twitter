@@ -1,11 +1,11 @@
 import React from 'react';
-import './searchInput.scss';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
+import './searchInput.scss';
 
-const SearchInput = () => {
+const SearchInput = ({ ...props }) => {
     return (
-        <div className="search-group">
-            <input type="text" className="search-group__input" placeholder="Search on Twitter" />
+        <div className="search-group" {...props}>
+            <input type="text" className="search-group__input" placeholder="Search Twitter" />
             <span className="search-group__icon">
                 <SearchIcon />
             </span>

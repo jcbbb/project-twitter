@@ -14,6 +14,9 @@ body {
 a {
     text-decoration: none;
 }
+li {
+    list-style: none;
+}
 .container-1000 {
     max-width: 1000px;
 }
@@ -26,14 +29,21 @@ a {
 }
 .flex {
     display: flex;
-    align-items: center;
     width: 100%;
+}
+.flex-justify-between {
+    justify-content: space-between;
+}
+.flex-align-vertical {
+    align-items: center;
 }
 .svg-icon {
     width: 1em;
     height: 1em;
 }
-
+.rotate-90 {
+    transform: rotate(90deg);
+}
 .svg-icon path,
 .svg-icon polygon,
 .svg-icon rect {

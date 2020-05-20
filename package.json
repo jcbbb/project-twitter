@@ -1,27 +1,45 @@
 {
-	"name": "server",
-	"version": "1.0.0",
-	"main": "index.js",
-	"author": "jc",
-	"license": "MIT",
-	"scripts": {
-		"start": "node server.js",
-		"server": "nodemon server.js",
-		"client": "npm run start --prefix client",
-		"dev": "concurrently 'npm run server' 'npm run client'"
-	},
-	"dependencies": {
-		"bcryptjs": "^2.4.3",
-		"compression": "^1.7.4",
-		"concurrently": "^5.2.0",
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"express-validator": "^6.4.1",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.9.12",
-		"nodemailer": "^6.4.6"
-	},
-	"devDependencies": {
-		"nodemon": "^2.0.3"
-	}
+    "name": "server",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "jc",
+    "license": "MIT",
+    "scripts": {
+        "start": "node server.js",
+        "server": "nodemon server.js",
+        "client": "npm run start --prefix client",
+        "dev": "concurrently 'npm run server' 'npm run client'",
+        "test": "jest"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "compression": "^1.7.4",
+        "concurrently": "^5.2.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.4.1",
+        "helmet": "^3.22.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.12",
+        "nodemailer": "^6.4.6"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "eslint-config-airbnb": "^18.1.0",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.20.0",
+        "eslint-plugin-react-hooks": "^4.0.2",
+        "jest": "^24.9.0",
+        "nodemon": "^2.0.3",
+        "supertest": "^4.0.2"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "coveragePathIgnorePatterns": [
+            "/node_modules/"
+        ]
+    }
 }

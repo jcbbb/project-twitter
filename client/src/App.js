@@ -1,34 +1,30 @@
 import React from 'react';
-import './app.scss';
-import Header from './components/header/Header';
-import Wall from './components/wall/Wall';
-import SidebarLogin from './components/sidebarLogin/sidebarLogin';
 import Signup from './components/signup/Signup';
 import Login from './components/login/Login';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Nav from './components/nav/Nav';
+import Landing from './components/landing/Landing';
+import Home from './components/home/Home';
+import { Route, Switch } from 'react-router-dom';
+import ProtectedRoute from './helpers/ProtectedRoute';
+import './app.scss';
 
 const App = () => {
     return (
-        <Router>
-            <div className="wrapper">
-                <Route path="/">
-                    <Header />
-                    <main className="main">
-                        <div className="container-990 flex">
-                            <Wall />
-                            <SidebarLogin />
-                        </div>
-                    </main>
-                </Route>
-                <Route path="/signup">
-                    <Signup />
+        <div className="wrapper">
+            <Switch>
+                <Route exact path="/">
+                    <Landing />
                 </Route>
                 <Route path="/login">
                     <Login />
                 </Route>
-            </div>
-        </Router>
+                <ProtectedRoute path="/signup">
+                    <Signup />
+                </ProtectedRoute>
+                <ProtectedRoute path="/:route">
+                    <Home />
+                </ProtectedRoute>
+            </Switch>
+        </div>
     );
 };
 
