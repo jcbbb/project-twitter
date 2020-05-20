@@ -12,7 +12,7 @@
     cursor: pointer;
     text-align: center;
     width: 100%;
-    &:hover {
+    &:hover, &:focus {
         background: $primary-light; 
     }
     &:disabled {
@@ -21,7 +21,7 @@
     &__filled {
         background: $primary;
         color: #fff;
-        &:hover {
+        &:hover, &:focus {
             background: $primary-dark;
         }
         &:disabled {

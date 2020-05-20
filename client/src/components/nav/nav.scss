@@ -2,12 +2,16 @@
 
 .nav {
     width: 275px;
-    padding: 0 20px;
+    height: 100vh;
+    padding: 0 20px 10px 20px; 
     position: sticky;
     top: 0;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    &__container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
     &__icon {
         font-size: 32px;
         display: flex;
@@ -21,9 +25,8 @@
             background: $primary-light;
         }
     }
-    &__profile-container {
-        background: red;
-        margin-top: auto;
+    &__tweet-btn {
+        margin: 10px 0;
     }
     &__profile {
         display: flex;
@@ -31,6 +34,7 @@
         padding: 8px 12px;
         cursor: pointer;
         border-radius: 9999px;
+        margin-top: auto;
         &:hover {
             background: $primary-light;
         }
