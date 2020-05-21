@@ -7,25 +7,23 @@ import { Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import './app.scss';
 
-const App = () => {
-    return (
-        <div className="wrapper">
-            <Switch>
-                <Route exact path="/">
-                    <Landing />
-                </Route>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <ProtectedRoute path="/signup">
-                    <Signup />
-                </ProtectedRoute>
-                <ProtectedRoute path="/:route">
-                    <Home />
-                </ProtectedRoute>
-            </Switch>
-        </div>
-    );
-};
+const App = () => (
+    <div className="wrapper">
+        <Switch>
+            <Route exact path="/">
+                <Landing />
+            </Route>
+            <Route path="/login">
+                <Login />
+            </Route>
+            <ProtectedRoute path="/signup">
+                <Signup />
+            </ProtectedRoute>
+            <ProtectedRoute path="/:route">
+                <Home title="Home" />
+            </ProtectedRoute>
+        </Switch>
+    </div>
+);
 
 export default App;

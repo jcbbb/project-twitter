@@ -52,7 +52,7 @@ const Nav = () => {
                 >
                     Tweet
                 </Button>
-                <div className="nav__profile">
+                <div className="nav__profile" tabindex="0">
                     <div className="nav__profile-image">
                         <img src={ProfileImage} alt="Profile image" />
                     </div>

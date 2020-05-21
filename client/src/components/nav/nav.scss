@@ -35,7 +35,8 @@
         cursor: pointer;
         border-radius: 9999px;
         margin-top: auto;
-        &:hover {
+        outline: none;
+        &:hover, &:focus {
             background: $primary-light;
         }
     }

@@ -1,0 +1,130 @@
+@import '../../vars';
+
+.tweet {
+    display: flex;
+    align-items: flex-start;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 15px 2px 15px;
+    transition: background 200ms ease-in-out; 
+    &:hover, &:focus {
+        background: $primary-background-light;
+    }
+    &__actions {
+        display: flex;
+        max-width: 425px;
+        justify-content: space-between;
+        margin-top: 4px; 
+        margin-left: -10px;
+        color: $non-active;
+    }
+    &__actions-container {
+        display: flex;
+        align-items: center;
+        justify-content:center;
+    }
+    &__actions-count {
+        font-size: 13px;
+        transition: color 200ms ease-in-out;
+    }
+    &__actions-icon {
+        font-size: 20px;
+        height: 34px;
+        width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 200ms ease-in-out;
+        margin-right: 2px;
+        path {
+            transition: all 200ms ease-in-out;
+            fill: $non-active;
+        }
+    }
+    &__actions-comment, &__actions-share{
+        &:hover, &:focus, &:hover {
+            background: $primary-light;
+        }
+        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
+            color: $primary;
+        }
+        &:hover path, &:focus path {
+            fill: $primary;
+        }
+    }
+    &__actions-retweet {
+        &:hover, &:focus {
+            background: $green-light;
+        }
+        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
+            color: $green;
+        }
+        &:hover path, &:focus path {
+            fill: $green;
+        }
+    }
+    &__actions-heart {
+        &:hover, &:focus {
+            background: $error-light;
+        }
+        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
+            color: $error;
+        }
+        &:hover path, &:focus path {
+            fill: $error;
+        }
+    }
+    &__content {
+        margin: 0 10px;
+        width: 100%;
+    }
+    &__dropdown-icon {
+        font-size: 20px;
+        margin-left: auto;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: -13px;
+        transition: background 200ms ease-in-out;
+        &:hover, &:focus {
+            background: $primary-light; 
+        }
+        &:hover path, &:focus path {
+            fill: $primary !important;
+        }
+        path {
+            fill: $non-active !important;
+            transition: fill 200ms ease-in-out;
+        }
+    }
+}
+
+.tweeter {
+    &__profile-image-container {
+        min-width: 50px;
+        max-width: 50px;
+        img {
+            max-width: 100%;
+            border-radius: 50%;
+            outline: none;
+            &:hover, &:focus {
+                opacity: 0.9;
+            }
+        }
+    }
+    &__info {
+        display: flex;
+    }
+    &__info-name {
+        font-size: 15px;
+        font-weight: $bold;
+        margin-right: 8px;
+    }
+    &__info-handle {
+        color: $non-active;
+    }
+}
