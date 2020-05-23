@@ -4,10 +4,9 @@ import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.s
 import Button from '../button/Button';
 import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
-//import useDebounce from '../../hooks/useDebounce';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
-import { useHttp } from '../../hooks/useHttp';
+import useHttp from '../../hooks/useHttp';
 import './signup.scss';
 
 const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;

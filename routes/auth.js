@@ -1,9 +1,8 @@
 const { Router } = require('express');
-const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const { JWTSECRET } = require('../config/secrets');
 const User = require('../models/User');
 const TempUser = require('../models/TempUser');
+const generateToken = require('../utils/generateToken');
 
 const router = Router();
 
@@ -123,8 +122,8 @@ router.post(
                 return res.status(400).json({ message: 'Incorrect password or email' });
             }
 
-            const token = jwt.sign({ userId: user.id }, JWTSECRET, { expiresIn: '1h' });
-            res.json({ token, userId: user.id });
+            await generateToken(res, user.id);
+            res.json({ message: 'Successful login' });
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong. Try again' });
         }

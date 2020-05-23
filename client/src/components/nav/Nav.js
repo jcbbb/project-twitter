@@ -54,7 +54,7 @@ const Nav = () => {
                 </Button>
                 <div className="nav__profile" tabindex="0">
                     <div className="nav__profile-image">
-                        <img src={ProfileImage} alt="Profile image" />
+                        <img src={ProfileImage} />
                     </div>
                     <div className="nav__profile-info">
                         <div className="nav__profile-name-container">
