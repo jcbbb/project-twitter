@@ -6,8 +6,15 @@ import { Formiz } from '@formiz/core';
 import { Link } from 'react-router-dom';
 import './login.scss';
 import { isMinLength, isEmail } from '@formiz/validations';
+import { useForm } from '@formiz/core';
 
 const Login = () => {
+    const myForm = useForm();
+
+    const handleSubmit = (values) => {
+        alert(JSON.stringify(values));
+    };
+
     return (
         <div className="login-container">
             <div className="login">
@@ -15,13 +22,13 @@ const Login = () => {
                     <TwitterWhiteIcon />
                 </span>
                 <h1 className="login__heading">Login to twitter</h1>
-                <Formiz>
-                    <form className="login__form">
+                <Formiz connect={myForm} onValidSubmit={handleSubmit}>
+                    <form onSubmit={myForm.submit} noValidate className="login__form">
                         <Input
                             label="Email address"
                             name="email"
                             groupClassName="login__form-group"
-                            required=""
+                            required
                             validations={[
                                 {
                                     rule: isEmail(),
@@ -32,7 +39,7 @@ const Login = () => {
                             type="password"
                             label="Password"
                             name="password"
-                            required=""
+                            required
                             groupClassName="login__form-group"
                             validations={[
                                 {
@@ -40,12 +47,19 @@ const Login = () => {
                                 },
                             ]}
                         />
-                        <Button className="button__filled" style={{ padding: '14px' }}>
+                        <Button
+                            className="button__filled"
+                            disabled={!myForm.isValid}
+                            type="submit"
+                            style={{ padding: '14px' }}
+                        >
                             Login
                         </Button>
                     </form>
                 </Formiz>
-                <Link to="/signup">Register on Twitter</Link>
+                <Link to="/signup" className="login__link">
+                    Sign up for Twitter
+                </Link>
             </div>
         </div>
     );

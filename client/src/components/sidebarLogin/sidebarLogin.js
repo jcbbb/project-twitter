@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './sidebarLogin.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import sidebarIllustration from '../../assets/images/twitter_login_sidebar_illustration.png';
+import useHttp from '../../hooks/useHttp';
 import { Link } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail, isMinLength } from '@formiz/validations';
 
 const SidebarLogin = () => {
-    const handleSubmit = (values) => {
-        console.log(values);
-    };
+    const { request, loading } = useHttp();
+
     const sidebarLoginForm = useForm();
+
+    const handleLogin = useCallback(
+        async (values) => {
+            try {
+                const response = await request('/api/auth/login', 'POST', {
+                    email: values.email,
+                    password: values.password,
+                });
+                console.log(response);
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        [request],
+    );
+
     return (
         <div className="sidebarLogin">
             <div className="sidebarLogin__img-container">
@@ -21,7 +37,7 @@ const SidebarLogin = () => {
                 Find out what's happening in the world right now.
             </p>
             <div className="sidebarLogin__form-container">
-                <Formiz connect={sidebarLoginForm} onValidSubmit={handleSubmit}>
+                <Formiz connect={sidebarLoginForm} onValidSubmit={handleLogin}>
                     <form
                         className="sidebarLogin__form"
                         onSubmit={sidebarLoginForm.submit}
@@ -44,22 +60,30 @@ const SidebarLogin = () => {
                             label="Password"
                             type="password"
                             groupClassName="sidebarLogin__form-password"
-                            required="Enter your password"
+                            required
                             validaions={[
                                 {
                                     rule: isMinLength(6),
                                 },
                             ]}
                         />
-                        <Button style={{ padding: '10px', marginTop: '30px' }}>Log in</Button>
+                        <Button
+                            style={{ padding: '10px', marginTop: '30px' }}
+                            disabled={
+                                loading ||
+                                (!sidebarLoginForm.isValid && sidebarLoginForm.isSubmitted)
+                            }
+                        >
+                            Log in
+                        </Button>
                         <p className="sidebarLogin__or">or</p>
-                        <Link to="/signup">
-                            <Button className="button__filled" style={{ padding: '10px' }}>
-                                Register
-                            </Button>
-                        </Link>
                     </form>
                 </Formiz>
+                <Link to="/signup">
+                    <Button className="button__filled" style={{ padding: '10px' }}>
+                        Sign up
+                    </Button>
+                </Link>
             </div>
         </div>
     );

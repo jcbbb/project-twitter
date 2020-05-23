@@ -28,4 +28,11 @@
         color: #fff;
         margin: 15px 0 20px 0;
     }
+    &__link {
+        color: $primary;
+        margin-top: 20px;
+        &:hover, &:focus {
+            text-decoration: underline;
+        }
+    }
 }

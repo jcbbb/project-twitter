@@ -17,6 +17,8 @@
     }
     &:disabled {
         opacity: 0.5;
+        pointer-events: none;
+        cursor: default;
     }
     &__filled {
         background: $primary;
