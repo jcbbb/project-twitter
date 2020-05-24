@@ -20,36 +20,36 @@ const Sidebar = () => (
                 <h2 className="sidebar__heading">Who to follow</h2>
             </div>
             <ul className="sidebar__list">
-                <li className="sidebar__list-item" tabindex="0">
+                <li className="sidebar__list-item" tabIndex="0">
                     <div className="sidebar__list-item-image-container">
-                        <img src={TeslaLogo} alt="Tesla logo" tabindex="0" />
+                        <img src={TeslaLogo} alt="Tesla logo" tabIndex="0" />
                     </div>
                     <div className="sidebar__list-item-info">
-                        <p className="sidebar__list-item-name" tabindex="0">
+                        <p className="sidebar__list-item-name" tabIndex="0">
                             Tesla
                         </p>
                         <span className="sidebar__list-item-handle">@Tesla</span>
                     </div>
                     <Button className="sidebar__list-item-action">Follow</Button>
                 </li>
-                <li className="sidebar__list-item" tabindex="0">
+                <li className="sidebar__list-item" tabIndex="0">
                     <div className="sidebar__list-item-image-container">
-                        <img src={HuaweiLogo} alt="Huawei logo" tabindex="0" />
+                        <img src={HuaweiLogo} alt="Huawei logo" tabIndex="0" />
                     </div>
                     <div className="sidebar__list-item-info">
-                        <p className="sidebar__list-item-name" tabindex="0">
+                        <p className="sidebar__list-item-name" tabIndex="0">
                             Huawei
                         </p>
                         <span className="sidebar__list-item-handle">@Huawei</span>
                     </div>
                     <Button className="sidebar__list-item-action">Follow</Button>
                 </li>
-                <li className="sidebar__list-item" tabindex="0">
+                <li className="sidebar__list-item" tabIndex="0">
                     <div className="sidebar__list-item-image-container">
-                        <img src={SamsungLogo} alt="Huawei logo" tabindex="0" />
+                        <img src={SamsungLogo} alt="Huawei logo" tabIndex="0" />
                     </div>
                     <div className="sidebar__list-item-info">
-                        <p className="sidebar__list-item-name" tabindex="0">
+                        <p className="sidebar__list-item-name" tabIndex="0">
                             Samsung
                         </p>
                         <span className="sidebar__list-item-handle">@Samsung</span>

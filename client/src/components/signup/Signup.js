@@ -80,7 +80,7 @@ const Signup = () => {
         if (checkIsEmail(email)) {
             checkExistingEmail(email);
         }
-    }, [myForm.values.email, checkExistingEmail]);
+    }, [myForm.values, checkExistingEmail]);
 
     return (
         <Backdrop>

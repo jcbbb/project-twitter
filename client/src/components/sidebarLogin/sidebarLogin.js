@@ -1,15 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import './sidebarLogin.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import sidebarIllustration from '../../assets/images/twitter_login_sidebar_illustration.png';
 import useHttp from '../../hooks/useHttp';
+import AuthContext from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail, isMinLength } from '@formiz/validations';
 
 const SidebarLogin = () => {
     const { request, loading } = useHttp();
+    const auth = useContext(AuthContext);
 
     const sidebarLoginForm = useForm();
 
@@ -20,12 +22,12 @@ const SidebarLogin = () => {
                     email: values.email,
                     password: values.password,
                 });
-                console.log(response);
+                auth.login(response);
             } catch (err) {
                 console.error(err);
             }
         },
-        [request],
+        [request, auth],
     );
 
     return (

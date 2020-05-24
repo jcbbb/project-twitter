@@ -1,29 +1,24 @@
 import React from 'react';
-import Signup from './components/signup/Signup';
-import Login from './components/login/Login';
-import Landing from './components/landing/Landing';
-import Home from './components/home/Home';
-import { Route, Switch } from 'react-router-dom';
-import ProtectedRoute from './helpers/ProtectedRoute';
+import AuthContext from './context/AuthContext';
+import useAuth from './hooks/useAuth';
+import useRoutes from './hooks/useRoutes';
+import Loader from './components/loader/Loader';
 import './app.scss';
 
-const App = () => (
-    <div className="wrapper">
-        <Switch>
-            <Route exact path="/">
-                <Landing />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <ProtectedRoute path="/signup">
-                <Signup />
-            </ProtectedRoute>
-            <ProtectedRoute path="/:route">
-                <Home title="Home" />
-            </ProtectedRoute>
-        </Switch>
-    </div>
-);
+const App = () => {
+    const { login, isAuthenticated, loading, logout } = useAuth();
+    const routes = useRoutes(isAuthenticated);
+    return (
+        <AuthContext.Provider
+            value={{
+                login,
+                isAuthenticated,
+                logout,
+            }}
+        >
+            {loading ? <Loader /> : <div className="wrapper">{routes}</div>}
+        </AuthContext.Provider>
+    );
+};
 
 export default App;
