@@ -3,6 +3,7 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const TempUser = require('../models/TempUser');
 const generateToken = require('../utils/generateToken');
+const verifyToken = require('../utils/verifyToken');
 
 const router = Router();
 
@@ -123,10 +124,23 @@ router.post(
             }
 
             await generateToken(res, user.id);
-            res.json({ message: 'Successful login' });
+            res.json({ message: 'Successful login', userId: user.id, status: 200 });
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong. Try again' });
         }
     },
 );
+
+router.post('/logout', (req, res) => {
+    res.cookie('token', '', {
+        expires: new Date(Date.now()),
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+    }).json({ message: 'Logged out' });
+});
+
+router.post('/me', verifyToken, (req, res) => {
+    res.json({ message: 'Verified', status: 200 });
+});
 module.exports = router;

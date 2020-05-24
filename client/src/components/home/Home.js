@@ -3,6 +3,7 @@ import Nav from '../nav/Nav';
 import Wall from '../wall/Wall';
 import Sidebar from '../sidebar/Sidebar';
 import Tweet from '../tweet/Tweet';
+import MenuItem from '../menuItem/MenuItem';
 import { Helmet } from 'react-helmet';
 import './home.scss';
 
@@ -20,6 +21,7 @@ const Home = ({ title }) => (
                 <Sidebar />
             </div>
         </div>
+        <MenuItem />
     </>
 );
 

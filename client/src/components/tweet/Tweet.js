@@ -1,6 +1,6 @@
 import React from 'react';
 import SamsungLogo from '../../assets/images/samsung-logo.png';
-import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron-bottom.svg';
+import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
 import { ReactComponent as RetweetIcon } from '../../assets/icons/retweet.svg';
 import { ReactComponent as HeartIcon } from '../../assets/icons/heart.svg';

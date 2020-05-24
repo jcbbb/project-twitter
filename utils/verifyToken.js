@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
 
     try {
         if (!token) {
-            return res.status(401).json({ message: 'You need to login' });
+            return res.status(401).json({ message: 'You need to login', status: 401 });
         }
         const decrypt = jwt.verify(token, JWTSECRET);
 
@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
         };
         next();
     } catch (err) {
-        return res.status(500).json({ message: 'Something went wrong. Try again' });
+        return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
     }
 };
 
