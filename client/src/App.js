@@ -1,23 +1,22 @@
 import React from 'react';
-import AuthContext from './context/AuthContext';
+import UserContext from './context/UserContext';
 import useAuth from './hooks/useAuth';
 import useRoutes from './hooks/useRoutes';
 import Loader from './components/loader/Loader';
 import './app.scss';
 
 const App = () => {
-    const { login, isAuthenticated, loading, logout } = useAuth();
+    const { loading, setIsAuthenticated, isAuthenticated } = useAuth();
     const routes = useRoutes(isAuthenticated);
     return (
-        <AuthContext.Provider
+        <UserContext.Provider
             value={{
-                login,
                 isAuthenticated,
-                logout,
+                setIsAuthenticated,
             }}
         >
             {loading ? <Loader /> : <div className="wrapper">{routes}</div>}
-        </AuthContext.Provider>
+        </UserContext.Provider>
     );
 };
 

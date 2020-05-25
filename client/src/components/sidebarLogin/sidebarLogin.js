@@ -1,17 +1,17 @@
 import React, { useCallback, useContext } from 'react';
-import './sidebarLogin.scss';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import sidebarIllustration from '../../assets/images/twitter_login_sidebar_illustration.png';
 import useHttp from '../../hooks/useHttp';
-import AuthContext from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail, isMinLength } from '@formiz/validations';
+import UserContext from '../../context/UserContext';
+import './sidebarLogin.scss';
 
 const SidebarLogin = () => {
     const { request, loading } = useHttp();
-    const auth = useContext(AuthContext);
+    const { setIsAuthenticated } = useContext(UserContext);
 
     const sidebarLoginForm = useForm();
 
@@ -22,12 +22,16 @@ const SidebarLogin = () => {
                     email: values.email,
                     password: values.password,
                 });
-                auth.login(response);
+                if (response.status === 200) {
+                    return setIsAuthenticated(true);
+                }
+                setIsAuthenticated(false);
             } catch (err) {
+                setIsAuthenticated(false);
                 console.error(err);
             }
         },
-        [request, auth],
+        [request, setIsAuthenticated],
     );
 
     return (

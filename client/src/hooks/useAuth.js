@@ -5,20 +5,19 @@ const useAuth = () => {
     const { request, loading } = useHttp();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = useCallback((response) => {
-        console.log(response);
-        if (response.status === 200) {
-            return setIsAuthenticated(true);
-        }
-        setIsAuthenticated(false);
-    }, []);
+    //const login = useCallback((response) => {
+    //    if (response.status === 200) {
+    //        return setIsAuthenticated(true);
+    //    }
+    //    setIsAuthenticated(false);
+    //}, []);
 
-    const logout = useCallback((response) => {
-        if (response.status === 200) {
-            return setIsAuthenticated(false);
-        }
-        setIsAuthenticated(true);
-    }, []);
+    //const logout = useCallback((response) => {
+    //    if (response.status === 200) {
+    //        return setIsAuthenticated(false);
+    //    }
+    //    setIsAuthenticated(true);
+    //}, []);
 
     const verifyToken = useCallback(async () => {
         try {
@@ -30,13 +29,17 @@ const useAuth = () => {
         } catch (err) {
             console.error(err);
         }
-    }, [request]);
+    }, [request, setIsAuthenticated]);
 
     useEffect(() => {
-        verifyToken();
+        let isSubscribed = true;
+        if (isSubscribed) {
+            verifyToken();
+        }
+        return () => (isSubscribed = false);
     }, [verifyToken]);
 
-    return { login, logout, isAuthenticated, loading };
+    return { isAuthenticated, setIsAuthenticated, loading };
 };
 
 export default useAuth;
