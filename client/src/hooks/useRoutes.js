@@ -9,9 +9,10 @@ const useRoutes = (isAuthenticated) => {
     if (isAuthenticated) {
         return (
             <Switch>
-                <Route path="/home">
+                <Route exact path="/home">
                     <Home />
                 </Route>
+                <Route path="/:"></Route>
                 <Redirect to="/home" />
             </Switch>
         );

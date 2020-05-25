@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import Navlink from '../navlink/Navlink';
 import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
-import AuthContext from '../../context/AuthContext';
+import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
@@ -21,17 +21,22 @@ import './nav.scss';
 
 const Nav = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { request, loading } = useHttp();
-    const auth = useContext(AuthContext);
+    const { request } = useHttp();
+    const { setIsAuthenticated } = useContext(UserContext);
 
     const handleLogout = useCallback(async () => {
         try {
-            const response = await request('/api/auth/logout', 'POST');
-            auth.logout(response);
+            const response = await request('/api/auth/logout');
+            if (response.status === 200) {
+                return setIsAuthenticated(false);
+            }
+            setIsAuthenticated(true);
         } catch (err) {
+            setIsAuthenticated(true);
             console.error(err);
         }
-    }, [request, auth]);
+    }, [request, setIsAuthenticated]);
+
     return (
         <nav className="nav">
             <div className="nav__container">

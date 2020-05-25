@@ -76,10 +76,14 @@ const Signup = () => {
     };
 
     useEffect(() => {
-        const { email } = myForm.values;
-        if (checkIsEmail(email)) {
-            checkExistingEmail(email);
+        let isSubscribed = true;
+        if (isSubscribed) {
+            const { email } = myForm.values;
+            if (checkIsEmail(email)) {
+                checkExistingEmail(email);
+            }
         }
+        return () => (isSubscribed = false);
     }, [myForm.values, checkExistingEmail]);
 
     return (
