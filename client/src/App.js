@@ -6,13 +6,14 @@ import Loader from './components/loader/Loader';
 import './app.scss';
 
 const App = () => {
-    const { loading, setIsAuthenticated, isAuthenticated } = useAuth();
+    const { loading, isAuthenticated, login, logout } = useAuth();
     const routes = useRoutes(isAuthenticated);
     return (
         <UserContext.Provider
             value={{
                 isAuthenticated,
-                setIsAuthenticated,
+                login,
+                logout,
             }}
         >
             {loading ? <Loader /> : <div className="wrapper">{routes}</div>}

@@ -3,6 +3,7 @@ import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
 import Signup from '../components/signup/Signup';
+import LogoutModal from '../components/logoutModal/LogoutModal';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const useRoutes = (isAuthenticated) => {
@@ -12,11 +13,14 @@ const useRoutes = (isAuthenticated) => {
                 <Route exact path="/home">
                     <Home />
                 </Route>
-                <Route path="/:"></Route>
+                <Route path="/logout">
+                    <LogoutModal />
+                </Route>
                 <Redirect to="/home" />
             </Switch>
         );
     }
+
     return (
         <Switch>
             <Route exact path="/">

@@ -84,7 +84,7 @@ router.post(
                 return res.status(400).json({ message: 'User already exists' });
             }
 
-            const user = new User({ email, password, username: name });
+            const user = new User({ email, password, name });
 
             await user.save();
             res.status(201).json({ message: 'User created' });
@@ -108,19 +108,22 @@ router.post(
                 return res.status(400).json({
                     errors: errors.array,
                     message: 'Incorrect credentials',
+                    status: 200,
                 });
             }
             const { email, password } = req.body;
             const user = await User.findOne({ email });
 
             if (!user) {
-                return res.status(400).json({ message: 'User not found' });
+                return res.status(400).json({ message: 'User not found', status: 400 });
             }
 
             const isMatch = await user.comparePassword(password);
 
             if (!isMatch) {
-                return res.status(400).json({ message: 'Incorrect password or email' });
+                return res
+                    .status(400)
+                    .json({ message: 'Incorrect password or email', status: 400 });
             }
 
             await generateToken(res, user.id);
@@ -131,16 +134,16 @@ router.post(
     },
 );
 
-router.post('/logout', (req, res) => {
-    res.cookie('token', '', {
-        expires: new Date(Date.now()),
-        secure: true,
-        sameSite: true,
-        httpOnly: true,
-    }).json({ message: 'Logged out' });
+router.post('/logout', verifyToken, async (req, res) => {
+    res.clearCookie('token');
+    return res.json({ message: 'Logged out', status: 200 });
 });
 
-router.post('/me', verifyToken, (req, res) => {
-    res.json({ message: 'Verified', status: 200 });
+router.post('/me', verifyToken, async (req, res) => {
+    if (!req.cookies.token) {
+        return res.status(400).json({ message: "Authorization cookies don't exist" });
+    }
+
+    res.json({ message: 'Authorization cookie is verified', status: 200 });
 });
 module.exports = router;

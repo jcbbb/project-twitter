@@ -7,8 +7,8 @@ const transport = {
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-        user: 'dino.ward88@ethereal.email',
-        pass: 'unT8h8Yav6jWAqtg7B',
+        user: 'chase.kemmer@ethereal.email',
+        pass: 'Jp6ybR2ya6YgDkqzF2',
     },
 };
 
@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport(transport);
 
 router.post('/verification', async (req, res) => {
     const { email, verificationCode } = req.body;
+    console.log(email, verificationCode);
 
     const mail = {
         from: 'Twitter Inc.',

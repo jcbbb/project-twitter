@@ -4,7 +4,7 @@ import './menuItem.scss';
 
 const MenuItem = ({ children, ...props }) => {
     return (
-        <Link to="/:" {...props}>
+        <Link to="/" {...props}>
             <li className="menuItem">{children}</li>
         </Link>
     );

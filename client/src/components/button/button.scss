@@ -20,6 +20,19 @@
         pointer-events: none;
         cursor: default;
     }
+    &__cancel {
+        background: $search-input-background; 
+        color: #fff;
+        border-color: transparent;
+        &:hover, &:focus {
+            background: $search-input-background-light; 
+        }
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+    }
     &__filled {
         background: $primary;
         color: #fff;

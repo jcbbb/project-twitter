@@ -1,9 +1,7 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState } from 'react';
 import Navlink from '../navlink/Navlink';
 import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
-import UserContext from '../../context/UserContext';
-import useHttp from '../../hooks/useHttp';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
 import { ReactComponent as MessageIcon } from '../../assets/icons/message.svg';
@@ -21,21 +19,6 @@ import './nav.scss';
 
 const Nav = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { request } = useHttp();
-    const { setIsAuthenticated } = useContext(UserContext);
-
-    const handleLogout = useCallback(async () => {
-        try {
-            const response = await request('/api/auth/logout');
-            if (response.status === 200) {
-                return setIsAuthenticated(false);
-            }
-            setIsAuthenticated(true);
-        } catch (err) {
-            setIsAuthenticated(true);
-            console.error(err);
-        }
-    }, [request, setIsAuthenticated]);
 
     return (
         <nav className="nav">
@@ -108,9 +91,7 @@ const Nav = () => {
                                     <CheckmarkIcon />
                                 </span>
                             </div>
-                            <MenuItem to="/logout" onClick={handleLogout}>
-                                Log out @janedoeatlocalhost
-                            </MenuItem>
+                            <MenuItem to="/logout">Log out @janedoeatlocalhost</MenuItem>
                         </div>
                     )}
                 </div>

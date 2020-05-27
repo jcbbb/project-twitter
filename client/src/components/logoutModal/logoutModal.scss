@@ -1,0 +1,37 @@
+@import '../../vars';
+
+.logout-modal {
+    background: $primary-background;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 320px;
+    max-width: 600px;
+    padding: 30px 20px;
+    
+    &__icon {
+        font-size: 42px;
+        height: 42px;
+        margin-bottom: 15px;
+    }
+    &__heading {
+        color: #fff;
+        font-weight: $bold;
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
+    &__info {
+        color: $non-active;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    &__actions {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        .button__cancel {
+            margin-right: 15px;
+        }
+    }
+}
