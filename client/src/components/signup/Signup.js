@@ -23,15 +23,11 @@ const Signup = () => {
     const handleSubmit = useCallback(
         async (values) => {
             try {
-                const response = await request('/api/auth/signup', 'POST', {
+                await request('/api/auth/signup', 'POST', {
                     email: values.email,
                     name: values.name,
                     password: values.password,
                 });
-                console.log(response);
-                if (!error) {
-                    console.log('Sucess!');
-                }
             } catch (err) {}
         },
         [error, request],

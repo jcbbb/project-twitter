@@ -16,7 +16,6 @@ const transporter = nodemailer.createTransport(transport);
 
 router.post('/verification', async (req, res) => {
     const { email, verificationCode } = req.body;
-    console.log(email, verificationCode);
 
     const mail = {
         from: 'Twitter Inc.',
