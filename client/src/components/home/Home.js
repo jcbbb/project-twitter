@@ -4,14 +4,16 @@ import Wall from '../wall/Wall';
 import Sidebar from '../sidebar/Sidebar';
 import Tweet from '../tweet/Tweet';
 import MenuItem from '../menuItem/MenuItem';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
 
 const Home = ({ title }) => (
     <>
-        <Helmet>
-            <title>{title ? `${title} / Twitter Doom` : 'Twitter Doom'}</title>
-        </Helmet>
+        <HelmetProvider>
+            <Helmet>
+                <title>{title ? `${title} / Twitter Doom` : 'Twitter Doom'}</title>
+            </Helmet>
+        </HelmetProvider>
         <div className="flex home-container">
             <Nav />
             <div className="container-990 flex flex-justify-between">

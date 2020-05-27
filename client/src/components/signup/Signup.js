@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
-import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
 import Button from '../button/Button';
 import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
+import useHttp from '../../hooks/useHttp';
+import Loader from '../loader/Loader';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
-import useHttp from '../../hooks/useHttp';
+import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
+import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
 import './signup.scss';
 
 const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -17,11 +18,24 @@ const Signup = () => {
 
     const myForm = useForm();
 
-    const { request } = useHttp();
+    const { request, error, loading } = useHttp();
 
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values));
-    };
+    const handleSubmit = useCallback(
+        async (values) => {
+            try {
+                const response = await request('/api/auth/signup', 'POST', {
+                    email: values.email,
+                    name: values.name,
+                    password: values.password,
+                });
+                console.log(response);
+                if (!error) {
+                    console.log('Sucess!');
+                }
+            } catch (err) {}
+        },
+        [error, request],
+    );
 
     const handleSendEmail = useCallback(
         async (ev) => {
@@ -88,6 +102,7 @@ const Signup = () => {
 
     return (
         <Backdrop>
+            {loading && <Loader />}
             <div className="signup">
                 <div className="signup__header">
                     {!myForm.isFirstStep && (
@@ -175,20 +190,20 @@ const Signup = () => {
                             <div className="signup__tos">
                                 <p className="signup__tos-text">
                                     By signing up, you agree with{' '}
-                                    <a href="#" className="signup__link">
+                                    <a href="https://twitter.com/tos" className="signup__link">
                                         Terms of service
                                     </a>{' '}
                                     and{' '}
-                                    <a className="signup__link" href="#">
+                                    <a className="signup__link" href="https://twitter.com/tos">
                                         Privacy policy
                                     </a>
                                     , including{' '}
-                                    <a className="signup__link" href="#">
+                                    <a className="signup__link" href="https://twitter.com/tos">
                                         Cookie policy.
                                     </a>{' '}
                                     You can be found by your email address or phone number if you
                                     specified.{' '}
-                                    <a className="signup__link" href="#">
+                                    <a className="signup__link" href="https://twitter.com/tos">
                                         Privacy Settings
                                     </a>
                                 </p>
