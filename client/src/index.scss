@@ -1,3 +1,5 @@
+@import './vars';
+
 * {
     padding: 0;
     margin: 0;
@@ -9,7 +11,7 @@ html {
     font-size: 15px;
 }
 body {
-    background: rgb(21,32,43);
+    background: $primary-background;
     line-height: 1.3125;
 }
 a {
@@ -54,4 +56,9 @@ fill: #fff;
 .svg-icon circle {
     stroke: #fff;
     stroke-width: 1;
+}
+.divider {
+    height: 10px;
+    background: $search-input-background;
+    width: 100%;
 }

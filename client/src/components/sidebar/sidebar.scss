@@ -2,7 +2,9 @@
 
 .sidebar {
     width: 350px; 
-    margin-top: 5px;
+    position: fixed;
+    top: 5px;
+    right: 55px;
     &__trends, &__who-to-follow {
         background: $primary-background-light;
         border-radius: 14px;

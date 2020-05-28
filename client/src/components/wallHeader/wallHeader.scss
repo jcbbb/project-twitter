@@ -1,0 +1,13 @@
+@import '../../vars';
+
+.wall-header {
+    height: 53px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    &__heading {
+        color: #fff;
+        font-size: 19px;
+        font-weight: $x-bold;
+    }
+}
