@@ -1,0 +1,13 @@
+@import '../../vars';
+
+.progressBar-container {
+    position: relative;
+}
+
+svg circle {
+    fill: none;
+    stroke-width: 3;
+}
+.grey {
+    stroke: $primary-light;
+}

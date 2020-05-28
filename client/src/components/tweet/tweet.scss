@@ -7,8 +7,10 @@
     cursor: pointer;
     padding: 10px 15px 2px 15px;
     transition: background 200ms ease-in-out; 
+    outline: none;
+    border-bottom: 1px solid $border;
     &:hover, &:focus {
-        background: $primary-background-light;
+        background: rgba(255, 255, 255, 0.03);
     }
     &__actions {
         display: flex;
@@ -37,13 +39,14 @@
         border-radius: 50%;
         transition: all 200ms ease-in-out;
         margin-right: 2px;
+        outline: none;
         path {
             transition: all 200ms ease-in-out;
             fill: $non-active;
         }
     }
     &__actions-comment, &__actions-share{
-        &:hover, &:focus, &:hover {
+        &:hover, &:focus {
             background: $primary-light;
         }
         &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
@@ -90,6 +93,7 @@
         border-radius: 50%;
         margin-right: -13px;
         transition: background 200ms ease-in-out;
+        outline: none;
         &:hover, &:focus {
             background: $primary-light; 
         }
@@ -123,6 +127,10 @@
         font-size: 15px;
         font-weight: $bold;
         margin-right: 8px;
+        outline: none;
+        &:hover, &:focus {
+            text-decoration: underline;
+        }
     }
     &__info-handle {
         color: $non-active;

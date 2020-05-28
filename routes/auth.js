@@ -49,12 +49,12 @@ router.post('/tempuser', async (req, res) => {
         const candidate = await TempUser.findOne({ email });
         const verificationCode = randomNumber();
         if (candidate) {
-            return res.status(400).json({ message: 'Temporary user already exists', status: 400 });
+            await TempUser.deleteOne({ email });
         }
 
-        const unverifiedUser = new TempUser({ email, verificationCode });
+        const tempUser = new TempUser({ email, verificationCode });
 
-        await unverifiedUser.save();
+        await tempUser.save();
         res.status(201).json({ message: 'Temprorary user created', verificationCode, status: 201 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again.' });
@@ -87,7 +87,8 @@ router.post(
             const user = new User({ email, password, name });
 
             await user.save();
-            res.status(201).json({ message: 'User created' });
+            await generateToken(res, user.id);
+            res.status(201).json({ message: 'User created', status: 201 });
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong. Try again' });
         }
@@ -139,11 +140,7 @@ router.post('/logout', verifyToken, async (req, res) => {
     return res.json({ message: 'Logged out', status: 200 });
 });
 
-router.post('/me', verifyToken, async (req, res) => {
-    if (!req.cookies.token) {
-        return res.status(400).json({ message: "Authorization cookies don't exist" });
-    }
-
+router.get('/me', verifyToken, async (req, res) => {
     res.json({ message: 'Authorization cookie is verified', status: 200 });
 });
 module.exports = router;

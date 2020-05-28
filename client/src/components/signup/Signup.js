@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import Button from '../button/Button';
 import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import Loader from '../loader/Loader';
+import UserContext from '../../context/UserContext';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
 import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
@@ -15,22 +15,27 @@ const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^
 const Signup = () => {
     const [emailTaken, setEmailTaken] = useState(false);
     const [hasMatch, setHasMatch] = useState(false);
+    const { login } = useContext(UserContext);
 
     const myForm = useForm();
 
-    const { request, error, loading } = useHttp();
+    const { request, loading } = useHttp();
 
     const handleSubmit = useCallback(
         async (values) => {
             try {
-                await request('/api/auth/signup', 'POST', {
+                const response = await request('/api/auth/signup', 'POST', {
                     email: values.email,
                     name: values.name,
                     password: values.password,
                 });
+                if (response.status === 201) {
+                    return login();
+                }
+                console.log('Failed');
             } catch (err) {}
         },
-        [error, request],
+        [request, login],
     );
 
     const handleSendEmail = useCallback(
@@ -41,7 +46,7 @@ const Signup = () => {
                 const { status, verificationCode } = await request('/api/auth/tempuser', 'POST', {
                     email,
                 });
-                if (status === 201) {
+                if (status === 201 || status === 200) {
                     await request('/api/send/verification', 'POST', {
                         email,
                         verificationCode,
@@ -94,11 +99,10 @@ const Signup = () => {
             }
         }
         return () => (isSubscribed = false);
-    }, [myForm.values, checkExistingEmail]);
+    }, [myForm.values.email, checkExistingEmail]);
 
     return (
         <Backdrop>
-            {loading && <Loader />}
             <div className="signup">
                 <div className="signup__header">
                     {!myForm.isFirstStep && (
@@ -112,7 +116,7 @@ const Signup = () => {
                     {myForm.isLastStep ? (
                         <Button
                             className="button__filled signup__next"
-                            disabled={!myForm.isStepValid && myForm.isStepSubmitted}
+                            disabled={loading || (!myForm.isStepValid && myForm.isStepSubmitted)}
                             type="submit"
                             onClick={myForm.submit}
                         >
@@ -206,6 +210,7 @@ const Signup = () => {
                             </div>
                             <Button
                                 className="button__filled signup__register-btn"
+                                type="button"
                                 onClick={(ev) => {
                                     myForm.nextStep();
                                     handleSendEmail(ev);

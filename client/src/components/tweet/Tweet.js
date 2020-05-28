@@ -9,15 +9,17 @@ import { ReactComponent as ShareIcon } from '../../assets/icons/share.svg';
 import './tweet.scss';
 
 const Tweet = () => (
-    <div className="tweet">
+    <div className="tweet" tabIndex="0">
         <div className="tweeter__profile-image-container">
             <img src={SamsungLogo} alt="SamsungLogo" />
         </div>
         <div className="tweet__content">
             <div className="tweeter__info">
-                <h2 className="tweeter__info-name">WebDesignDev</h2>
+                <h2 className="tweeter__info-name" tabIndex="0">
+                    WebDesignDev
+                </h2>
                 <span className="tweeter__info-handle">@WedDesignDev</span>
-                <span className="tweet__dropdown-icon">
+                <span className="tweet__dropdown-icon" tabIndex="0">
                     <ChevronIcon />
                 </span>
             </div>
@@ -26,25 +28,25 @@ const Tweet = () => (
             </div>
             <div className="tweet__actions">
                 <div className="tweet__actions-container">
-                    <span className="tweet__actions-icon tweet__actions-comment">
+                    <span className="tweet__actions-icon tweet__actions-comment" tabIndex="0">
                         <CommentIcon />
                     </span>
                     <span className="tweet__actions-count">14</span>
                 </div>
                 <div className="tweet__actions-container">
-                    <span className="tweet__actions-icon tweet__actions-retweet">
+                    <span className="tweet__actions-icon tweet__actions-retweet" tabIndex="0">
                         <RetweetIcon />
                     </span>
                     <span className="tweet__actions-count">45</span>
                 </div>
                 <div className="tweet__actions-container">
-                    <span className="tweet__actions-icon tweet__actions-heart">
+                    <span className="tweet__actions-icon tweet__actions-heart" tabIndex="0">
                         <HeartIcon />
                     </span>
                     <span className="tweet__actions-count">12</span>
                 </div>
                 <div className="tweet__actions-container">
-                    <span className="tweet__actions-icon tweet__actions-share">
+                    <span className="tweet__actions-icon tweet__actions-share" tabIndex="0">
                         <ShareIcon />
                     </span>
                     <span className="tweet__actions-count">32</span>
