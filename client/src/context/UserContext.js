@@ -1,10 +1,16 @@
 import { createContext } from 'react';
 
 const UserContext = createContext({
-    userId: null,
+    user: {
+        userId: null,
+        handle: null,
+        name: null,
+        profileImageUrl: null,
+    },
+    isAuthenticated: false,
+    getUser: () => {},
     login: () => {},
     logout: () => {},
-    isAuthenticated: false,
     setIsAuthenticated: () => {},
 });
 

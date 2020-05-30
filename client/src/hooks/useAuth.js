@@ -16,13 +16,12 @@ const useAuth = () => {
     const verifyToken = useCallback(async () => {
         try {
             const response = await request('api/auth/me', 'GET');
-            if (response.status !== 401) {
+            if (response.status !== 401 && response.status !== 500) {
                 return setIsAuthenticated(true);
             }
-
             setIsAuthenticated(false);
-        } catch (err) {}
-    }, [request, setIsAuthenticated]);
+        } catch (e) {}
+    }, [request]);
 
     useEffect(() => {
         let isSubscribed = true;

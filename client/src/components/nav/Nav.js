@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Navlink from '../navlink/Navlink';
 import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
+import useHttp from '../../hooks/useHttp';
+import UserContext from '../../context/UserContext';
+import Loader from '../loader/Loader';
+import Backdrop from '../backdrop/Backdrop';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
 import { ReactComponent as MessageIcon } from '../../assets/icons/message.svg';
@@ -13,12 +17,22 @@ import { ReactComponent as ListsIcon } from '../../assets/icons/lists.svg';
 import { ReactComponent as HashtagIcon } from '../../assets/icons/hashtag.svg';
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
 import { ReactComponent as CheckmarkIcon } from '../../assets/icons/checkmark.svg';
-import ProfileImage from '../../assets/images/profile.jpg';
 
 import './nav.scss';
 
 const Nav = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { loading } = useHttp();
+    const { user, getUser } = useContext(UserContext);
+
+    useEffect(() => {
+        let isSubscribed = true;
+
+        if (isSubscribed) {
+            getUser();
+        }
+        return () => (isSubscribed = false);
+    }, [getUser]);
 
     return (
         <nav className="nav">
@@ -33,7 +47,7 @@ const Nav = () => {
                     Explore
                 </Navlink>
                 <Navlink to="/notifications" icon={<NotificationIcon />}>
-                    Notifications{' '}
+                    Notifications
                 </Navlink>
                 <Navlink to="/messages" icon={<MessageIcon />}>
                     Messages
@@ -56,45 +70,51 @@ const Nav = () => {
                 >
                     Tweet
                 </Button>
-                <div className="nav__profile" tabIndex="0" onClick={() => setIsOpen((o) => !o)}>
-                    <div className="nav__profile-image">
-                        <img src={ProfileImage} alt="profile" />
-                    </div>
-                    <div className="nav__profile-info">
-                        <div className="nav__profile-name-container">
-                            <span className="nav__profile-name">Jane Doe</span>
+                {loading ? (
+                    <Backdrop>
+                        <Loader />
+                    </Backdrop>
+                ) : (
+                    <div className="nav__profile" tabIndex="0" onClick={() => setIsOpen((o) => !o)}>
+                        <div className="nav__profile-image">
+                            <img src={user.profileImageUrl} />
                         </div>
-                        <div className="nav__profile-handle-container">
-                            <span className="nav__profile-handle">@janedoeatlocalhost.com</span>
-                        </div>
-                    </div>
-                    <span className="nav__profile-icon">
-                        <ChevronIcon />
-                    </span>
-                    {isOpen && (
-                        <div className="nav__menu">
-                            <div className="nav__menu-header">
-                                <div className="nav__profile-image">
-                                    <img src={ProfileImage} alt="profile" />
-                                </div>
-                                <div className="nav__profile-info">
-                                    <div className="nav__profile-name-container">
-                                        <span className="nav__profile-name">Jane Doe</span>
-                                    </div>
-                                    <div className="nav__profile-handle-container">
-                                        <span className="nav__profile-handle">
-                                            @janedoeatlocalhost.com
-                                        </span>
-                                    </div>
-                                </div>
-                                <span className="nav__menu-icon">
-                                    <CheckmarkIcon />
-                                </span>
+                        <div className="nav__profile-info">
+                            <div className="nav__profile-name-container">
+                                <span className="nav__profile-name">{user.name}</span>
                             </div>
-                            <MenuItem to="/logout">Log out @janedoeatlocalhost</MenuItem>
+                            <div className="nav__profile-handle-container">
+                                <span className="nav__profile-handle">{user.handle}</span>
+                            </div>
                         </div>
-                    )}
-                </div>
+                        <span className="nav__profile-icon">
+                            <ChevronIcon />
+                        </span>
+                        {isOpen && (
+                            <div className="nav__menu">
+                                <div className="nav__menu-header">
+                                    <div className="nav__profile-image">
+                                        <img src={user.profileImageUrl} />
+                                    </div>
+                                    <div className="nav__profile-info">
+                                        <div className="nav__profile-name-container">
+                                            <span className="nav__profile-name">{user.name}</span>
+                                        </div>
+                                        <div className="nav__profile-handle-container">
+                                            <span className="nav__profile-handle">
+                                                {user.handle}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className="nav__menu-icon">
+                                        <CheckmarkIcon />
+                                    </span>
+                                </div>
+                                <MenuItem to="/logout">Log out {user.handle}</MenuItem>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </nav>
     );

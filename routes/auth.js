@@ -73,18 +73,18 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array,
-                    message: 'Incorrect credentials',
+                    message: 'Provide valid inputs',
                 });
             }
             const { email, password, name } = req.body;
 
-            const canditate = await User.findOne({ email });
+            const candidate = await User.findOne({ email });
 
-            if (canditate) {
+            if (candidate) {
                 return res.status(400).json({ message: 'User already exists' });
             }
 
-            const user = new User({ email, password, name });
+            const user = new User({ email, password, name, handle: name });
 
             await user.save();
             await generateToken(res, user.id);
@@ -109,7 +109,7 @@ router.post(
                 return res.status(400).json({
                     errors: errors.array,
                     message: 'Incorrect credentials',
-                    status: 200,
+                    status: 400,
                 });
             }
             const { email, password } = req.body;
@@ -128,7 +128,7 @@ router.post(
             }
 
             await generateToken(res, user.id);
-            res.json({ message: 'Successful login', userId: user.id, status: 200 });
+            res.json({ message: 'Successful login', status: 200 });
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong. Try again' });
         }
@@ -143,4 +143,5 @@ router.post('/logout', verifyToken, async (req, res) => {
 router.get('/me', verifyToken, async (req, res) => {
     res.json({ message: 'Authorization cookie is verified', status: 200 });
 });
+
 module.exports = router;

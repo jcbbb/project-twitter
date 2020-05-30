@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
-import ProfileImage from '../../assets/images/profile.jpg';
+import React, { useState, useContext, useCallback } from 'react';
 import Button from '../button/Button';
+import UserContext from '../../context/UserContext';
+import useHttp from '../../hooks/useHttp';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import './tweetTextarea.scss';
 
 const TweetTextarea = () => {
-    const [disabled, setDisabled] = useState(true);
+    const [tweet, setTweet] = useState('');
+    const { request, loading } = useHttp();
+    const {
+        user: { profileImageUrl, userId },
+    } = useContext(UserContext);
+
+    const handleTweetSubmit = useCallback(async () => {
+        try {
+            const response = await request('/api/tweet/create', 'POST', {
+                tweet,
+                userId,
+            });
+        } catch (e) {}
+    }, []);
 
     return (
         <>
             <div className="tweet-textarea">
                 <div className="tweet-textarea__profile-image" tabIndex="0">
-                    <img src={ProfileImage} />
+                    <img src={profileImageUrl} />
                 </div>
                 <div className="tweet-textarea__right">
                     <div
@@ -23,12 +37,10 @@ const TweetTextarea = () => {
                         onInput={({ target }) => {
                             if (!target.innerText.trim().length) {
                                 target.innerText = '';
-                            } else if (target.innerText.length >= 1) {
-                                return setDisabled(false);
                             }
-                            setDisabled(true);
+                            setTweet(target.innerText);
                         }}
-                    ></div>
+                    ></div>{' '}
                     <div className="tweet-textarea__bottom">
                         <div className="tweet-textarea__bottom--left">
                             <span className="tweet-textarea__icon" tabIndex="0">
@@ -44,8 +56,9 @@ const TweetTextarea = () => {
                         <Button
                             className="button__filled tweet-textarea__btn"
                             style={{ padding: '8px 14px' }}
-                            disabled={disabled}
+                            disabled={tweet.length > 280 || tweet.length < 1 ? true : false}
                             tabIndex="0"
+                            onClick={handleTweetSubmit}
                         >
                             Tweet
                         </Button>

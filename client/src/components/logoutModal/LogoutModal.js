@@ -15,11 +15,12 @@ const LogoutModal = () => {
     const handleLogut = async () => {
         try {
             await request('/api/auth/logout');
-            if (!error) {
+            if (Object.entries(error).length === 0) {
                 logout();
             }
-        } catch (err) {}
+        } catch (e) {}
     };
+
     return (
         <Backdrop>
             {loading ? (

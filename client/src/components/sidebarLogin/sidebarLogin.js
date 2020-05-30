@@ -13,25 +13,28 @@ import './sidebarLogin.scss';
 
 const SidebarLogin = () => {
     const history = useHistory();
-    const { request, loading, error } = useHttp();
-    const { login } = useContext(UserContext);
+    const { request, loading } = useHttp();
+    const { login, getUser } = useContext(UserContext);
 
     const sidebarLoginForm = useForm();
 
     const handleLogin = useCallback(
         async (values) => {
             try {
-                await request('/api/auth/login', 'POST', {
+                const response = await request('/api/auth/login', 'POST', {
                     email: values.email,
                     password: values.password,
                 });
-                if (!error) {
-                    return login();
+
+                if (response.status === 200 && response.status !== 500) {
+                    return login() && getUser();
                 }
+
+                // Redirect to login component
                 history.push('/login');
-            } catch (err) {}
+            } catch (e) {}
         },
-        [request, login, error, history],
+        [request, login, history, getUser],
     );
 
     return (
