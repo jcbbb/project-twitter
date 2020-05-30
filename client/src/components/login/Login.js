@@ -14,21 +14,21 @@ import { useForm } from '@formiz/core';
 
 const Login = () => {
     const myForm = useForm();
-    const { login } = useContext(UserContext);
+    const { login, getUser } = useContext(UserContext);
     const { request, loading, error } = useHttp();
     const handleSubmit = useCallback(
         async (values) => {
             try {
-                await request('/api/auth/login', 'POST', {
+                const response = await request('/api/auth/login', 'POST', {
                     email: values.email,
                     password: values.password,
                 });
-                if (!error) {
-                    login();
+                if (response.status === 200 && response.status !== 500) {
+                    return login() && getUser();
                 }
-            } catch (err) {}
+            } catch (e) {}
         },
-        [error, request, login],
+        [request, login, getUser],
     );
 
     return (
@@ -45,7 +45,10 @@ const Login = () => {
                     </span>
                     <h1 className="login__heading">Login to twitter</h1>
                     {error && (
-                        <p style={{ textAlign: 'left' }} className="error">
+                        <p
+                            style={{ alignSelf: 'flex-start', marginBottom: '5px' }}
+                            className="error"
+                        >
                             {error.message}
                         </p>
                     )}

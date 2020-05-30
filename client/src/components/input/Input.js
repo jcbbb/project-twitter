@@ -14,15 +14,13 @@ const Input = (props) => {
         isSubmitted,
         defaultValue,
     } = useField(props);
-    const { label, type, required, groupClassName, className, placeholder, emailTaken } = props;
+    const { label, type, required, groupClassName, className, placeholder } = props;
     const showError = !isValid && (!isPristine || isSubmitted);
     return (
         <div className={`${groupClassName} form-group`}>
             <input
                 key={resetKey}
-                className={`${className} form-group__input ${
-                    showError || emailTaken ? 'input-error' : ''
-                }`}
+                className={`${className} form-group__input ${showError ? 'input-error' : ''}`}
                 value={value ?? ''}
                 onChange={(e) => setValue(e.target.value)}
                 aria-invalid={showError}
@@ -34,13 +32,10 @@ const Input = (props) => {
             />
             <label
                 htmlFor={id}
-                className={`${className}-label form-group__label ${
-                    showError || emailTaken ? 'error' : ''
-                }`}
+                className={`${className}-label form-group__label ${showError ? 'error' : ''}`}
             >
                 {label}
             </label>
-            {emailTaken && <p className="form-group__error">Email is already taken</p>}
             {showError && <p className="form-group__error">{errorMessage}</p>}
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import Button from '../button/Button';
 import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
@@ -15,7 +15,7 @@ const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^
 const Signup = () => {
     const [emailTaken, setEmailTaken] = useState(false);
     const [hasMatch, setHasMatch] = useState(false);
-    const { login } = useContext(UserContext);
+    const { login, getUser } = useContext(UserContext);
 
     const myForm = useForm();
 
@@ -29,13 +29,13 @@ const Signup = () => {
                     name: values.name,
                     password: values.password,
                 });
-                if (response.status === 201) {
-                    return login();
+
+                if (response.status === 201 && response.status !== 500) {
+                    return login() && getUser();
                 }
-                console.log('Failed');
-            } catch (err) {}
+            } catch (e) {}
         },
-        [request, login],
+        [request, login, getUser],
     );
 
     const handleSendEmail = useCallback(
@@ -78,7 +78,7 @@ const Signup = () => {
             setEmailTaken(false);
             try {
                 const response = await request('/api/auth/email/check', 'POST', { email });
-                if (response.status === 400) setEmailTaken(true);
+                if (response.status === 400 && response.status !== 500) setEmailTaken(true);
             } catch (err) {}
         },
         [request],
@@ -89,17 +89,6 @@ const Signup = () => {
             return emailRegex.test(email);
         }
     };
-
-    useEffect(() => {
-        let isSubscribed = true;
-        if (isSubscribed) {
-            const { email } = myForm.values;
-            if (checkIsEmail(email)) {
-                checkExistingEmail(email);
-            }
-        }
-        return () => (isSubscribed = false);
-    }, [myForm.values.email, checkExistingEmail]);
 
     return (
         <Backdrop>
@@ -159,14 +148,21 @@ const Signup = () => {
                                 name="email"
                                 groupClassName="signup__form-group"
                                 required
-                                emailTaken={emailTaken}
-                                onChange={(value) =>
-                                    myForm.setFieldsValues({ confirmEmail: value })
-                                }
+                                onChange={(value) => {
+                                    myForm.setFieldsValues({ confirmEmail: value });
+                                    if (checkIsEmail(value)) {
+                                        checkExistingEmail(value);
+                                    }
+                                }}
                                 validations={[
                                     {
                                         rule: isEmail(),
                                         message: 'Provide a valid email address.',
+                                    },
+                                    {
+                                        rule: () => !emailTaken,
+                                        deps: [emailTaken],
+                                        message: 'Email is already taken',
                                     },
                                 ]}
                             />
