@@ -7,4 +7,7 @@
     border-right: 1px solid $border;
     height: 100vh;
     min-height: 720px;
+    &--320 {
+        margin-left: 320px;
+    }
 }

@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const TweetSchema = new Schema({
     tweet: { type: String, required: true },
-    authorId: { type: String, required: true, unique: true },
+    authorId: { type: String, required: true },
     comments: [
         {
             body: String,
@@ -14,4 +14,4 @@ const TweetSchema = new Schema({
     shares: { type: Number },
 });
 
-module.exports = model('User', TweetSchema);
+module.exports = model('Tweet', TweetSchema);

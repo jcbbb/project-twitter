@@ -1,8 +1,9 @@
 import React from 'react';
-import Nav from '../nav/Nav';
 import Wall from '../wall/Wall';
+import WallHeader from '../wallHeader/WallHeader';
 import Sidebar from '../sidebar/Sidebar';
 import Tweet from '../tweet/Tweet';
+import TweetTextarea from '../tweetTextarea/TweetTextarea';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
 
@@ -13,15 +14,14 @@ const Home = ({ title }) => (
                 <title>{title ? `${title} / Twitter Doom` : 'Twitter Doom'}</title>
             </Helmet>
         </HelmetProvider>
-        <div className="flex home-container">
-            <Nav />
-            <div className="container-990 flex flex-justify-between">
-                <Wall>
-                    <Tweet />
-                </Wall>
-                <Sidebar />
-            </div>
-        </div>
+        <>
+            <Wall className="wall wall--320">
+                <WallHeader>Home</WallHeader>
+                <TweetTextarea />
+                <Tweet />
+            </Wall>
+            <Sidebar />
+        </>
     </>
 );
 

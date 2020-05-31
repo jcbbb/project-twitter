@@ -16,12 +16,13 @@ const TweetTextarea = () => {
 
     const handleTweetSubmit = useCallback(async () => {
         try {
-            const response = await request('/api/tweet/create', 'POST', {
+            const response = await request('/api/tweets/tweet/create', 'POST', {
                 tweet,
                 userId,
             });
+            console.log(response);
         } catch (e) {}
-    }, []);
+    }, [tweet, request]);
 
     return (
         <>
@@ -38,9 +39,9 @@ const TweetTextarea = () => {
                             if (!target.innerText.trim().length) {
                                 target.innerText = '';
                             }
-                            setTweet(target.innerText);
+                            setTweet(target.innerHTML);
                         }}
-                    ></div>{' '}
+                    ></div>
                     <div className="tweet-textarea__bottom">
                         <div className="tweet-textarea__bottom--left">
                             <span className="tweet-textarea__icon" tabIndex="0">
@@ -56,7 +57,9 @@ const TweetTextarea = () => {
                         <Button
                             className="button__filled tweet-textarea__btn"
                             style={{ padding: '8px 14px' }}
-                            disabled={tweet.length > 280 || tweet.length < 1 ? true : false}
+                            disabled={
+                                loading || tweet.length > 280 || tweet.length < 1 ? true : false
+                            }
                             tabIndex="0"
                             onClick={handleTweetSubmit}
                         >
