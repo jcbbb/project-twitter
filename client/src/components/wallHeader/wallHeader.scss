@@ -10,4 +10,21 @@
         font-size: 19px;
         font-weight: $x-bold;
     }
+    &__icon {
+        font-size: 22px;
+        height: 38px;
+        width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-right: 22px;
+        &:hover {
+            background: $primary-light;
+        }
+        path {
+            fill: $primary !important;
+        }
+    }
 }

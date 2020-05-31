@@ -15,7 +15,7 @@ const useAuth = () => {
 
     const verifyToken = useCallback(async () => {
         try {
-            const response = await request('api/auth/me', 'GET');
+            const response = await request('/me', 'GET');
             if (response.status !== 401 && response.status !== 500) {
                 return setIsAuthenticated(true);
             }

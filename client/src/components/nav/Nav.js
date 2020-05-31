@@ -58,7 +58,7 @@ const Nav = () => {
                 <Navlink to="/lists" icon={<ListsIcon />}>
                     Lists
                 </Navlink>
-                <Navlink to="/profile" icon={<ProfileIcon />}>
+                <Navlink to={`/${user.handle}`} icon={<ProfileIcon />}>
                     Profile
                 </Navlink>
                 <Navlink to="/more" icon={<MoreIcon />}>

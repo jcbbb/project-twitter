@@ -140,8 +140,4 @@ router.post('/logout', verifyToken, async (req, res) => {
     return res.json({ message: 'Logged out', status: 200 });
 });
 
-router.get('/me', verifyToken, async (req, res) => {
-    res.json({ message: 'Authorization cookie is verified', status: 200 });
-});
-
 module.exports = router;

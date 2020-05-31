@@ -1,16 +1,8 @@
 import React from 'react';
-import WallHeader from '../wallHeader/WallHeader';
-import TweetTextarea from '../tweetTextarea/TweetTextarea';
 import './wall.scss';
 
-const Wall = ({ children }) => {
-    return (
-        <div className="wall">
-            <WallHeader>Home</WallHeader>
-            <TweetTextarea />
-            {children}
-        </div>
-    );
+const Wall = ({ children, className }) => {
+    return <div className={`wall ${className}`}>{children}</div>;
 };
 
 export default Wall;

@@ -3,8 +3,9 @@
 .nav {
     width: 275px;
     height: 100vh;
-    padding: 0 20px 10px 20px; 
-    position: sticky;
+    padding: 0 40px 10px 0; 
+    position: fixed;
+    left: 65px;
     top: 0;
     overflow-y: auto;
     &__container {
