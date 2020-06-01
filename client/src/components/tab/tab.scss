@@ -1,0 +1,20 @@
+@import '../../vars';
+
+.tab {
+  padding: 15px 40px;  
+  color: $non-active;
+  font-weight: $bold;
+  outline: none;
+  display: inline-block;
+  width: 100%;
+  text-align:center;
+  transition: all 200ms ease-in-out;
+  &:hover, &:focus {
+    background: $primary-light;
+    color: $primary
+  }
+  &--active {
+    border-bottom: 2px solid $primary;
+    color: $primary;
+  }
+}

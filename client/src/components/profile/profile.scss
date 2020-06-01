@@ -1,0 +1,97 @@
+@import '../../vars';
+
+.profile { 
+    &__container {
+        margin-top: -70px;
+        padding: 0 15px;
+        color: $non-active;
+    }
+    &__banner {
+        background: $banner;
+        height: 200px;
+        border-top: 1px solid $border;
+    }
+    &__top-bar {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    &__picture {
+        width: 140px;
+        height: 140px;
+        background: #ddd;
+        border-radius: 50%;
+        border: 4px solid $primary-background;
+        margin-left: -4px;
+        img {
+            max-width: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    &__follow-btn {
+        width: fit-content;
+        padding: 9px 15px;
+        margin-bottom: 22px;
+    }
+    &__name {
+        color: #fff;
+        font-size: 19px;
+        font-weight: $x-bold;
+    }
+    &__handle {
+        color: $non-active;
+    }
+    &__bio {
+        color: #fff;
+        margin: 10px 0;
+    }
+    &__items {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__item {
+        display: flex;
+        a {
+            color: $primary;
+            outline: none;
+            &:hover, &:focus {
+                text-decoration: underline;
+            }
+        }
+    }
+    &__item-icon {
+        font-size: 20px;
+        margin-right: 4px;
+        line-height: 20px;
+        path {
+            fill: $non-active !important;
+        }
+    }
+    &__stats {
+        display: flex;
+        margin: 10px 0 20px 0;
+    }
+    &__following {
+        margin-right: 20px;
+    }
+    &__following, &__followers {
+        cursor: pointer;
+        outline: none;
+        &:hover, &:focus {
+            text-decoration: underline;
+            text-decoration-color: #fff;
+        }
+    }
+    &__following-count, &__followers-count {
+        color: #fff;
+        font-weight: $bold;
+        margin-right: 4px;
+    }
+    &__tabs {
+        width: 100%;
+        display: flex;
+    }
+}
+
+
