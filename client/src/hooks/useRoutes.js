@@ -6,6 +6,7 @@ import Signup from '../components/signup/Signup';
 import LogoutModal from '../components/logoutModal/LogoutModal';
 import Profile from '../components/profile/Profile';
 import Nav from '../components/nav/Nav';
+import Sidebar from '../components/sidebar/Sidebar';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
         exact: true,
         nav: () => <Nav />,
         main: () => <Home />,
+        sidebar: () => <Sidebar />,
     },
     {
         path: '/logout',
@@ -26,6 +28,7 @@ const routes = [
         exact: true,
         nav: () => <Nav />,
         main: () => <Profile />,
+        sidebar: () => <Sidebar />,
     },
 ];
 const useRoutes = (isAuthenticated) => {
@@ -47,6 +50,13 @@ const useRoutes = (isAuthenticated) => {
                         </Route>
                     ))}
                     <Redirect to="/home" />
+                </Switch>
+                <Switch>
+                    {routes.map((route, index) => (
+                        <Route key={index} path={route.path} exact={route.exact}>
+                            {route.sidebar}
+                        </Route>
+                    ))}
                 </Switch>
             </>
         );
