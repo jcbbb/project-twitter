@@ -40,6 +40,11 @@
         bottom: -25px;
         color: $error;;
     }
+    &__counter {
+        position: absolute;
+        right: 8px;
+        bottom: -24px;
+    }
 }
 
 .error {

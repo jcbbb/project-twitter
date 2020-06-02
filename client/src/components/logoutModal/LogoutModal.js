@@ -14,8 +14,8 @@ const LogoutModal = () => {
     const { logout } = useContext(UserContext);
     const handleLogut = async () => {
         try {
-            await request('/api/auth/logout');
-            if (Object.entries(error).length === 0) {
+            const response = await request('/api/auth/logout');
+            if (response && response.status === 200 && response.status !== 500) {
                 logout();
             }
         } catch (e) {}

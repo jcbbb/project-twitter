@@ -20,7 +20,6 @@ const TweetTextarea = () => {
                 tweet,
                 userId,
             });
-            console.log(response);
         } catch (e) {}
     }, [tweet, request]);
 
@@ -39,7 +38,7 @@ const TweetTextarea = () => {
                             if (!target.innerText.trim().length) {
                                 target.innerText = '';
                             }
-                            setTweet(target.innerHTML);
+                            setTweet(target.innerText);
                         }}
                     ></div>
                     <div className="tweet-textarea__bottom">

@@ -5,6 +5,8 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     handle: { type: String, required: true, unique: true },
     bio: { type: String },
+    location: { type: String },
+    website: { type: String },
     profile_image_url: {
         type: String,
         default: 'https://storage.cloud.google.com/twitter-doom/default-profile-normal.jpg',

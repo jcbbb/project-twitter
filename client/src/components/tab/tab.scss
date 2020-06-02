@@ -9,12 +9,13 @@
   width: 100%;
   text-align:center;
   transition: all 200ms ease-in-out;
+  border-bottom: 2px solid transparent;
   &:hover, &:focus {
     background: $primary-light;
     color: $primary
   }
   &--active {
-    border-bottom: 2px solid $primary;
+    border-bottom-color: $primary;
     color: $primary;
   }
 }

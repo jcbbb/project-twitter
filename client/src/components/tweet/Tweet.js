@@ -1,5 +1,4 @@
 import React from 'react';
-import SamsungLogo from '../../assets/images/samsung-logo.png';
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
 import { ReactComponent as RetweetIcon } from '../../assets/icons/retweet.svg';
@@ -8,30 +7,30 @@ import { ReactComponent as ShareIcon } from '../../assets/icons/share.svg';
 
 import './tweet.scss';
 
-const Tweet = () => (
+const Tweet = ({ tweet, tweetUser }) => (
     <div className="tweet" tabIndex="0">
         <div className="tweeter__profile-image-container">
-            <img src={SamsungLogo} alt="SamsungLogo" />
+            <img src={tweetUser.profile_image_url} alt="SamsungLogo" />
         </div>
         <div className="tweet__content">
             <div className="tweeter__info">
                 <h2 className="tweeter__info-name" tabIndex="0">
-                    WebDesignDev
+                    {tweetUser.name}
                 </h2>
-                <span className="tweeter__info-handle">@WedDesignDev</span>
+                <span className="tweeter__info-handle">{tweetUser.handle}</span>
                 <span className="tweet__dropdown-icon" tabIndex="0">
                     <ChevronIcon />
                 </span>
             </div>
             <div className="tweeter__tweet">
-                <p>20 Food Apps UI Designs and Resources for Your Inspiration</p>
+                <p>{tweet.text}</p>
             </div>
             <div className="tweet__actions">
                 <div className="tweet__actions-container">
                     <span className="tweet__actions-icon tweet__actions-comment" tabIndex="0">
                         <CommentIcon />
                     </span>
-                    <span className="tweet__actions-count">14</span>
+                    <span className="tweet__actions-count"></span>
                 </div>
                 <div className="tweet__actions-container">
                     <span className="tweet__actions-icon tweet__actions-retweet" tabIndex="0">

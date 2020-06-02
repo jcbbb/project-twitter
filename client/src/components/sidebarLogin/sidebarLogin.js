@@ -13,7 +13,7 @@ import './sidebarLogin.scss';
 
 const SidebarLogin = () => {
     const history = useHistory();
-    const { request, loading } = useHttp();
+    const { request, loading, error } = useHttp();
     const { login, getUser } = useContext(UserContext);
 
     const sidebarLoginForm = useForm();
@@ -26,12 +26,9 @@ const SidebarLogin = () => {
                     password: values.password,
                 });
 
-                if (response.status === 200 && response.status !== 500) {
+                if (response && response.status === 200 && response.status !== 500) {
                     return login() && getUser();
                 }
-
-                // Redirect to login component
-                history.push('/login');
             } catch (e) {}
         },
         [request, login, history, getUser],
@@ -51,6 +48,7 @@ const SidebarLogin = () => {
                 <p className="sidebarLogin__slogan">
                     Find out what's happening in the world right now.
                 </p>
+                {error && history.push(`/login?error=${error.message}`)}
                 <div className="sidebarLogin__form-container">
                     <Formiz connect={sidebarLoginForm} onValidSubmit={handleLogin}>
                         <form

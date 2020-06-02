@@ -20,12 +20,10 @@ const routes = [
     {
         path: '/logout',
         exact: true,
-        nav: () => <Nav />,
         main: () => <LogoutModal />,
     },
     {
         path: '/:handle',
-        exact: true,
         nav: () => <Nav />,
         main: () => <Profile />,
         sidebar: () => <Sidebar />,

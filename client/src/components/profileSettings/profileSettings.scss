@@ -1,0 +1,61 @@
+@import '../../vars';
+
+.profileSettings {
+    max-width: 80vw;
+    width: 600px;
+    height: 90vh;
+    background: $primary-background;
+    border-radius: 14px;
+    overflow-y: hidden;
+    position: relative;
+    &__container {
+        height: 90vh;
+        overflow-y: scroll;
+    }
+    &__form-group {
+        margin-bottom: 42px;
+    }
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+        padding: 8px 15px;
+        background: $primary-background;
+        position: sticky;
+        top: 0;
+        left: 0;
+    }
+    &__header-left {
+        display: flex;
+        align-items: center;
+    }
+    &__header-icon {
+        font-size: 22px;
+        height: 38px;
+        width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-right: 22px;
+        transition: all 200ms ease-in-out;
+        path {
+            fill: $primary !important;
+        }
+        &:hover, &:focus {
+            background: $primary-light; 
+        }
+    }
+    &__header-heading {
+        font-weight: $x-bold;
+        font-size: 19px;
+    }
+    &__header-button {
+        width: fit-content;
+    }
+    &__inputs {
+        padding: 10px 0 30px 0;
+    }
+}

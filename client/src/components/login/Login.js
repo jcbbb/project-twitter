@@ -1,19 +1,22 @@
 import React, { useCallback, useContext } from 'react';
-import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import useHttp from '../../hooks/useHttp';
 import UserContext from '../../context/UserContext';
 import Loader from '../../components/loader/Loader';
 import Backdrop from '../../components/backdrop/Backdrop';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Formiz } from '@formiz/core';
 import { Link } from 'react-router-dom';
-import './login.scss';
 import { isMinLength, isEmail } from '@formiz/validations';
 import { useForm } from '@formiz/core';
+import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
+import './login.scss';
 
 const Login = () => {
     const myForm = useForm();
+    const location = useLocation();
+    const history = useHistory();
     const { login, getUser } = useContext(UserContext);
     const { request, loading, error } = useHttp();
     const handleSubmit = useCallback(
@@ -24,12 +27,16 @@ const Login = () => {
                     password: values.password,
                 });
                 if (response.status === 200 && response.status !== 500) {
-                    return login() && getUser();
+                    login();
+                    getUser();
+                    history.push('/home');
                 }
             } catch (e) {}
         },
         [request, login, getUser],
     );
+
+    const params = new URLSearchParams(location.search);
 
     return (
         <>
@@ -44,14 +51,15 @@ const Login = () => {
                         <TwitterWhiteIcon />
                     </span>
                     <h1 className="login__heading">Login to twitter</h1>
-                    {error && (
+                    {(params.get('error') || error) && (
                         <p
                             style={{ alignSelf: 'flex-start', marginBottom: '5px' }}
                             className="error"
                         >
-                            {error.message}
+                            {error ? error.message : params.get('error')}
                         </p>
                     )}
+
                     <Formiz connect={myForm} onValidSubmit={handleSubmit}>
                         <form onSubmit={myForm.submit} noValidate className="login__form">
                             <Input
