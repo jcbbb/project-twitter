@@ -5,9 +5,21 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const verifyToken = require('./utils/verifyToken');
+const socketio = require('socket.io');
+const http = require('http');
 const { MONGOURI } = require('./config/secrets');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio.listen(server);
+
+io.on('connection', (socket) => {
+    console.log('Connected', socket);
+
+    io.on('disconnect', () => {
+        console.log('Disconnected');
+    });
+});
 
 // Connecting to database...
 mongoose
@@ -39,4 +51,4 @@ app.use('/api/tweets', require('./routes/tweets'));
 
 app.set('port', process.env.PORT || 5000);
 
-module.exports = app;
+module.exports = { server, app };

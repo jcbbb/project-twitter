@@ -2,7 +2,6 @@ import React from 'react';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import Sidebar from '../sidebar/Sidebar';
-import Tweet from '../tweet/Tweet';
 import TweetTextarea from '../tweetTextarea/TweetTextarea';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
@@ -18,7 +17,6 @@ const Home = ({ title }) => (
             <Wall className="wall wall--320">
                 <WallHeader>Home</WallHeader>
                 <TweetTextarea />
-                <Tweet />
             </Wall>
             <Sidebar />
         </>

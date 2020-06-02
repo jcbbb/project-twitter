@@ -9,7 +9,7 @@ router.post('/tweet/create', verifyToken, async (req, res) => {
         const { tweet, userId } = req.body;
 
         const newTweet = new Tweet({
-            tweet,
+            text: tweet,
             authorId: userId,
         });
 
