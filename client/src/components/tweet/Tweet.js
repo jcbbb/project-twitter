@@ -10,7 +10,7 @@ import './tweet.scss';
 const Tweet = ({ tweet, tweetUser }) => (
     <div className="tweet" tabIndex="0">
         <div className="tweeter__profile-image-container">
-            <img src={tweetUser.profile_image_url} alt="SamsungLogo" />
+            <img src={tweetUser.profile_image_url} />
         </div>
         <div className="tweet__content">
             <div className="tweeter__info">

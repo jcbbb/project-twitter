@@ -25,6 +25,9 @@ router.get('/user/profile', verifyToken, async (req, res) => {
                 bio: user.bio,
                 website: user.website,
                 location: user.location,
+                joined: user.createdAt,
+                followers: user.followers,
+                following: user.following,
                 profileImageUrl: user.profile_image_url,
             },
         });
@@ -78,6 +81,23 @@ router.get('/user/tweets', verifyToken, async (req, res) => {
             tweets,
             user,
         });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
+    }
+});
+
+router.get('/who-to-follow', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.user;
+        const users = await User.find({ _id: { $ne: id } })
+            .sort({ _id: -1 })
+            .limit(3);
+
+        if (!users) {
+            return res.status(400).json({ message: 'No users found to follow', status: 400 });
+        }
+
+        res.json({ users, status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
     }

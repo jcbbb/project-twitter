@@ -4,6 +4,7 @@ import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
 import UserContext from '../../context/UserContext';
+import { useHistory } from 'react-router-dom';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
 import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
@@ -16,6 +17,7 @@ const Signup = () => {
     const [emailTaken, setEmailTaken] = useState(false);
     const [hasMatch, setHasMatch] = useState(false);
     const { login, getUser } = useContext(UserContext);
+    const history = useHistory();
 
     const myForm = useForm();
 
@@ -30,8 +32,10 @@ const Signup = () => {
                     password: values.password,
                 });
 
-                if (response.status === 201 && response.status !== 500) {
-                    return login() && getUser();
+                if (response && response.status === 201 && response.status !== 500) {
+                    login();
+                    getUser();
+                    history.push('/home');
                 }
             } catch (e) {}
         },
@@ -78,10 +82,12 @@ const Signup = () => {
             setEmailTaken(false);
             try {
                 const response = await request('/api/auth/email/check', 'POST', { email });
-                if (response.status === 400 && response.status !== 500) setEmailTaken(true);
+                if (!response) {
+                    setEmailTaken(true);
+                }
             } catch (err) {}
         },
-        [request],
+        [request, setEmailTaken],
     );
 
     const checkIsEmail = (email) => {

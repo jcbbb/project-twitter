@@ -5,14 +5,16 @@ import UserContext from '../../context/UserContext';
 import Input from '../input/Input';
 import useHttp from '../../hooks/useHttp';
 import Loader from '../loader/Loader';
+import ProfileImage from '../../assets/images/profile.jpg';
 import { useHistory } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
+import { ReactComponent as CameraIcon } from '../../assets/icons/camera.svg';
 
 import './profileSettings.scss';
 
 const ProfileSettings = () => {
-    const { user, getUser } = useContext(UserContext);
+    const { user, getUser, fetchTweets } = useContext(UserContext);
     const history = useHistory();
     const [counts, setCounts] = useState({
         name: 0,
@@ -40,6 +42,7 @@ const ProfileSettings = () => {
                 if (response && response.status === 200 && response.status !== 500) {
                     history.goBack();
                     getUser();
+                    fetchTweets();
                 }
             } catch (e) {}
         },
@@ -68,13 +71,38 @@ const ProfileSettings = () => {
                     </Button>
                 </div>
                 <div className="profileSettings__container">
-                    <section className="profile__banner">
+                    <section className="profile__banner profileSettings__banner">
                         <img />
+                        <input
+                            className="profileSettings__file-input"
+                            type="file"
+                            accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
+                            id="profileSettings__banner-input"
+                        />
+                        <label
+                            htmlFor="profileSettings__banner-input"
+                            className="profileSettings__picture-icon"
+                        >
+                            <CameraIcon />
+                        </label>
                     </section>
                     <div className="profile__container">
                         <section className="profile__top-bar">
-                            <div className="profile__picture">
-                                <img src={user.profileImageUrl} />
+                            <div className="profile__picture profileSettings__picture">
+                                <img src={ProfileImage} />
+                                <input
+                                    className="profileSettings__file-input"
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
+                                    id="profileSettings__picture-input"
+                                    onChange={() => console.log('New file uploaded')}
+                                />
+                                <label
+                                    htmlFor="profileSettings__picture-input"
+                                    className="profileSettings__picture-icon"
+                                >
+                                    <CameraIcon />
+                                </label>
                             </div>
                         </section>
                         <section className="profileSettings__inputs">

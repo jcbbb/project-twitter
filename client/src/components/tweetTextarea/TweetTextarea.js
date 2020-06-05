@@ -7,6 +7,8 @@ import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import './tweetTextarea.scss';
 
+const reg = /[@]([^\s]+)/g;
+
 const TweetTextarea = () => {
     const [tweet, setTweet] = useState('');
     const { request, loading } = useHttp();
@@ -16,7 +18,7 @@ const TweetTextarea = () => {
 
     const handleTweetSubmit = useCallback(async () => {
         try {
-            const response = await request('/api/tweets/tweet/create', 'POST', {
+            await request('/api/tweets/tweet/create', 'POST', {
                 tweet,
                 userId,
             });

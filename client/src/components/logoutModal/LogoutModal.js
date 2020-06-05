@@ -10,7 +10,7 @@ import './logoutModal.scss';
 
 const LogoutModal = () => {
     const history = useHistory();
-    const { request, loading, error } = useHttp();
+    const { request, loading } = useHttp();
     const { logout } = useContext(UserContext);
     const handleLogut = async () => {
         try {
@@ -24,7 +24,7 @@ const LogoutModal = () => {
     return (
         <Backdrop>
             {loading ? (
-                <Loader />
+                <Loader msg="Loggint out" />
             ) : (
                 <div className="logout-modal">
                     <span className="logout-modal__icon">

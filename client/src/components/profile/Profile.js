@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { format } from 'date-fns';
 import Button from '../button/Button';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import UserContext from '../../context/UserContext';
 import Tab from '../tab/Tab';
-import useHttp from '../../hooks/useHttp';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
@@ -15,21 +15,8 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = () => {
-    const { user } = useContext(UserContext);
+    const { user, fetchTweets, tweets, tweetUser, tweetsLoading } = useContext(UserContext);
     const match = useRouteMatch();
-    const { request, loading } = useHttp();
-    const [tweets, setTweets] = useState([]);
-    const [tweetUser, setTweetUser] = useState({});
-
-    const fetchTweets = useCallback(async () => {
-        try {
-            const response = await request('/api/users/user/tweets', 'GET');
-            if (response.status === 200 && response.status !== 500) {
-                setTweets(response.tweets);
-                setTweetUser(response.user);
-            }
-        } catch (e) {}
-    }, [request]);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -37,7 +24,7 @@ const Profile = () => {
             fetchTweets();
         }
         return () => (isSubscribed = false);
-    }, [request]);
+    }, [fetchTweets]);
     return (
         <Wall className="wall wall--320">
             <WallHeader arrow="true">{user.name}</WallHeader>
@@ -78,16 +65,20 @@ const Profile = () => {
                             <span className="profile__item-icon">
                                 <CalendarIcon />
                             </span>
-                            Joined: September 2011
+                            Joined {format(new Date(user.joined), 'MMMM yyyy')}
                         </li>
                     </ul>
                     <ul className="profile__stats">
                         <li className="profile__following" tabIndex="0">
-                            <span className="profile__following-count">352</span>
+                            <span className="profile__following-count">
+                                {user.following.length}
+                            </span>
                             Following
                         </li>
                         <li className="profile__followers" tabIndex="0">
-                            <span className="profile__followers-count"> 151,1k</span>
+                            <span className="profile__followers-count">
+                                {user.followers.length}
+                            </span>
                             Followers
                         </li>
                     </ul>
@@ -106,7 +97,7 @@ const Profile = () => {
             </div>
             <Switch>
                 <Route path={match.path}>
-                    <Tweets tweets={tweets} loading={loading} tweetUser={tweetUser} />
+                    <Tweets tweets={tweets} loading={tweetsLoading} tweetUser={tweetUser} />
                 </Route>
             </Switch>
             <Switch>

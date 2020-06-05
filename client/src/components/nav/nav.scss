@@ -1,11 +1,12 @@
 @import '../../vars';
 
 .nav {
+    max-width: 275px;
     width: 275px;
     height: 100vh;
-    padding: 0 40px 10px 0; 
+    padding: 0 15px 10px 20px; 
     position: fixed;
-    left: 65px;
+    left: 45px;
     top: 0;
     overflow-y: auto;
     &__container {
@@ -37,6 +38,7 @@
         border-radius: 9999px;
         margin-top: auto;
         outline: none;
+        width: 100%;
         &:hover, &:focus {
             background: $primary-light;
         }
@@ -66,8 +68,10 @@
         color: $non-active;
     }
     &__profile-image {
-        min-width: 40px;
-        max-width: 40px;
+        width: 40px;
+        height: 40px;
+        background: #ddd;
+        border-radius: 50%;
         img {
             max-width: 100%;
             border-radius: 50%;
