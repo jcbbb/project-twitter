@@ -1,22 +1,25 @@
 const bcrypt = require('bcryptjs');
 const { Schema, model } = require('mongoose');
 
-const userSchema = new Schema({
-    name: { type: String, required: true },
-    handle: { type: String, required: true, unique: true },
-    bio: { type: String },
-    location: { type: String },
-    website: { type: String },
-    profile_image_url: {
-        type: String,
-        default: 'https://storage.cloud.google.com/twitter-doom/default-profile-normal.jpg',
+const userSchema = new Schema(
+    {
+        name: { type: String, required: true },
+        handle: { type: String, required: true, unique: true },
+        bio: { type: String },
+        location: { type: String },
+        website: { type: String },
+        profile_image_url: {
+            type: String,
+            default: 'https://storage.cloud.google.com/twitter-doom/default-profile-normal.jpg',
+        },
+        profile_banner_url: { type: String },
+        followers: { type: Array },
+        following: { type: Array },
+        email: { type: String, required: true, unique: true },
+        password: { type: String, required: true },
     },
-    profile_banner_url: { type: String },
-    followers: { type: Array },
-    following: { type: Array },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-});
+    { timestamps: true },
+);
 
 const randomNumber = () => Math.floor(100000 + Math.random() * 900000);
 

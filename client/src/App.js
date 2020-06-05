@@ -8,7 +8,7 @@ import './app.scss';
 
 const App = () => {
     const { loading, isAuthenticated, login, logout } = useAuth();
-    const { user, getUser } = useUser();
+    const { user, getUser, fetchTweets, tweets, tweetUser, tweetsLoading } = useUser();
     const routes = useRoutes(isAuthenticated);
     return (
         <UserContext.Provider
@@ -18,6 +18,10 @@ const App = () => {
                 logout,
                 user,
                 getUser,
+                fetchTweets,
+                tweets,
+                tweetUser,
+                tweetsLoading,
             }}
         >
             {loading ? <Loader /> : <div className="wrapper">{routes}</div>}

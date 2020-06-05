@@ -32,7 +32,7 @@ const Nav = () => {
             getUser();
         }
         return () => (isSubscribed = false);
-    }, [getUser]);
+    }, [getUser, loading]);
 
     return (
         <>

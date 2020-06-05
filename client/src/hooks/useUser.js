@@ -6,19 +6,39 @@ const useUser = () => {
         userId: null,
         name: null,
         handle: null,
+        location: null,
+        website: null,
+        bio: null,
+        joined: null,
+        followers: [],
+        following: [],
         profileImageUrl: null,
     });
-    const { request } = useHttp();
+
+    const [tweets, setTweets] = useState([]);
+    const [tweetUser, setTweetUser] = useState({});
+
+    const { request, loading } = useHttp();
 
     const getUser = useCallback(async () => {
         try {
             const response = await request('/api/users/user/profile', 'GET');
-            if (response.status === 200 && response.status !== 500) {
+            if (response && response.status === 200 && response.status !== 500) {
                 return setUser(response.user);
             }
             setUser((prev) => ({ ...prev }));
         } catch (e) {}
     }, [request, setUser]);
+
+    const fetchTweets = useCallback(async () => {
+        try {
+            const response = await request('/api/users/user/tweets', 'GET');
+            if (response.status === 200 && response.status !== 500) {
+                setTweets(response.tweets);
+                setTweetUser(response.user);
+            }
+        } catch (e) {}
+    }, [request]);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -28,7 +48,7 @@ const useUser = () => {
         return () => (isSubscribed = false);
     }, [getUser]);
 
-    return { getUser, user };
+    return { getUser, user, fetchTweets, tweets, tweetUser, tweetsLoading: loading };
 };
 
 export default useUser;

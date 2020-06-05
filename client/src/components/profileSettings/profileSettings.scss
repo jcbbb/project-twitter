@@ -26,6 +26,43 @@
         top: 0;
         left: 0;
     }
+    &__banner {
+        position: relative;
+        img {
+            filter: brightness(50%);
+        }
+    }
+    &__picture {
+        img {
+            filter: brightness(50%);
+        }
+    }
+    &__picture-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        filter: brightness(80%);
+        cursor: pointer;
+        height: 38px;
+        width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 200ms ease-in-out;
+        &:hover, &:focus {
+            background: rgba(255,255,255,0.1);
+        }
+    }
+    &__file-input {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
     &__header-left {
         display: flex;
         align-items: center;
