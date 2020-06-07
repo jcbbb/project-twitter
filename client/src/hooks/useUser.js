@@ -13,6 +13,7 @@ const useUser = () => {
         followers: [],
         following: [],
         profileImageUrl: null,
+        bannerImageUrl: null,
     });
 
     const [tweets, setTweets] = useState([]);

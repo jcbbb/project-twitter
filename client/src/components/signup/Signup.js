@@ -39,7 +39,7 @@ const Signup = () => {
                 }
             } catch (e) {}
         },
-        [request, login, getUser],
+        [request, login, getUser, history],
     );
 
     const handleSendEmail = useCallback(

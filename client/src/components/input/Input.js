@@ -47,6 +47,7 @@ const Input = (props) => {
                     defaultValue={defaultValue}
                     onInput={onInput}
                     maxLength={maxlength}
+                    {...props}
                 ></textarea>
             ) : (
                 <input

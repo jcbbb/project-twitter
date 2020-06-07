@@ -45,7 +45,7 @@ const Sidebar = () => {
                     {whoToFollowUsers.map((whoToFollowUser, index) => (
                         <li className="sidebar__list-item" tabIndex="0" key={index}>
                             <div className="sidebar__list-item-image-container">
-                                <img src={whoToFollowUser.profile_image_url} tabIndex="0" />
+                                <img src={whoToFollowUser.profile_image_url} tabIndex="0" alt="" />
                             </div>
                             <div className="sidebar__list-item-info">
                                 <p className="sidebar__list-item-name" tabIndex="0">

@@ -5,11 +5,11 @@
     width: 600px;
     height: 90vh;
     background: $primary-background;
+    position: relative;
     border-radius: 14px;
     overflow-y: hidden;
-    position: relative;
     &__container {
-        height: 90vh;
+        height: 90%;
         overflow-y: scroll;
     }
     &__form-group {

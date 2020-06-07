@@ -10,9 +10,9 @@ const userSchema = new Schema(
         website: { type: String },
         profile_image_url: {
             type: String,
-            default: 'https://storage.cloud.google.com/twitter-doom/default-profile-normal.jpg',
+            default: 'https://storage.googleapis.com/twitter-doom/default-profile-normal.jpg',
         },
-        profile_banner_url: { type: String },
+        banner_image_url: { type: String },
         followers: { type: Array },
         following: { type: Array },
         email: { type: String, required: true, unique: true },

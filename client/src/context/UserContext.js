@@ -12,6 +12,7 @@ const UserContext = createContext({
         followers: [],
         following: [],
         profileImageUrl: null,
+        bannerImageUrl: null,
     },
     tweetUser: null,
     tweets: null,

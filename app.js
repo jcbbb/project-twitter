@@ -48,6 +48,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/send', require('./routes/send'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/tweets', require('./routes/tweets'));
+app.use('/api/upload', require('./routes/upload'));
 
 app.set('port', process.env.PORT || 5000);
 

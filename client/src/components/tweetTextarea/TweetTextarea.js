@@ -23,14 +23,16 @@ const TweetTextarea = () => {
                 userId,
             });
         } catch (e) {}
-    }, [tweet, request]);
+    }, [tweet, request, userId]);
 
     return (
         <>
             <div className="tweet-textarea">
-                <div className="tweet-textarea__profile-image" tabIndex="0">
-                    <img src={profileImageUrl} />
-                </div>
+                <div
+                    className="tweet-textarea__profile-image"
+                    tabIndex="0"
+                    style={{ backgroundImage: `url(${profileImageUrl})` }}
+                ></div>
                 <div className="tweet-textarea__right">
                     <div
                         className="tweet-textarea__editable"

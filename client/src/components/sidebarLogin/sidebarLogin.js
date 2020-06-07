@@ -31,7 +31,7 @@ const SidebarLogin = () => {
                 }
             } catch (e) {}
         },
-        [request, login, history, getUser],
+        [request, login, getUser],
     );
 
     return (

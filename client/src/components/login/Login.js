@@ -33,7 +33,7 @@ const Login = () => {
                 }
             } catch (e) {}
         },
-        [request, login, getUser],
+        [request, login, getUser, history],
     );
 
     const params = new URLSearchParams(location.search);

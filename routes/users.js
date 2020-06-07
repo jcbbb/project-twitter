@@ -29,6 +29,7 @@ router.get('/user/profile', verifyToken, async (req, res) => {
                 followers: user.followers,
                 following: user.following,
                 profileImageUrl: user.profile_image_url,
+                bannerImageUrl: user.banner_image_url,
             },
         });
     } catch (e) {

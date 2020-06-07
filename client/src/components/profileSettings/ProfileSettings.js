@@ -1,11 +1,10 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, useRef } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
 import Input from '../input/Input';
 import useHttp from '../../hooks/useHttp';
 import Loader from '../loader/Loader';
-import ProfileImage from '../../assets/images/profile.jpg';
 import { useHistory } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
@@ -22,6 +21,11 @@ const ProfileSettings = () => {
         location: 0,
         website: 0,
     });
+    const [images, setImages] = useState({
+        banner: null,
+        profile: null,
+    });
+
     const myForm = useForm();
     const { request, loading } = useHttp();
 
@@ -31,6 +35,32 @@ const ProfileSettings = () => {
             ...prev,
             [name]: value.length,
         }));
+    };
+
+    const preview = ({ target }) => {
+        setImages((prev) => ({
+            ...prev,
+            [target.name]: URL.createObjectURL(target.files[0]),
+        }));
+    };
+
+    const upload = async ({ target }) => {
+        const formData = new FormData();
+        formData.append(target.name, target.files[0]);
+        formData.append('folder', target.name);
+
+        try {
+            const response = await request(
+                `/api/upload/${target.name}`,
+                'POST',
+                formData,
+                {
+                    undefined,
+                    credentials: 'include',
+                },
+                true,
+            );
+        } catch (e) {}
     };
 
     const save = useCallback(
@@ -46,13 +76,17 @@ const ProfileSettings = () => {
                 }
             } catch (e) {}
         },
-        [request],
+        [request, images],
     );
 
     return (
         <Backdrop>
             <div className="profileSettings">
-                {loading && <Loader />}
+                {loading && (
+                    <Backdrop>
+                        <Loader />
+                    </Backdrop>
+                )}
                 <div className="profileSettings__header">
                     <div className="profileSettings__header-left">
                         <span
@@ -71,13 +105,24 @@ const ProfileSettings = () => {
                     </Button>
                 </div>
                 <div className="profileSettings__container">
-                    <section className="profile__banner profileSettings__banner">
-                        <img />
+                    <section
+                        className="profile__banner profileSettings__banner"
+                        style={{
+                            backgroundImage: `url(${
+                                images.banner ? images.banner : user.bannerImageUrl
+                            })`,
+                        }}
+                    >
                         <input
                             className="profileSettings__file-input"
                             type="file"
                             accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
                             id="profileSettings__banner-input"
+                            onChange={(e) => {
+                                preview(e);
+                                upload(e);
+                            }}
+                            name="banner"
                         />
                         <label
                             htmlFor="profileSettings__banner-input"
@@ -88,14 +133,25 @@ const ProfileSettings = () => {
                     </section>
                     <div className="profile__container">
                         <section className="profile__top-bar">
-                            <div className="profile__picture profileSettings__picture">
-                                <img src={ProfileImage} />
+                            <div
+                                className="profile__picture profileSettings__picture"
+                                style={{
+                                    backgroundImage: `url(${
+                                        images.profile ? images.profile : user.profileImageUrl
+                                    })`,
+                                }}
+                            >
                                 <input
                                     className="profileSettings__file-input"
                                     type="file"
                                     accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
                                     id="profileSettings__picture-input"
-                                    onChange={() => console.log('New file uploaded')}
+                                    onChange={preview}
+                                    name="profile"
+                                    onChange={(e) => {
+                                        preview(e);
+                                        upload(e);
+                                    }}
                                 />
                                 <label
                                     htmlFor="profileSettings__picture-input"
@@ -105,7 +161,7 @@ const ProfileSettings = () => {
                                 </label>
                             </div>
                         </section>
-                        <section className="profileSettings__inputs">
+                        <section className="profileSettings__inputs" style={{ height: '100%' }}>
                             <Formiz connect={myForm} onValidSubmit={save}>
                                 <form onSubmit={myForm.submit}>
                                     <Input
@@ -126,7 +182,7 @@ const ProfileSettings = () => {
                                         label="Bio"
                                         groupClassName="profileSettings__form-group"
                                         isTextarea="true"
-                                        cols="80"
+                                        rows="3"
                                         hasCounter="true"
                                         initial={counts.bio}
                                         limit="160"

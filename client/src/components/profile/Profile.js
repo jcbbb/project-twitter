@@ -27,16 +27,18 @@ const Profile = () => {
     }, [fetchTweets]);
     return (
         <Wall className="wall wall--320">
-            <WallHeader arrow="true">{user.name}</WallHeader>
+            <WallHeader arrow="true">{user.name || 'Profile'}</WallHeader>
             <div className="profile">
-                <section className="profile__banner">
-                    <img />
-                </section>
+                <section
+                    className="profile__banner"
+                    style={{ backgroundImage: `url(${user.bannerImageUrl})` }}
+                ></section>
                 <div className="profile__container">
                     <section className="profile__top-bar">
-                        <div className="profile__picture">
-                            <img src={user.profileImageUrl} />
-                        </div>
+                        <div
+                            className="profile__picture"
+                            style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+                        ></div>
                         <Link to="/settings/profile">
                             <Button className="profile__follow-btn">Edit profile</Button>
                         </Link>
@@ -58,7 +60,7 @@ const Profile = () => {
                                 <span className="profile__item-icon">
                                     <ExternalLinkIcon />
                                 </span>
-                                <a href="#">{user.website}</a>
+                                <a href={user.website}>{user.website}</a>
                             </li>
                         )}
                         <li className="profile__item">

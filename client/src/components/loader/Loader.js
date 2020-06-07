@@ -5,7 +5,7 @@ const Loader = ({ msg }) => {
     return (
         <div className="loader-container">
             <div className="loader"></div>
-            <p className="loader__msg">{msg}</p>
+            {msg && <p className="loader__msg">{msg}</p>}
         </div>
     );
 };
