@@ -12,18 +12,15 @@ const reg = /[@]([^\s]+)/g;
 const TweetTextarea = () => {
     const [tweet, setTweet] = useState('');
     const { request, loading } = useHttp();
-    const {
-        user: { profileImageUrl, userId },
-    } = useContext(UserContext);
-
+    const { user } = useContext(UserContext);
     const handleTweetSubmit = useCallback(async () => {
         try {
             await request('/api/tweets/tweet/create', 'POST', {
                 tweet,
-                userId,
+                userId: user.userId,
             });
         } catch (e) {}
-    }, [tweet, request, userId]);
+    }, [tweet, request, user.userId]);
 
     return (
         <>
@@ -31,7 +28,7 @@ const TweetTextarea = () => {
                 <div
                     className="tweet-textarea__profile-image"
                     tabIndex="0"
-                    style={{ backgroundImage: `url(${profileImageUrl})` }}
+                    style={{ backgroundImage: `url(${user.profileImageUrl})` }}
                 ></div>
                 <div className="tweet-textarea__right">
                     <div
@@ -42,7 +39,7 @@ const TweetTextarea = () => {
                             if (!target.innerText.trim().length) {
                                 target.innerText = '';
                             }
-                            setTweet(target.innerText);
+                            setTweet(target.innerText.trim());
                         }}
                     ></div>
                     <div className="tweet-textarea__bottom">

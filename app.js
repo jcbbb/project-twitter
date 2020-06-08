@@ -14,9 +14,9 @@ const server = http.createServer(app);
 const io = socketio.listen(server);
 
 io.on('connection', (socket) => {
-    console.log('Connected', socket);
+    console.log('User connected');
 
-    io.on('disconnect', () => {
+    socket.on('disconnect', () => {
         console.log('Disconnected');
     });
 });

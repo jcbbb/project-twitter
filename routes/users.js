@@ -104,4 +104,22 @@ router.get('/who-to-follow', verifyToken, async (req, res) => {
     }
 });
 
+const escapeRegex = (text) => text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+router.post('/search/:handle', async (req, res) => {
+    try {
+        const { handle } = req.params;
+        const regex = new RegExp(escapeRegex(handle), 'gi');
+
+        const users = await User.find({ $or: [{ handle: regex }, { name: regex }] });
+
+        if (users.length === 0) {
+            return res.status(400).json({ message: 'User is not found', status: 400 });
+        }
+        res.json({ message: 'Found users', users, status: 200 });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
+    }
+});
+
 module.exports = router;

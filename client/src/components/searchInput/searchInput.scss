@@ -49,14 +49,60 @@
     &__results {
         background: $primary-background;
         min-height: 70px;
-        padding: 20px;
         box-shadow: $shadow;
         display: none;
         position: absolute;
         width: 100%;
+        z-index: 6;
+        overflow-y: auto;
+        max-height: calc(-53 + 80vh);
     }
     &__instruction {
         color: $non-active;
-        text-align:center;
+        margin: 20px;
+    }
+    &__user {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin-top: auto;
+        outline: none;
+        width: 100%;
+        transition: background 200ms ease-in-out;
+        &:hover, &:focus {
+            background: $primary-background-light; 
+        }
+    }
+    &__user-image {
+        width: 40px;
+        height: 40px;
+        background: $banner;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    &__user-info {
+        margin: 0 30px 0 10px;
+        overflow: hidden;
+        flex: 1;
+    }
+    &__user-handle-container, &__user-name-container {
+       overflow-wrap: break-word;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+       color: #fff;
+    }
+    &__user-handle-container {
+        color: $non-active;
+    }
+    &__user-name {
+        color: #fff;
+        font-weight: $bold;
+    }
+    &__user-handle {
+        color: $non-active;
     }
 }

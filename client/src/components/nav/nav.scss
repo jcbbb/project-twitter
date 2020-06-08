@@ -64,6 +64,7 @@
     }
     &__profile-name {
         color: #fff;
+        font-weight: $bold;
     }
     &__profile-handle {
         color: $non-active;
@@ -76,10 +77,6 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-        img {
-            max-width: 100%;
-            border-radius: 50%;
-        }
     }
     &__menu {
         position: fixed;

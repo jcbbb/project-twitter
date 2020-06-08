@@ -26,7 +26,7 @@ const randomNumber = () => Math.floor(100000 + Math.random() * 900000);
 userSchema.pre('save', async function (next) {
     try {
         this.password = await bcrypt.hash(this.password, 10);
-        this.handle = `@${this.handle}${randomNumber()}`;
+        this.handle = `@${this.handle}${randomNumber()}`.trim();
     } catch (err) {
         return next(err);
     }
