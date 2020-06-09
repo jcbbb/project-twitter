@@ -23,7 +23,12 @@ io.on('connection', (socket) => {
 
 // Connecting to database...
 mongoose
-    .connect(MONGOURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+    .connect(MONGOURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+    })
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log('Database connection error', err.message));
 

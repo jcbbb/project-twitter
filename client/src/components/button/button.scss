@@ -12,7 +12,7 @@
     cursor: pointer;
     text-align: center;
     width: 100%;
-    &:hover, &:focus {
+    &:hover {
         background: $primary-light; 
     }
     &:disabled {
@@ -38,6 +38,26 @@
         color: #fff;
         &:hover, &:focus {
             background: $primary-dark;
+        }
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+    }
+    &__unfollow {
+        background: $primary;
+        color: #fff;
+        position: relative;
+        &:hover {
+            background: $error;
+            border-color: $error;
+        }
+        &:after {
+            content: 'Following';
+        }
+        &:hover:after {
+            content: 'Unfollow';
         }
         &:disabled {
             opacity: 0.5;

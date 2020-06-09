@@ -51,12 +51,6 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
         res.status(200).json({
             message: 'Updated',
             status: 200,
-            user: {
-                name: user.name,
-                website: user.website,
-                location: user.location,
-                bio: user.bio,
-            },
         });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
@@ -117,6 +111,34 @@ router.post('/search/:handle', async (req, res) => {
             return res.status(400).json({ message: 'User is not found', status: 400 });
         }
         res.json({ message: 'Found users', users, status: 200 });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
+    }
+});
+
+router.post('/follow/:userToFollowId', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.user;
+        const { userToFollowId } = req.params;
+
+        const user = await User.findOne({ _id: id });
+        if (user.following.includes(userToFollowId)) {
+            await User.updateOne({ _id: id }, { $pull: { following: userToFollowId } });
+            return res.json({ message: 'Updated following count', status: 200 });
+        }
+
+        const updatedUser = await User.updateOne(
+            { _id: id },
+            { $addToSet: { following: userToFollowId } },
+        );
+
+        if (!updatedUser) {
+            return res
+                .status(400)
+                .json({ message: 'Failed to upadte following count', status: 400 });
+        }
+
+        res.json({ message: 'Updated following count', status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
     }

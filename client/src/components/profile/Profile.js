@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { format } from 'date-fns';
 import Button from '../button/Button';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
@@ -7,6 +6,7 @@ import UserContext from '../../context/UserContext';
 import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
+import { format } from 'date-fns';
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/icons/external-link.svg';

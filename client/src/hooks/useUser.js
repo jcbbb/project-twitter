@@ -49,7 +49,7 @@ const useUser = () => {
         return () => (isSubscribed = false);
     }, [getUser]);
 
-    return { getUser, user, fetchTweets, tweets, tweetUser, tweetsLoading: loading };
+    return { getUser, user, fetchTweets, tweets, tweetUser, setUser, tweetsLoading: loading };
 };
 
 export default useUser;
