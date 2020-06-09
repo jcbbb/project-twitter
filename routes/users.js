@@ -121,24 +121,43 @@ router.post('/follow/:userToFollowId', verifyToken, async (req, res) => {
         const { id } = req.user;
         const { userToFollowId } = req.params;
 
+        // Remove userId from followers field -- Toggle effect
+        const followingUser = await User.findOne({ _id: userToFollowId });
+        if (followingUser.followers.includes(id)) {
+            await User.updateOne({ _id: userToFollowId }, { $pull: { followers: id } });
+            return res.json({ message: 'Updated followers count', status: 200 });
+        }
+
+        // Remove userId from following field -- Toggle effect
         const user = await User.findOne({ _id: id });
         if (user.following.includes(userToFollowId)) {
             await User.updateOne({ _id: id }, { $pull: { following: userToFollowId } });
             return res.json({ message: 'Updated following count', status: 200 });
         }
 
+        // Update followers field for user to be followed
+        const updateFollowingUser = await User.updateOne(
+            { _id: userToFollowId },
+            { $addToSet: { followers: id } },
+        );
+
+        // Update following field for current user
         const updatedUser = await User.updateOne(
             { _id: id },
             { $addToSet: { following: userToFollowId } },
         );
 
-        if (!updatedUser) {
+        if (!updatedUser && !updateFollowingUser) {
             return res
                 .status(400)
                 .json({ message: 'Failed to upadte following count', status: 400 });
         }
 
-        res.json({ message: 'Updated following count', status: 200 });
+        res.json({
+            message:
+                'Updated following count for current user and followers count for following user',
+            status: 200,
+        });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
     }

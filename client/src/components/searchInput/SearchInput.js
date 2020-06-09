@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import useHttp from '../../hooks/useHttp';
 import Loader from '../loader/Loader';
+import { Link } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
 import './searchInput.scss';
 
@@ -53,20 +54,24 @@ const SearchInput = ({ ...props }) => {
                 <ul className="search-group__users relative">
                     {loading && <Loader />}
                     {foundUsers.map((user, index) => (
-                        <li key={index} className="search-group__user">
-                            <div
-                                className="search-group__user-image"
-                                style={{ backgroundImage: `url(${user.profile_image_url})` }}
-                            ></div>
-                            <div className="search-group__user-info">
-                                <div className="search-group__user-name-container">
-                                    <span className="search-group__user-name">{user.name}</span>
+                        <Link to={`/${user.handle}`}>
+                            <li key={index} className="search-group__user">
+                                <div
+                                    className="search-group__user-image"
+                                    style={{ backgroundImage: `url(${user.profile_image_url})` }}
+                                ></div>
+                                <div className="search-group__user-info">
+                                    <div className="search-group__user-name-container">
+                                        <span className="search-group__user-name">{user.name}</span>
+                                    </div>
+                                    <div className="search-group__user-handle-container">
+                                        <span className="search-group__user-handle">
+                                            {user.handle}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="search-group__user-handle-container">
-                                    <span className="search-group__user-handle">{user.handle}</span>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        </Link>
                     ))}
                 </ul>
             </div>

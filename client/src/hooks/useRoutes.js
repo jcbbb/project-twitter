@@ -47,7 +47,6 @@ const useRoutes = (isAuthenticated) => {
                             {route.main}
                         </Route>
                     ))}
-                    <Redirect to="/home" />
                 </Switch>
                 <Switch>
                     {routes.map((route, index) => (

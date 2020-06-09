@@ -7,7 +7,7 @@ import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
 import { format } from 'date-fns';
-import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Link, useParams } from 'react-router-dom';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/icons/external-link.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg';
@@ -25,6 +25,7 @@ const Profile = () => {
         }
         return () => (isSubscribed = false);
     }, [fetchTweets]);
+
     return (
         <Wall className="wall wall--320">
             <WallHeader arrow="true">{user.name || 'Profile'}</WallHeader>
