@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useRef } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
@@ -13,7 +13,7 @@ import { ReactComponent as CameraIcon } from '../../assets/icons/camera.svg';
 import './profileSettings.scss';
 
 const ProfileSettings = () => {
-    const { user, getUser, fetchTweets } = useContext(UserContext);
+    const { currentUser, getCurrentUser, fetchTweets } = useContext(UserContext);
     const history = useHistory();
     const [counts, setCounts] = useState({
         name: 0,
@@ -27,6 +27,15 @@ const ProfileSettings = () => {
     });
 
     const myForm = useForm();
+    useEffect(() => {
+        for (let val in myForm.values) {
+            setCounts((prev) => ({
+                ...prev,
+                [val]: myForm.values[val].length,
+            }));
+        }
+    }, [myForm.values, setCounts]);
+
     const { request, loading } = useHttp();
 
     const updateCounts = (ev) => {
@@ -71,7 +80,7 @@ const ProfileSettings = () => {
                 });
                 if (response && response.status === 200 && response.status !== 500) {
                     history.goBack();
-                    getUser();
+                    getCurrentUser();
                     fetchTweets();
                 }
             } catch (e) {}
@@ -109,7 +118,7 @@ const ProfileSettings = () => {
                         className="profile__banner profileSettings__banner"
                         style={{
                             backgroundImage: `url(${
-                                images.banner ? images.banner : user.bannerImageUrl
+                                images.banner ? images.banner : currentUser.bannerImageUrl
                             })`,
                         }}
                     >
@@ -137,7 +146,9 @@ const ProfileSettings = () => {
                                 className="profile__picture profileSettings__picture"
                                 style={{
                                     backgroundImage: `url(${
-                                        images.profile ? images.profile : user.profileImageUrl
+                                        images.profile
+                                            ? images.profile
+                                            : currentUser.profileImageUrl
                                     })`,
                                 }}
                             >
@@ -174,7 +185,7 @@ const ProfileSettings = () => {
                                         limit="50"
                                         maxlength="50"
                                         onInput={updateCounts}
-                                        defaultValue={user.name}
+                                        defaultValue={currentUser.name}
                                     />
                                     <Input
                                         name="bio"
@@ -188,7 +199,7 @@ const ProfileSettings = () => {
                                         limit="160"
                                         maxlength="160"
                                         onInput={updateCounts}
-                                        defaultValue={user.bio}
+                                        defaultValue={currentUser.bio}
                                     />
                                     <Input
                                         name="location"
@@ -200,7 +211,7 @@ const ProfileSettings = () => {
                                         limit="30"
                                         maxlength="30"
                                         onInput={updateCounts}
-                                        defaultValue={user.location}
+                                        defaultValue={currentUser.location}
                                     />
                                     <Input
                                         name="website"
@@ -212,7 +223,7 @@ const ProfileSettings = () => {
                                         limit="100"
                                         maxlength="100"
                                         onInput={updateCounts}
-                                        defaultValue={user.website}
+                                        defaultValue={currentUser.website}
                                     />
                                 </form>
                             </Formiz>

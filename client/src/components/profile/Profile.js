@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import Button from '../button/Button';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
@@ -6,6 +6,7 @@ import UserContext from '../../context/UserContext';
 import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
+import useHttp from '../../hooks/useHttp';
 import { format } from 'date-fns';
 import { Switch, Route, useRouteMatch, Link, useParams } from 'react-router-dom';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
@@ -15,16 +16,49 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = () => {
-    const { user, fetchTweets, tweets, tweetUser, tweetsLoading } = useContext(UserContext);
+    const {
+        currentUser,
+        setCurrentUser,
+        fetchTweets,
+        tweets,
+        tweetUser,
+        tweetsLoading,
+    } = useContext(UserContext);
+
+    const { handle } = useParams();
+    const { request } = useHttp();
+    const [user, setUser] = useState(currentUser);
     const match = useRouteMatch();
 
     useEffect(() => {
         let isSubscribed = true;
-        if (isSubscribed) {
-            fetchTweets();
-        }
+        if (isSubscribed) fetchTweets(handle);
         return () => (isSubscribed = false);
-    }, [fetchTweets]);
+    }, [fetchTweets, handle]);
+
+    const getUser = useCallback(async (handle) => {
+        try {
+            const response = await request(`/api/users/user/${handle}`);
+            if (response && response.status === 200 && response.status !== 500) {
+                setUser(response.user);
+            }
+        } catch (e) {}
+    });
+
+    const startFollowing = useCallback(
+        async ({ dataset }) => {
+            try {
+                await request(`/api/users/follow/${dataset.usertofollowid}`);
+            } catch (e) {}
+        },
+        [request],
+    );
+
+    useEffect(() => {
+        let isSubscribed = true;
+        if (isSubscribed) getUser(handle);
+        return () => (isSubscribed = false);
+    }, [handle]);
 
     return (
         <Wall className="wall wall--320">
@@ -32,17 +66,57 @@ const Profile = () => {
             <div className="profile">
                 <section
                     className="profile__banner"
-                    style={{ backgroundImage: `url(${user.bannerImageUrl})` }}
+                    style={{
+                        backgroundImage: `url(${user.bannerImageUrl || user.banner_image_url})`,
+                    }}
                 ></section>
                 <div className="profile__container">
                     <section className="profile__top-bar">
                         <div
                             className="profile__picture"
-                            style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+                            style={{
+                                backgroundImage: `url(${
+                                    user.profileImageUrl || user.profile_image_url
+                                })`,
+                            }}
                         ></div>
-                        <Link to="/settings/profile">
-                            <Button className="profile__follow-btn">Edit profile</Button>
-                        </Link>
+                        {user.handle !== currentUser.handle ? (
+                            <Button
+                                className={`profile__follow-btn ${
+                                    currentUser.following.includes(user._id) && 'button__unfollow'
+                                }`}
+                                data-usertofollowid={user._id}
+                                onClick={({ target }) => {
+                                    if (
+                                        currentUser.following.includes(
+                                            target.dataset.usertofollowid,
+                                        )
+                                    ) {
+                                        setCurrentUser((prev) => ({
+                                            ...prev,
+                                            following: prev.following.filter(
+                                                (id) => id !== target.dataset.usertofollowid,
+                                            ),
+                                        }));
+                                        return startFollowing(target);
+                                    }
+                                    setCurrentUser((prev) => ({
+                                        ...prev,
+                                        following: [
+                                            ...prev.following,
+                                            target.dataset.usertofollowid,
+                                        ],
+                                    }));
+                                    startFollowing(target);
+                                }}
+                            >
+                                {currentUser.following.includes(user._id) ? null : 'Follow'}
+                            </Button>
+                        ) : (
+                            <Link to="/settings/profile">
+                                <Button className="profile__follow-btn">Edit profile</Button>
+                            </Link>
+                        )}
                     </section>
                     <p className="profile__name">{user.name}</p>
                     <p className="profile__handle">{user.handle}</p>
@@ -68,7 +142,7 @@ const Profile = () => {
                             <span className="profile__item-icon">
                                 <CalendarIcon />
                             </span>
-                            Joined {format(new Date(user.joined), 'MMMM yyyy')}
+                            Joined {format(new Date(user.joined || user.createdAt), 'MMMM yyyy')}
                         </li>
                     </ul>
                     <ul className="profile__stats">

@@ -17,7 +17,7 @@ const Login = () => {
     const myForm = useForm();
     const location = useLocation();
     const history = useHistory();
-    const { login, getUser } = useContext(UserContext);
+    const { login, getCurrentUser } = useContext(UserContext);
     const { request, loading, error } = useHttp();
     const handleSubmit = useCallback(
         async (values) => {
@@ -28,12 +28,12 @@ const Login = () => {
                 });
                 if (response.status === 200 && response.status !== 500) {
                     login();
-                    getUser();
+                    getCurrentUser();
                     history.push('/home');
                 }
             } catch (e) {}
         },
-        [request, login, getUser, history],
+        [request, login, getCurrentUser, history],
     );
 
     const params = new URLSearchParams(location.search);

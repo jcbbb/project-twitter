@@ -2,7 +2,6 @@ import React, { useEffect, useCallback, useState, useContext } from 'react';
 import SearchInput from '../searchInput/SearchInput';
 import Button from '../button/Button';
 import useHttp from '../../hooks/useHttp';
-import Loader from '../loader/Loader';
 import UserContext from '../../context/UserContext';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +9,7 @@ import './sidebar.scss';
 
 const Sidebar = () => {
     const { request, loading } = useHttp();
-    const { getUser, user, setUser } = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     const [whoToFollowUsers, setWhoToFollowUsers] = useState([]);
 
     const fetchWhoToFollow = useCallback(async () => {
@@ -67,13 +66,17 @@ const Sidebar = () => {
                             </div>
                             <Button
                                 className={`sidebar__list-item-action ${
-                                    user.following.includes(whoToFollowUser._id) &&
+                                    currentUser.following.includes(whoToFollowUser._id) &&
                                     'button__unfollow'
                                 }`}
                                 data-usertofollowid={whoToFollowUser._id}
                                 onClick={({ target }) => {
-                                    if (user.following.includes(target.dataset.usertofollowid)) {
-                                        setUser((prev) => ({
+                                    if (
+                                        currentUser.following.includes(
+                                            target.dataset.usertofollowid,
+                                        )
+                                    ) {
+                                        setCurrentUser((prev) => ({
                                             ...prev,
                                             following: prev.following.filter(
                                                 (id) => id !== target.dataset.usertofollowid,
@@ -81,7 +84,7 @@ const Sidebar = () => {
                                         }));
                                         return startFollowing(target);
                                     }
-                                    setUser((prev) => ({
+                                    setCurrentUser((prev) => ({
                                         ...prev,
                                         following: [
                                             ...prev.following,
@@ -91,7 +94,9 @@ const Sidebar = () => {
                                     startFollowing(target);
                                 }}
                             >
-                                {user.following.includes(whoToFollowUser._id) ? null : 'Follow'}
+                                {currentUser.following.includes(whoToFollowUser._id)
+                                    ? null
+                                    : 'Follow'}
                             </Button>
                         </li>
                     ))}

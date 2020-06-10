@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import useHttp from '../hooks/useHttp';
 
 const useUser = () => {
-    const [user, setUser] = useState({
+    const [currentUser, setCurrentUser] = useState({
         userId: null,
         name: null,
         handle: null,
@@ -21,35 +21,46 @@ const useUser = () => {
 
     const { request, loading } = useHttp();
 
-    const getUser = useCallback(async () => {
+    const getCurrentUser = useCallback(async () => {
         try {
             const response = await request('/api/users/user/profile', 'GET');
             if (response && response.status === 200 && response.status !== 500) {
-                return setUser(response.user);
+                return setCurrentUser(response.user);
             }
-            setUser((prev) => ({ ...prev }));
+            setCurrentUser((prev) => ({ ...prev }));
         } catch (e) {}
-    }, [request, setUser]);
+    }, [request, setCurrentUser]);
 
-    const fetchTweets = useCallback(async () => {
-        try {
-            const response = await request('/api/users/user/tweets', 'GET');
-            if (response.status === 200 && response.status !== 500) {
-                setTweets(response.tweets);
-                setTweetUser(response.user);
-            }
-        } catch (e) {}
-    }, [request]);
+    const fetchTweets = useCallback(
+        async (handle) => {
+            try {
+                const response = await request(`/api/users/${handle}/tweets`, 'GET');
+                if (response.status === 200 && response.status !== 500) {
+                    setTweets(response.tweets);
+                    setTweetUser(response.user);
+                }
+            } catch (e) {}
+        },
+        [request],
+    );
 
     useEffect(() => {
         let isSubscribed = true;
         if (isSubscribed) {
-            getUser();
+            getCurrentUser();
         }
         return () => (isSubscribed = false);
-    }, [getUser]);
+    }, [getCurrentUser]);
 
-    return { getUser, user, fetchTweets, tweets, tweetUser, setUser, tweetsLoading: loading };
+    return {
+        getCurrentUser,
+        currentUser,
+        fetchTweets,
+        tweets,
+        tweetUser,
+        setCurrentUser,
+        tweetsLoading: loading,
+    };
 };
 
 export default useUser;

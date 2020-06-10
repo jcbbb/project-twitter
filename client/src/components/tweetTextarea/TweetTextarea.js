@@ -12,15 +12,19 @@ const reg = /[@]([^\s]+)/g;
 const TweetTextarea = () => {
     const [tweet, setTweet] = useState('');
     const { request, loading } = useHttp();
-    const { user } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
+
     const handleTweetSubmit = useCallback(async () => {
         try {
-            await request('/api/tweets/tweet/create', 'POST', {
+            const response = await request('/api/tweets/tweet/create', 'POST', {
                 tweet,
-                userId: user.userId,
+                userId: currentUser.userId,
             });
+            if (response && response.status === 200 && response.status !== 500) {
+                setTweet('');
+            }
         } catch (e) {}
-    }, [tweet, request, user.userId]);
+    }, [tweet, request, currentUser.userId]);
 
     return (
         <>
@@ -28,7 +32,7 @@ const TweetTextarea = () => {
                 <div
                     className="tweet-textarea__profile-image"
                     tabIndex="0"
-                    style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+                    style={{ backgroundImage: `url(${currentUser.profileImageUrl})` }}
                 ></div>
                 <div className="tweet-textarea__right">
                     <div
@@ -39,9 +43,11 @@ const TweetTextarea = () => {
                             if (!target.innerText.trim().length) {
                                 target.innerText = '';
                             }
-                            setTweet(target.innerText.trim());
+                            setTweet(target.innerText);
                         }}
-                    ></div>
+                    >
+                        {tweet}
+                    </div>
                     <div className="tweet-textarea__bottom">
                         <div className="tweet-textarea__bottom--left">
                             <span className="tweet-textarea__icon" tabIndex="0">

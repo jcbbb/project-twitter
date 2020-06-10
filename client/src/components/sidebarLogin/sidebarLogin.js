@@ -14,7 +14,7 @@ import './sidebarLogin.scss';
 const SidebarLogin = () => {
     const history = useHistory();
     const { request, loading, error } = useHttp();
-    const { login, getUser } = useContext(UserContext);
+    const { login, getCurrentUser } = useContext(UserContext);
 
     const sidebarLoginForm = useForm();
 
@@ -27,11 +27,11 @@ const SidebarLogin = () => {
                 });
 
                 if (response && response.status === 200 && response.status !== 500) {
-                    return login() && getUser();
+                    return login() && getCurrentUser();
                 }
             } catch (e) {}
         },
-        [request, login, getUser],
+        [request, login, getCurrentUser],
     );
 
     return (

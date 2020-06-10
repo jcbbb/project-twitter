@@ -3,12 +3,20 @@ import UserContext from './context/UserContext';
 import useAuth from './hooks/useAuth';
 import useRoutes from './hooks/useRoutes';
 import useUser from './hooks/useUser';
-import Loader from './components/loader/Loader';
+import TwitterLogo from './assets/images/twitter192.png';
 import './app.scss';
 
 const App = () => {
     const { loading, isAuthenticated, login, logout } = useAuth();
-    const { user, getUser, setUser, fetchTweets, tweets, tweetUser, tweetsLoading } = useUser();
+    const {
+        currentUser,
+        getCurrentUser,
+        setCurrentUser,
+        fetchTweets,
+        tweets,
+        tweetUser,
+        tweetsLoading,
+    } = useUser();
     const routes = useRoutes(isAuthenticated);
     return (
         <UserContext.Provider
@@ -16,16 +24,22 @@ const App = () => {
                 isAuthenticated,
                 login,
                 logout,
-                user,
-                getUser,
+                currentUser,
+                getCurrentUser,
                 fetchTweets,
                 tweets,
                 tweetUser,
                 tweetsLoading,
-                setUser,
+                setCurrentUser,
             }}
         >
-            {loading ? <Loader /> : <div className="wrapper">{routes}</div>}
+            {loading ? (
+                <div className="backdrop" style={{ background: 'transparent' }}>
+                    <img src={TwitterLogo} style={{ width: '72px' }} />
+                </div>
+            ) : (
+                <div className="wrapper">{routes}</div>
+            )}
         </UserContext.Provider>
     );
 };

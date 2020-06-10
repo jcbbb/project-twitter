@@ -16,7 +16,7 @@ const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^
 const Signup = () => {
     const [emailTaken, setEmailTaken] = useState(false);
     const [hasMatch, setHasMatch] = useState(false);
-    const { login, getUser } = useContext(UserContext);
+    const { login, getCurrentUser } = useContext(UserContext);
     const history = useHistory();
 
     const myForm = useForm();
@@ -34,12 +34,12 @@ const Signup = () => {
 
                 if (response && response.status === 201 && response.status !== 500) {
                     login();
-                    getUser();
+                    getCurrentUser();
                     history.push('/home');
                 }
             } catch (e) {}
         },
-        [request, login, getUser, history],
+        [request, login, getCurrentUser, history],
     );
 
     const handleSendEmail = useCallback(

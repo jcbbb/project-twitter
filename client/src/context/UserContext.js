@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 const UserContext = createContext({
-    user: {
+    currentUser: {
         userId: null,
         handle: null,
         name: null,
@@ -17,10 +17,11 @@ const UserContext = createContext({
     tweetUser: null,
     tweets: null,
     isAuthenticated: false,
-    getUser: () => {},
+    getCurrentUser: () => {},
     fetchTweets: () => {},
     login: () => {},
     logout: () => {},
+    setCurrentUser: () => {},
     setIsAuthenticated: () => {},
 });
 

@@ -19,16 +19,16 @@ import './nav.scss';
 
 const Nav = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { user, getUser } = useContext(UserContext);
+    const { currentUser, getCurrentUser } = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
 
         if (isSubscribed) {
-            getUser();
+            getCurrentUser();
         }
         return () => (isSubscribed = false);
-    }, [getUser]);
+    }, [getCurrentUser]);
 
     return (
         <>
@@ -55,7 +55,7 @@ const Nav = () => {
                     <Navlink to="/lists" icon={<ListsIcon />}>
                         Lists
                     </Navlink>
-                    <Navlink to={`/${user.handle}`} icon={<ProfileIcon />}>
+                    <Navlink to={`/${currentUser.handle}`} icon={<ProfileIcon />}>
                         Profile
                     </Navlink>
                     <Navlink to="/more" icon={<MoreIcon />}>
@@ -70,14 +70,14 @@ const Nav = () => {
                     <div className="nav__profile" tabIndex="0" onClick={() => setIsOpen((o) => !o)}>
                         <div
                             className="nav__profile-image"
-                            style={{ backgroundImage: `url(${user.profileImageUrl})` }}
+                            style={{ backgroundImage: `url(${currentUser.profileImageUrl})` }}
                         ></div>
                         <div className="nav__profile-info">
                             <div className="nav__profile-name-container">
-                                <span className="nav__profile-name">{user.name}</span>
+                                <span className="nav__profile-name">{currentUser.name}</span>
                             </div>
                             <div className="nav__profile-handle-container">
-                                <span className="nav__profile-handle">{user.handle}</span>
+                                <span className="nav__profile-handle">{currentUser.handle}</span>
                             </div>
                         </div>
                         <span className="nav__profile-icon">
@@ -89,16 +89,18 @@ const Nav = () => {
                                     <div
                                         className="nav__profile-image"
                                         style={{
-                                            backgroundImage: `url(${user.profileImageUrl})`,
+                                            backgroundImage: `url(${currentUser.profileImageUrl})`,
                                         }}
                                     ></div>
                                     <div className="nav__profile-info">
                                         <div className="nav__profile-name-container">
-                                            <span className="nav__profile-name">{user.name}</span>
+                                            <span className="nav__profile-name">
+                                                {currentUser.name}
+                                            </span>
                                         </div>
                                         <div className="nav__profile-handle-container">
                                             <span className="nav__profile-handle">
-                                                {user.handle}
+                                                {currentUser.handle}
                                             </span>
                                         </div>
                                     </div>
@@ -107,7 +109,7 @@ const Nav = () => {
                                     </span>
                                 </div>
                                 <MenuItem exact to="/logout">
-                                    Log out {user.handle}
+                                    Log out {currentUser.handle}
                                 </MenuItem>
                             </div>
                         )}

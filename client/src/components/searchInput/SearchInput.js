@@ -50,12 +50,12 @@ const SearchInput = ({ ...props }) => {
                         ? `Search for "${value}"`
                         : 'Try to search for people, topics or keywords'}
                 </p>
-                <div className="divider"></div>
+                {foundUsers && <div className="divider"></div>}
                 <ul className="search-group__users relative">
                     {loading && <Loader />}
                     {foundUsers.map((user, index) => (
-                        <Link to={`/${user.handle}`}>
-                            <li key={index} className="search-group__user">
+                        <Link key={index} to={`/${user.handle}`}>
+                            <li className="search-group__user">
                                 <div
                                     className="search-group__user-image"
                                     style={{ backgroundImage: `url(${user.profile_image_url})` }}
