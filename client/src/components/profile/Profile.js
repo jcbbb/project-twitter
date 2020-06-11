@@ -16,14 +16,7 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = () => {
-    const {
-        currentUser,
-        setCurrentUser,
-        fetchTweets,
-        tweets,
-        tweetUser,
-        tweetsLoading,
-    } = useContext(UserContext);
+    const { currentUser, setCurrentUser, fetchTweets, tweets, tweetUser, tweetsLoading } = useContext(UserContext);
 
     const { handle } = useParams();
     const { request } = useHttp();
@@ -75,9 +68,7 @@ const Profile = () => {
                         <div
                             className="profile__picture"
                             style={{
-                                backgroundImage: `url(${
-                                    user.profileImageUrl || user.profile_image_url
-                                })`,
+                                backgroundImage: `url(${user.profileImageUrl || user.profile_image_url})`,
                             }}
                         ></div>
                         {user.handle !== currentUser.handle ? (
@@ -87,11 +78,7 @@ const Profile = () => {
                                 }`}
                                 data-usertofollowid={user._id}
                                 onClick={({ target }) => {
-                                    if (
-                                        currentUser.following.includes(
-                                            target.dataset.usertofollowid,
-                                        )
-                                    ) {
+                                    if (currentUser.following.includes(target.dataset.usertofollowid)) {
                                         setCurrentUser((prev) => ({
                                             ...prev,
                                             following: prev.following.filter(
@@ -102,10 +89,7 @@ const Profile = () => {
                                     }
                                     setCurrentUser((prev) => ({
                                         ...prev,
-                                        following: [
-                                            ...prev.following,
-                                            target.dataset.usertofollowid,
-                                        ],
+                                        following: [...prev.following, target.dataset.usertofollowid],
                                     }));
                                     startFollowing(target);
                                 }}
@@ -147,15 +131,11 @@ const Profile = () => {
                     </ul>
                     <ul className="profile__stats">
                         <li className="profile__following" tabIndex="0">
-                            <span className="profile__following-count">
-                                {user.following.length}
-                            </span>
+                            <span className="profile__following-count">{user.following.length}</span>
                             Following
                         </li>
                         <li className="profile__followers" tabIndex="0">
-                            <span className="profile__followers-count">
-                                {user.followers.length}
-                            </span>
+                            <span className="profile__followers-count">{user.followers.length}</span>
                             Followers
                         </li>
                     </ul>

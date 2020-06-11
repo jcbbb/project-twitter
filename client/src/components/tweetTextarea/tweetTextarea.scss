@@ -54,7 +54,7 @@
         overflow-x: hidden;
         margin-top: 12px;
     }
-    &__editable {
+    &__editable, .DraftEditor-root{
         font-size: 19px;
         color: #fff;
         outline: none;
@@ -74,6 +74,11 @@
             margin-left: -10px;
         }
     }
+}
+
+.hashtag {
+    color: $primary;
+    font-style: cursive;
 }
 [contenteditable=true]:empty::before {
   content: attr(placeholder);

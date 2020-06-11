@@ -8,7 +8,6 @@ import { ReactComponent as ShareIcon } from '../../assets/icons/share.svg';
 import './tweet.scss';
 
 const Tweet = ({ tweet, tweetUser }) => {
-    console.log(tweet);
     return (
         <div className="tweet" tabIndex="0">
             <div
@@ -33,17 +32,13 @@ const Tweet = ({ tweet, tweetUser }) => {
                         <span className="tweet__actions-icon tweet__actions-comment" tabIndex="0">
                             <CommentIcon />
                         </span>
-                        <span className="tweet__actions-count">
-                            {tweet.comments.length || null}
-                        </span>
+                        <span className="tweet__actions-count">{tweet.comments.length || null}</span>
                     </div>
                     <div className="tweet__actions-container">
                         <span className="tweet__actions-icon tweet__actions-retweet" tabIndex="0">
                             <RetweetIcon />
                         </span>
-                        <span className="tweet__actions-count">
-                            {tweet.retweets.length || null}
-                        </span>
+                        <span className="tweet__actions-count">{tweet.retweets.length || null}</span>
                     </div>
                     <div className="tweet__actions-container">
                         <span className="tweet__actions-icon tweet__actions-heart" tabIndex="0">
