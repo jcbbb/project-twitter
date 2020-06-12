@@ -2,6 +2,7 @@ const { Router } = require('express');
 const verifyToken = require('../utils/verifyToken');
 const User = require('../models/User');
 const Tweet = require('../models/Tweet');
+const mongoose = require('mongoose');
 
 const router = Router();
 
@@ -37,6 +38,25 @@ router.get('/user/profile', verifyToken, async (req, res) => {
     }
 });
 
+router.post('/user/:handle', async (req, res) => {
+    try {
+        const { handle } = req.params;
+
+        const user = await User.findOne({ handle });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Profile not found', status: 400 });
+        }
+        res.status(200).json({
+            message: 'Profile found',
+            status: 200,
+            user,
+        });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
+    }
+});
+
 router.post('/user/profile/update', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
@@ -56,12 +76,13 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
     }
 });
-router.get('/user/tweets', verifyToken, async (req, res) => {
-    try {
-        const { id } = req.user;
 
-        const tweets = await Tweet.find({ authorId: id }).sort({ _id: -1 });
-        const user = await User.findById({ _id: id });
+router.get('/:handle/tweets', verifyToken, async (req, res) => {
+    try {
+        const { handle } = req.params;
+
+        const user = await User.findOne({ handle });
+        const tweets = await Tweet.find({ authorId: user._id }).sort({ _id: -1 });
 
         if (!tweets) {
             return res.status(400).json({ message: 'Tweets not found', status: 400 });
@@ -84,7 +105,9 @@ router.get('/user/tweets', verifyToken, async (req, res) => {
 router.get('/who-to-follow', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const users = await User.find({ _id: { $ne: id } })
+
+        // Get users excluding current user and users the current user is already following
+        const users = await User.find({ $and: [{ _id: { $ne: id } }, { followers: { $ne: id } }] })
             .sort({ _id: -1 })
             .limit(3);
 
@@ -116,7 +139,27 @@ router.post('/search/:handle', async (req, res) => {
     }
 });
 
-router.post('/follow/:userToFollowId', verifyToken, async (req, res) => {
+router.post('/:handle/:arrName', async (req, res) => {
+    const { handle, arrName } = req.params;
+
+    const user = await User.findOne({ handle });
+    if (!user) {
+        return res.status(400).json({ message: 'User not found', status: 400 });
+    }
+    const arr = user[`${arrName}`];
+
+    const mongoIds = arr.map((id) => new mongoose.Types.ObjectId(id));
+
+    const users = await User.find({ _id: { $in: mongoIds } });
+
+    if (users.length === 0) {
+        return res.status(400).json({ message: 'No users found', status: 400 });
+    }
+
+    res.json({ users, status: 200 });
+});
+
+router.get('/follow/:userToFollowId', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
         const { userToFollowId } = req.params;
@@ -136,26 +179,17 @@ router.post('/follow/:userToFollowId', verifyToken, async (req, res) => {
         }
 
         // Update followers field for user to be followed
-        const updateFollowingUser = await User.updateOne(
-            { _id: userToFollowId },
-            { $addToSet: { followers: id } },
-        );
+        const updateFollowingUser = await User.updateOne({ _id: userToFollowId }, { $addToSet: { followers: id } });
 
         // Update following field for current user
-        const updatedUser = await User.updateOne(
-            { _id: id },
-            { $addToSet: { following: userToFollowId } },
-        );
+        const updatedUser = await User.updateOne({ _id: id }, { $addToSet: { following: userToFollowId } });
 
         if (!updatedUser && !updateFollowingUser) {
-            return res
-                .status(400)
-                .json({ message: 'Failed to upadte following count', status: 400 });
+            return res.status(400).json({ message: 'Failed to upadte following count', status: 400 });
         }
 
         res.json({
-            message:
-                'Updated following count for current user and followers count for following user',
+            message: 'Updated following count for current user and followers count for following user',
             status: 200,
         });
     } catch (e) {

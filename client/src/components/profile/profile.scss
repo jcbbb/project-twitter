@@ -86,6 +86,9 @@
     &__following, &__followers {
         cursor: pointer;
         outline: none;
+        a {
+            color: $non-active;
+        }
     }
     &__following-count, &__followers-count {
         color: #fff;

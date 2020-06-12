@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import useHttp from '../hooks/useHttp';
 
 const useAuth = () => {
     const { request, loading } = useHttp();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const history = useHistory();
 
     const login = useCallback(() => {
         setIsAuthenticated(true);
@@ -17,7 +19,7 @@ const useAuth = () => {
         try {
             const response = await request('/me', 'GET');
             if (response && response.status !== 401 && response.status !== 500) {
-                return setIsAuthenticated(true);
+                return setIsAuthenticated(true) && history.push('/home');
             }
             setIsAuthenticated(false);
         } catch (e) {}

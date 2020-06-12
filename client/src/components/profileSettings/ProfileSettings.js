@@ -31,7 +31,7 @@ const ProfileSettings = () => {
         for (let val in myForm.values) {
             setCounts((prev) => ({
                 ...prev,
-                [val]: myForm.values[val].length,
+                [val]: myForm.values[val] ? myForm.values[val].length : 0,
             }));
         }
     }, [myForm.values, setCounts]);
@@ -98,18 +98,12 @@ const ProfileSettings = () => {
                 )}
                 <div className="profileSettings__header">
                     <div className="profileSettings__header-left">
-                        <span
-                            className="profileSettings__header-icon"
-                            onClick={() => history.goBack()}
-                        >
+                        <span className="profileSettings__header-icon" onClick={() => history.goBack()}>
                             <CloseIcon />
                         </span>
                         <h2 className="profileSettings__header-heading">Edit profile</h2>
                     </div>
-                    <Button
-                        className="button__filled profileSettings__header-button"
-                        onClick={myForm.submit}
-                    >
+                    <Button className="button__filled profileSettings__header-button" onClick={myForm.submit}>
                         Save
                     </Button>
                 </div>
@@ -117,9 +111,7 @@ const ProfileSettings = () => {
                     <section
                         className="profile__banner profileSettings__banner"
                         style={{
-                            backgroundImage: `url(${
-                                images.banner ? images.banner : currentUser.bannerImageUrl
-                            })`,
+                            backgroundImage: `url(${images.banner ? images.banner : currentUser.bannerImageUrl})`,
                         }}
                     >
                         <input
@@ -133,10 +125,7 @@ const ProfileSettings = () => {
                             }}
                             name="banner"
                         />
-                        <label
-                            htmlFor="profileSettings__banner-input"
-                            className="profileSettings__picture-icon"
-                        >
+                        <label htmlFor="profileSettings__banner-input" className="profileSettings__picture-icon">
                             <CameraIcon />
                         </label>
                     </section>
@@ -146,9 +135,7 @@ const ProfileSettings = () => {
                                 className="profile__picture profileSettings__picture"
                                 style={{
                                     backgroundImage: `url(${
-                                        images.profile
-                                            ? images.profile
-                                            : currentUser.profileImageUrl
+                                        images.profile ? images.profile : currentUser.profileImageUrl
                                     })`,
                                 }}
                             >
