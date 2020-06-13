@@ -61,10 +61,7 @@ const Nav = () => {
                     <Navlink to="/more" icon={<MoreIcon />}>
                         More
                     </Navlink>
-                    <Button
-                        className="button__filled nav__tweet-btn"
-                        style={{ padding: '14px', width: '90%' }}
-                    >
+                    <Button className="button__filled nav__tweet-btn" style={{ padding: '14px', width: '90%' }}>
                         Tweet
                     </Button>
                     <div className="nav__profile" tabIndex="0" onClick={() => setIsOpen((o) => !o)}>
@@ -94,14 +91,10 @@ const Nav = () => {
                                     ></div>
                                     <div className="nav__profile-info">
                                         <div className="nav__profile-name-container">
-                                            <span className="nav__profile-name">
-                                                {currentUser.name}
-                                            </span>
+                                            <span className="nav__profile-name">{currentUser.name}</span>
                                         </div>
                                         <div className="nav__profile-handle-container">
-                                            <span className="nav__profile-handle">
-                                                {currentUser.handle}
-                                            </span>
+                                            <span className="nav__profile-handle">{currentUser.handle}</span>
                                         </div>
                                     </div>
                                     <span className="nav__menu-icon">

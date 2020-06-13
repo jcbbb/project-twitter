@@ -1,0 +1,75 @@
+@import '../../vars';
+
+.messagesCompose {
+    background: $primary-background;
+    max-width: 80vw;
+    width: 600px;
+    height: 90vh;
+    background: $primary-background;
+    position: relative;
+    border-radius: 14px;
+    overflow-y: hidden;
+    &__header-container {
+        display: flex;
+        flex-direction: column;
+    }
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 15px;
+        border-bottom: 1px solid $border;
+        color: #fff;
+        &--left {
+            display: flex;
+            align-items: center;
+        }
+        &-icon {
+            font-size: 22px;
+            height: 38px;
+            width: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-right: 22px;
+            transition: all 200ms ease-in-out;
+            path {
+                fill: $primary !important;
+            }
+            &:hover, &:focus {
+                background: $primary-light; 
+            }
+        }
+        &-heading {
+            font-weight: $x-bold;
+            font-size: 19px;
+        }
+    }
+    &__searchbar {
+        position: relative;
+        width: 100%;
+    }
+    &__searchbar-input {
+        border: none;
+        outline: none;
+        background: $search-input-background;
+        color: #fff;
+        padding: 10px 10px 10px 50px; 
+        width: 100%;
+        font-size: 15px;
+        &:focus + .messagesCompose__searchbar-icon path {
+            fill: $primary !important;
+        }
+    }
+    &__searchbar-icon {
+        position: absolute;
+        left: 18px;
+        font-size: 18px;
+        top: 10px;
+        path {
+            fill: $non-active !important;
+        }
+    }
+}

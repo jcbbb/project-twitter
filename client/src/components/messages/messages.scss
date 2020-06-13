@@ -1,0 +1,121 @@
+@import '../../vars';
+
+.messages {
+    max-width: 990px;
+    margin-left: 320px;
+    display: flex;
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    height: 100vh;
+    &__list {
+        border-right: 1px solid $border;
+        width: 390px;
+        &-header {
+            color: #fff;
+            display: flex;
+            align-items:center;
+            justify-content: space-between;
+            padding: 8px 6px 8px 15px;
+        }
+        &-header-heading {
+            font-size: 19px;
+            font-weight: $x-bold;
+        }
+        &-header-icon {
+            font-size: 22px;
+            height: 36px;
+            width: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+            cursor: pointer;
+            path {
+                fill: $primary !important;
+            }
+            &:hover, &:focus {
+                background: $primary-light;
+            }
+        }
+        &-searchbar {
+            padding: 8px 10px;
+            border-top: 1px solid $border;
+            border-bottom: 1px solid $border;
+        }
+        &-item {
+            display: flex;    
+            padding: 12px 15px;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background 200ms ease-in-out;
+            &:hover, &:focus {
+                background: rgba(255, 255, 255, 0.03);
+            }
+        }
+        &-item-info {
+            overflow: hidden;
+            flex: 1;
+            color: $non-active;
+        }
+        &-item-image {
+            min-width: 50px;
+            min-height: 50px;
+            background: $banner;
+            border-radius: 50%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+        }
+        &-item-date {
+            color: $non-active;
+        }
+        &-user, &-user-last-message {
+           overflow-wrap: break-word;
+           overflow: hidden;
+           white-space: nowrap;
+           text-overflow: ellipsis;
+        }
+        &-user-name {
+            color: #fff;
+            font-weight: $bold;
+            margin-right: 6px;
+        }
+        &-user-handle {
+            color: $non-active;
+        }
+        &-user-last-message-text {
+            color: $non-active;
+        }
+
+    }
+    &__chat {
+        width: 600px;
+        max-width: 600px;
+        &-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    &__new-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &-heading {
+            color: #fff;
+            font-weight: $bold;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+        &-sub {
+            color: $non-active;
+        }
+        &-btn {
+            width: fit-content;
+            padding: 9px 14px;
+            margin-top: 20px;
+        }
+    }
+}

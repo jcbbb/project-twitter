@@ -81,21 +81,16 @@ router.get('/user/tweets', verifyToken, async (req, res) => {
     try {
         const { handle } = req.query;
 
-        const user = await User.findOne({ handle });
-        const tweets = await Tweet.find({ authorId: user._id }).sort({ _id: -1 });
+        const tweets = await Tweet.find({ 'user.handle': handle }).sort({ _id: -1 });
 
         if (!tweets) {
             return res.status(400).json({ message: 'Tweets not found', status: 400 });
-        }
-        if (!user) {
-            return res.status(400).json({ message: 'User not found', status: 400 });
         }
 
         res.json({
             message: 'Success',
             status: 200,
             tweets,
-            user,
         });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });
@@ -151,17 +146,13 @@ router.get('/user/followers', async (req, res) => {
 
     const users = await User.find({ _id: { $in: mongoIds } });
 
-    if (users.length === 0) {
-        return res.status(400).json({ message: 'No users found', status: 400 });
-    }
-
     res.json({ users, status: 200 });
 });
 
-router.post('/user/follow/', verifyToken, async (req, res) => {
+router.post('/user/follow/:userToFollowId', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const { userToFollowId } = req.query;
+        const { userToFollowId } = req.params;
 
         // Remove userId from followers field -- Toggle effect
         const followingUser = await User.findOne({ _id: userToFollowId });

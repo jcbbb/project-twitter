@@ -63,7 +63,7 @@ const TweetTextarea = () => {
                         </div>
                         <Button
                             className="button__filled tweet-textarea__btn"
-                            style={{ padding: '8px 14px' }}
+                            style={{ padding: '9px 14px' }}
                             disabled={loading || disabled}
                             tabIndex="0"
                             onClick={handleTweetSubmit}

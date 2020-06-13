@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const TweetSchema = new Schema({
     text: { type: String, required: true, trim: true },
-    authorId: { type: String, required: true },
+    user: { type: Object, required: true },
     date: { type: Date, default: Date.now },
     retweets: { type: Number },
     likes: { type: Number },

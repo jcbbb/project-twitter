@@ -3,6 +3,7 @@ import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
 import Explore from '../components/explore/Explore';
+import Messages from '../components/messages/Messages';
 import Signup from '../components/signup/Signup';
 import LogoutModal from '../components/logoutModal/LogoutModal';
 import Profile from '../components/profile/Profile';
@@ -24,6 +25,11 @@ const routes = [
         nav: () => <Nav />,
         main: () => <Explore />,
         sidebar: () => <Sidebar />,
+    },
+    {
+        path: '/messages',
+        nav: () => <Nav />,
+        main: () => <Messages />,
     },
     {
         path: '/logout',
