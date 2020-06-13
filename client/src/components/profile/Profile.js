@@ -17,7 +17,7 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = () => {
-    const { currentUser, setCurrentUser, fetchTweets, tweets, tweetUser, tweetsLoading } = useContext(UserContext);
+    const { currentUser, setCurrentUser, fetchTweets, tweets, tweetsLoading } = useContext(UserContext);
 
     const { handle } = useParams();
     const { request } = useHttp();
@@ -45,7 +45,7 @@ const Profile = () => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
+                await request(`/api/users/user/follow/${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],
@@ -168,7 +168,7 @@ const Profile = () => {
                             </Tab>
                         </div>
                     </div>
-                    <Tweets tweets={tweets} loading={tweetsLoading} tweetUser={tweetUser} />
+                    <Tweets tweets={tweets} loading={tweetsLoading} />
                 </Route>
             </Switch>
             <Switch>

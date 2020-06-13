@@ -2,6 +2,7 @@ import React from 'react';
 import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
+import Explore from '../components/explore/Explore';
 import Signup from '../components/signup/Signup';
 import LogoutModal from '../components/logoutModal/LogoutModal';
 import Profile from '../components/profile/Profile';
@@ -15,6 +16,13 @@ const routes = [
         exact: true,
         nav: () => <Nav />,
         main: () => <Home />,
+        sidebar: () => <Sidebar />,
+    },
+    {
+        path: '/explore',
+        exact: true,
+        nav: () => <Nav />,
+        main: () => <Explore />,
         sidebar: () => <Sidebar />,
     },
     {

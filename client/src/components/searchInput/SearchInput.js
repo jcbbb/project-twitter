@@ -42,13 +42,8 @@ const SearchInput = ({ ...props }) => {
                 <SearchIcon />
             </span>
             <div className="search-group__results">
-                <p
-                    className="search-group__instruction"
-                    style={{ textAlign: value ? 'left' : 'center' }}
-                >
-                    {value
-                        ? `Search for "${value}"`
-                        : 'Try to search for people, topics or keywords'}
+                <p className="search-group__instruction" style={{ textAlign: value ? 'left' : 'center' }}>
+                    {value ? `Search for "${value}"` : 'Try to search for people, topics or keywords'}
                 </p>
                 {foundUsers && <div className="divider"></div>}
                 <ul className="search-group__users relative">
@@ -65,9 +60,7 @@ const SearchInput = ({ ...props }) => {
                                         <span className="search-group__user-name">{user.name}</span>
                                     </div>
                                     <div className="search-group__user-handle-container">
-                                        <span className="search-group__user-handle">
-                                            {user.handle}
-                                        </span>
+                                        <span className="search-group__user-handle">{user.handle}</span>
                                     </div>
                                 </div>
                             </li>

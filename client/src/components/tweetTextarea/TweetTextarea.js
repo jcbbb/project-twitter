@@ -23,13 +23,12 @@ const TweetTextarea = () => {
             const tweet = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
             const response = await request('/api/tweets/tweet/create', 'POST', {
                 tweet,
-                userId: currentUser.userId,
             });
             if (response && response.status === 200 && response.status !== 500) {
                 setEditorState(() => EditorState.createEmpty(compositeDecorator));
             }
         } catch (e) {}
-    }, [request, currentUser.userId, editorState]);
+    }, [request, editorState]);
 
     return (
         <>

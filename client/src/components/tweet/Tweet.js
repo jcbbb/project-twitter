@@ -15,19 +15,19 @@ const convertToEditorState = (text) => {
     return editorState;
 };
 
-const Tweet = ({ tweet, tweetUser }) => {
+const Tweet = ({ tweet }) => {
     return (
         <div className="tweet" tabIndex="0">
             <div
                 className="tweeter__profile-image-container"
-                style={{ backgroundImage: `url(${tweetUser.profile_image_url})` }}
+                style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
             ></div>
             <div className="tweet__content">
                 <div className="tweeter__info">
                     <h2 className="tweeter__info-name" tabIndex="0">
-                        {tweetUser.name}
+                        {tweet.user.name}
                     </h2>
-                    <span className="tweeter__info-handle">{tweetUser.handle}</span>
+                    <span className="tweeter__info-handle">{tweet.user.handle}</span>
                     <span className="tweet__dropdown-icon" tabIndex="0">
                         <ChevronIcon />
                     </span>

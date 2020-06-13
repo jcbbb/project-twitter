@@ -3,7 +3,7 @@ import Tab from '../tab/Tab';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 const FollowingFollowers = ({ userHandle, list }) => {
     const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -14,7 +14,7 @@ const FollowingFollowers = ({ userHandle, list }) => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
+                await request(`/api/users/user/follow/${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],

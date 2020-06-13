@@ -17,7 +17,6 @@ const useUser = () => {
     });
 
     const [tweets, setTweets] = useState([]);
-    const [tweetUser, setTweetUser] = useState({});
 
     const { request, loading } = useHttp();
 
@@ -37,7 +36,6 @@ const useUser = () => {
                 const response = await request(`/api/users/user/tweets?handle=${handle}`, 'GET');
                 if (response.status === 200 && response.status !== 500) {
                     setTweets(response.tweets);
-                    setTweetUser(response.user);
                 }
             } catch (e) {}
         },
@@ -57,7 +55,6 @@ const useUser = () => {
         currentUser,
         fetchTweets,
         tweets,
-        tweetUser,
         setCurrentUser,
         tweetsLoading: loading,
     };

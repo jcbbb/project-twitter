@@ -25,7 +25,7 @@ const Sidebar = () => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
+                await request(`/api/users/user/follow/${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],
@@ -52,44 +52,46 @@ const Sidebar = () => {
                 </div>
                 <ul className="sidebar__list relative">
                     {whoToFollowUsers.map((whoToFollowUser, index) => (
-                        <li className="sidebar__list-item" tabIndex="0" key={index}>
-                            <div
-                                className="sidebar__list-item-image-container"
-                                style={{
-                                    backgroundImage: `url(${whoToFollowUser.profile_image_url})`,
-                                }}
-                            ></div>
-                            <div className="sidebar__list-item-info">
-                                <p className="sidebar__list-item-name" tabIndex="0">
-                                    {whoToFollowUser.name}
-                                </p>
-                                <span className="sidebar__list-item-handle">{whoToFollowUser.handle}</span>
-                            </div>
-                            <Button
-                                className={`sidebar__list-item-action ${
-                                    currentUser.following.includes(whoToFollowUser._id) && 'button__unfollow'
-                                }`}
-                                data-usertofollowid={whoToFollowUser._id}
-                                onClick={({ target }) => {
-                                    if (currentUser.following.includes(target.dataset.usertofollowid)) {
+                        <Link to={`/${whoToFollowUser.handle}`} key={index}>
+                            <li className="sidebar__list-item" tabIndex="0" key={index}>
+                                <div
+                                    className="sidebar__list-item-image-container"
+                                    style={{
+                                        backgroundImage: `url(${whoToFollowUser.profile_image_url})`,
+                                    }}
+                                ></div>
+                                <div className="sidebar__list-item-info">
+                                    <p className="sidebar__list-item-name" tabIndex="0">
+                                        {whoToFollowUser.name}
+                                    </p>
+                                    <span className="sidebar__list-item-handle">{whoToFollowUser.handle}</span>
+                                </div>
+                                <Button
+                                    className={`sidebar__list-item-action ${
+                                        currentUser.following.includes(whoToFollowUser._id) && 'button__unfollow'
+                                    }`}
+                                    data-usertofollowid={whoToFollowUser._id}
+                                    onClick={({ target }) => {
+                                        if (currentUser.following.includes(target.dataset.usertofollowid)) {
+                                            setCurrentUser((prev) => ({
+                                                ...prev,
+                                                following: prev.following.filter(
+                                                    (id) => id !== target.dataset.usertofollowid,
+                                                ),
+                                            }));
+                                            return startFollowing(target);
+                                        }
                                         setCurrentUser((prev) => ({
                                             ...prev,
-                                            following: prev.following.filter(
-                                                (id) => id !== target.dataset.usertofollowid,
-                                            ),
+                                            following: [...prev.following, target.dataset.usertofollowid],
                                         }));
-                                        return startFollowing(target);
-                                    }
-                                    setCurrentUser((prev) => ({
-                                        ...prev,
-                                        following: [...prev.following, target.dataset.usertofollowid],
-                                    }));
-                                    startFollowing(target);
-                                }}
-                            >
-                                {currentUser.following.includes(whoToFollowUser._id) ? null : 'Follow'}
-                            </Button>
-                        </li>
+                                        startFollowing(target);
+                                    }}
+                                >
+                                    {currentUser.following.includes(whoToFollowUser._id) ? null : 'Follow'}
+                                </Button>
+                            </li>
+                        </Link>
                     ))}
                 </ul>
                 <div className="sidebar__footer">
