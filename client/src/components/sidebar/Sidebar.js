@@ -25,7 +25,7 @@ const Sidebar = () => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/follow/${dataset.usertofollowid}`, 'GET');
+                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],

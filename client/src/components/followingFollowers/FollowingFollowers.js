@@ -5,7 +5,7 @@ import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
 
-const FollowingFollowers = ({ userHandle }) => {
+const FollowingFollowers = ({ userHandle, list }) => {
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const { request } = useHttp();
     const [users, setUsers] = useState([]);
@@ -14,26 +14,29 @@ const FollowingFollowers = ({ userHandle }) => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/follow/${dataset.usertofollowid}`, 'GET');
+                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],
     );
 
-    const getUsers = useCallback(async () => {
-        try {
-            const response = await request(`/api/users/${match.url}`);
-            if (response && response.status === 200 && response.status !== 500) {
-                setUsers(response.users);
-            }
-        } catch (e) {}
-    }, [request, match.url]);
+    const getUsers = useCallback(
+        async (userHandle, list) => {
+            try {
+                const response = await request(`/api/users/user/followers?handle=${userHandle}&list=${list}`, 'GET');
+                if (response && response.status === 200 && response.status !== 500) {
+                    setUsers(response.users);
+                }
+            } catch (e) {}
+        },
+        [request, match.url],
+    );
 
     useEffect(() => {
         let isSubscribed = true;
-        if (isSubscribed) getUsers();
+        if (isSubscribed) getUsers(userHandle, list);
         return () => (isSubscribed = false);
-    }, [match.url]);
+    }, [userHandle, list]);
 
     return (
         <div className="relative">
@@ -51,7 +54,7 @@ const FollowingFollowers = ({ userHandle }) => {
                         <div
                             className="sidebar__list-item-image-container"
                             style={{
-                                backgroundImage: `url(${user.profileImageUrl || user.profile_image_url})`,
+                                backgroundImage: `url(${user.profile_image_url})`,
                             }}
                         ></div>
                         <div className="sidebar__list-item-info">

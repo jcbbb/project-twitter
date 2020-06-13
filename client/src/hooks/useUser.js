@@ -34,7 +34,7 @@ const useUser = () => {
     const fetchTweets = useCallback(
         async (handle) => {
             try {
-                const response = await request(`/api/users/${handle}/tweets`, 'GET');
+                const response = await request(`/api/users/user/tweets?handle=${handle}`, 'GET');
                 if (response.status === 200 && response.status !== 500) {
                     setTweets(response.tweets);
                     setTweetUser(response.user);

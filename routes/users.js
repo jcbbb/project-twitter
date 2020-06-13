@@ -38,9 +38,9 @@ router.get('/user/profile', verifyToken, async (req, res) => {
     }
 });
 
-router.post('/user/:handle', async (req, res) => {
+router.post('/user/profile', async (req, res) => {
     try {
-        const { handle } = req.params;
+        const { handle } = req.query;
 
         const user = await User.findOne({ handle });
 
@@ -77,9 +77,9 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/:handle/tweets', verifyToken, async (req, res) => {
+router.get('/user/tweets', verifyToken, async (req, res) => {
     try {
-        const { handle } = req.params;
+        const { handle } = req.query;
 
         const user = await User.findOne({ handle });
         const tweets = await Tweet.find({ authorId: user._id }).sort({ _id: -1 });
@@ -139,16 +139,15 @@ router.post('/search/:handle', async (req, res) => {
     }
 });
 
-router.post('/:handle/:arrName', async (req, res) => {
-    const { handle, arrName } = req.params;
+router.get('/user/followers', async (req, res) => {
+    const { handle, list } = req.query;
 
     const user = await User.findOne({ handle });
     if (!user) {
         return res.status(400).json({ message: 'User not found', status: 400 });
     }
-    const arr = user[`${arrName}`];
 
-    const mongoIds = arr.map((id) => new mongoose.Types.ObjectId(id));
+    const mongoIds = user[list].map((id) => new mongoose.Types.ObjectId(id));
 
     const users = await User.find({ _id: { $in: mongoIds } });
 
@@ -159,15 +158,16 @@ router.post('/:handle/:arrName', async (req, res) => {
     res.json({ users, status: 200 });
 });
 
-router.get('/follow/:userToFollowId', verifyToken, async (req, res) => {
+router.post('/user/follow/', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const { userToFollowId } = req.params;
+        const { userToFollowId } = req.query;
 
         // Remove userId from followers field -- Toggle effect
         const followingUser = await User.findOne({ _id: userToFollowId });
         if (followingUser.followers.includes(id)) {
             await User.updateOne({ _id: userToFollowId }, { $pull: { followers: id } });
+            await User.updateOne({ _id: id }, { $pull: { following: userToFollowId } });
             return res.json({ message: 'Updated followers count', status: 200 });
         }
 
@@ -175,16 +175,17 @@ router.get('/follow/:userToFollowId', verifyToken, async (req, res) => {
         const user = await User.findOne({ _id: id });
         if (user.following.includes(userToFollowId)) {
             await User.updateOne({ _id: id }, { $pull: { following: userToFollowId } });
+            await User.updateOne({ _id: userToFollowId }, { $pull: { followers: id } });
             return res.json({ message: 'Updated following count', status: 200 });
         }
 
         // Update followers field for user to be followed
-        const updateFollowingUser = await User.updateOne({ _id: userToFollowId }, { $addToSet: { followers: id } });
+        const updatedFollowingUser = await User.updateOne({ _id: userToFollowId }, { $addToSet: { followers: id } });
 
         // Update following field for current user
         const updatedUser = await User.updateOne({ _id: id }, { $addToSet: { following: userToFollowId } });
 
-        if (!updatedUser && !updateFollowingUser) {
+        if (!updatedUser && !updatedFollowingUser) {
             return res.status(400).json({ message: 'Failed to upadte following count', status: 400 });
         }
 

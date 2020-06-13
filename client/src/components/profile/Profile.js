@@ -33,7 +33,7 @@ const Profile = () => {
     const getUser = useCallback(
         async (handle) => {
             try {
-                const response = await request(`/api/users/user/${handle}`);
+                const response = await request(`/api/users/user/profile?handle=${handle}`);
                 if (response && response.status === 200 && response.status !== 500) {
                     setUser(response.user);
                 }
@@ -45,7 +45,7 @@ const Profile = () => {
     const startFollowing = useCallback(
         async ({ dataset }) => {
             try {
-                await request(`/api/users/follow/${dataset.usertofollowid}`, 'GET');
+                await request(`/api/users/user/follow/?userToFollowId=${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],
@@ -62,10 +62,10 @@ const Profile = () => {
             <WallHeader arrow="true">{user.name || 'Profile'}</WallHeader>
             <Switch>
                 <Route exact path={`${match.path}/following`}>
-                    <FollowingFollowers userHandle={user.handle} />
+                    <FollowingFollowers userHandle={user.handle} list="following" />
                 </Route>
                 <Route exact path={`${match.path}/followers`}>
-                    <FollowingFollowers userHandle={user.handle} />
+                    <FollowingFollowers userHandle={user.handle} list="followers" />
                 </Route>
                 <Route path={match.path}>
                     <div className="profile">
