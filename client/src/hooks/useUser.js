@@ -4,11 +4,11 @@ import useHttp from '../hooks/useHttp';
 const useUser = () => {
     const [currentUser, setCurrentUser] = useState({
         userId: null,
-        name: null,
-        handle: null,
-        location: null,
-        website: null,
-        bio: null,
+        name: '',
+        handle: '',
+        location: '',
+        website: '',
+        bio: '',
         joined: null,
         followers: [],
         following: [],
