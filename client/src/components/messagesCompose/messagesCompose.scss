@@ -1,7 +1,6 @@
 @import '../../vars';
 
 .messagesCompose {
-    background: $primary-background;
     max-width: 80vw;
     width: 600px;
     height: 90vh;
@@ -10,8 +9,11 @@
     border-radius: 14px;
     overflow-y: hidden;
     &__header-container {
+        background: $primary-background;
         display: flex;
         flex-direction: column;
+        position: sticky;
+        top: 0;
     }
     &__header {
         display: flex;
@@ -24,28 +26,28 @@
             display: flex;
             align-items: center;
         }
-        &-icon {
-            font-size: 22px;
-            height: 38px;
-            width: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            cursor: pointer;
-            margin-right: 22px;
-            transition: all 200ms ease-in-out;
-            path {
-                fill: $primary !important;
-            }
-            &:hover, &:focus {
-                background: $primary-light; 
-            }
+    }
+    &__header-icon {
+        font-size: 22px;
+        height: 38px;
+        width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-right: 22px;
+        transition: all 200ms ease-in-out;
+        path {
+            fill: $primary !important;
         }
-        &-heading {
-            font-weight: $x-bold;
-            font-size: 19px;
+        &:hover, &:focus {
+            background: $primary-light; 
         }
+    }
+    &__header-heading {
+        font-weight: $x-bold;
+        font-size: 19px;
     }
     &__searchbar {
         position: relative;
@@ -72,4 +74,39 @@
             fill: $non-active !important;
         }
     }
+    &__users {
+        height: calc(90vh - 93px);
+        overflow-y: auto;
+    }
+    &__user {
+        display: flex;
+        padding: 10px 15px;
+        transition: background 200ms ease-in-out;
+        border-bottom: 1px solid $border;
+        &:hover, &:focus {
+            background: $primary-background-light;
+        }
+    }
+    &__user-info {
+        display: flex;
+        flex-direction: column;
+    }
+    &__user-name {
+        color: #fff;
+        font-weight: $bold;
+    }
+    &__user-handle {
+        color: $non-active;
+    }
+    &__user-image {
+        width: 40px;
+        height: 40px;
+        background: $banner;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+
 }

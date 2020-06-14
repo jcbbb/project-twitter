@@ -60,7 +60,9 @@ const Messages = () => {
                             <p className="messages__new-message-sub">
                                 Choose one from your existing messages, or start a new one
                             </p>
-                            <Button className="button__filled messages__new-message-btn">New message</Button>
+                            <Link exact to={`${match.url}/compose`}>
+                                <Button className="button__filled messages__new-message-btn">New message</Button>
+                            </Link>
                         </div>
                     </div>
                 </div>

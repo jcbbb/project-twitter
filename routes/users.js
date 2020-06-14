@@ -126,7 +126,7 @@ router.post('/search/:handle', async (req, res) => {
         const users = await User.find({ $or: [{ handle: regex }, { name: regex }] });
 
         if (users.length === 0) {
-            return res.status(400).json({ message: 'User is not found', status: 400 });
+            return res.status(400).json({ message: 'Users arent not found', status: 400 });
         }
         res.json({ message: 'Found users', users, status: 200 });
     } catch (e) {
