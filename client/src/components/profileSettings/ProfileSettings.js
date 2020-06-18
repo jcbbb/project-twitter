@@ -13,6 +13,7 @@ import { ReactComponent as CameraIcon } from '../../assets/icons/camera.svg';
 import './profileSettings.scss';
 
 const ProfileSettings = () => {
+    const { request, loading } = useHttp();
     const { currentUser, getCurrentUser, fetchTweets } = useContext(UserContext);
     const history = useHistory();
     const [counts, setCounts] = useState({
@@ -21,12 +22,14 @@ const ProfileSettings = () => {
         location: 0,
         website: 0,
     });
+
     const [images, setImages] = useState({
         banner: null,
         profile: null,
     });
 
     const myForm = useForm();
+
     useEffect(() => {
         for (let val in myForm.values) {
             setCounts((prev) => ({
@@ -35,8 +38,6 @@ const ProfileSettings = () => {
             }));
         }
     }, [myForm.values, setCounts]);
-
-    const { request, loading } = useHttp();
 
     const updateCounts = (ev) => {
         const { name, value } = ev.target;
@@ -59,7 +60,7 @@ const ProfileSettings = () => {
         formData.append('folder', target.name);
 
         try {
-            const response = await request(
+            await request(
                 `/api/upload/${target.name}`,
                 'POST',
                 formData,
@@ -85,7 +86,7 @@ const ProfileSettings = () => {
                 }
             } catch (e) {}
         },
-        [request, images],
+        [request, getCurrentUser, fetchTweets, history],
     );
 
     return (
@@ -144,7 +145,6 @@ const ProfileSettings = () => {
                                     type="file"
                                     accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
                                     id="profileSettings__picture-input"
-                                    onChange={preview}
                                     name="profile"
                                     onChange={(e) => {
                                         preview(e);

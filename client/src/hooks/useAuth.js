@@ -23,7 +23,7 @@ const useAuth = () => {
             }
             setIsAuthenticated(false);
         } catch (e) {}
-    }, [request]);
+    }, [request, history]);
 
     useEffect(() => {
         let isSubscribed = true;

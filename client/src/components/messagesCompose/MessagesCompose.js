@@ -31,7 +31,7 @@ const MessagesCompose = () => {
         let isSubscribed = true;
         if (isSubscribed) getUsers(value);
         return () => (isSubscribed = false);
-    }, [value]);
+    }, [value, getUsers]);
     useEffect(() => {
         inputRef.current.focus();
     }, [selectedUsers]);

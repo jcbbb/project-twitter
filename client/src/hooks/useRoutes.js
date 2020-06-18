@@ -49,7 +49,7 @@ const useRoutes = (isAuthenticated) => {
             <>
                 <Switch>
                     {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact}>
+                        <Route key={index} path={route.path} exact={route.exact || false}>
                             {route.nav}
                         </Route>
                     ))}
@@ -57,14 +57,14 @@ const useRoutes = (isAuthenticated) => {
                 </Switch>
                 <Switch>
                     {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact}>
+                        <Route key={index} path={route.path} exact={route.exact || false}>
                             {route.main}
                         </Route>
                     ))}
                 </Switch>
                 <Switch>
                     {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact}>
+                        <Route key={index} path={route.path} exact={route.exact || false}>
                             {route.sidebar}
                         </Route>
                     ))}

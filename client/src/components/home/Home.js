@@ -7,9 +7,11 @@ import io from 'socket.io-client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
 
+const ENDPOINT = 'localhost:5000/messages';
 const Home = ({ title }) => {
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        const socket = io(ENDPOINT);
+        console.log(socket);
     }, []);
     return (
         <>

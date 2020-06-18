@@ -1,15 +1,13 @@
 import React from 'react';
 import Button from '../button/Button';
+
 import './userPopover.scss';
 
 const UserPopover = ({ user }) => {
     return (
         <div className="userPopover">
             <div className="userPopover__header">
-                <div
-                    className="userPopover__image"
-                    style={{ backgroundImage: `url(${user.profile_image_url})` }}
-                ></div>
+                <div className="userPopover__image" style={{ backgroundImage: `url(${user.profile_image_url})` }}></div>
                 <Button className="userPopover__follow-btn">Follow</Button>
             </div>
             <p className="profile__name">{user.name}</p>

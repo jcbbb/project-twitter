@@ -3,13 +3,11 @@ import Tab from '../tab/Tab';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
-import { useRouteMatch } from 'react-router-dom';
 
 const FollowingFollowers = ({ userHandle, list }) => {
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const { request } = useHttp();
     const [users, setUsers] = useState([]);
-    const match = useRouteMatch();
 
     const startFollowing = useCallback(
         async ({ dataset }) => {
@@ -29,14 +27,14 @@ const FollowingFollowers = ({ userHandle, list }) => {
                 }
             } catch (e) {}
         },
-        [request, match.url],
+        [request],
     );
 
     useEffect(() => {
         let isSubscribed = true;
         if (isSubscribed) getUsers(userHandle, list);
         return () => (isSubscribed = false);
-    }, [userHandle, list]);
+    }, [userHandle, list, getUsers]);
 
     return (
         <div className="relative">

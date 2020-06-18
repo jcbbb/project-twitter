@@ -55,7 +55,7 @@ const Profile = () => {
         let isSubscribed = true;
         if (isSubscribed) getUser(handle);
         return () => (isSubscribed = false);
-    }, [handle]);
+    }, [handle, getUser]);
 
     return (
         <Wall className="wall wall--320">

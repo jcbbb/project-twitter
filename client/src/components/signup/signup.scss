@@ -22,13 +22,15 @@
     }
     &__back {
         font-size: 20px;
-        width: 39px;
-        height: 39px;
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content:center;
         border-radius: 50%;
         cursor: pointer;
+        margin-left: -10px;
+        transition: all 200ms ease-in-out;
         path {
             fill: $primary;
         }

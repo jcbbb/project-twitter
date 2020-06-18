@@ -1,0 +1,169 @@
+@import '../../vars';
+
+.messageBox {
+    position: relative;
+    padding-top: 53px;
+    padding-bottom: 53px;
+    max-width: 600px;
+    height: 100%;
+    transform: translateZ(0);
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid $border;
+        height: 53px;
+        padding: 0 12px 0 15px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: $primary-background;
+    }
+    &__header-name {
+        font-size: 19px;
+        font-weight: $x-bold;
+        color: #fff;
+    }
+    &__header-handle {
+        color: $non-active;
+        font-size: 13px;
+    }
+    &__header-icon {
+        font-size: 22px;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        path {
+            fill: $primary !important;
+        }
+        &:hover, &:focus {
+            background: $primary-light;
+        }
+    }
+    &__body {
+        padding: 20px 15px 0 15px;
+        overflow-y: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    &__message {
+        display: flex;
+        align-items: flex-end;
+        width: 70%;
+        padding-bottom: 20px;
+        &--current {
+            align-self: flex-end;
+        }
+    }
+    &__message-container {
+        display: flex;
+        flex-direction: column;
+        &--current {
+            margin-left: auto;
+        }
+    }
+    &__message-content {
+        background: $border;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 18.75px 18.75px 18.75px 0;
+        &--current {
+            background: $primary;
+            border-radius: 18.75px 18.75px 0 18.75px;
+            cursor: pointer;
+            transition: background 200ms ease-in-out;
+            &:hover, &:focus {
+                background: $primary-dark;
+            }
+        }
+    }
+    &__message-date {
+        color: $non-active;
+        font-size: 13px;
+        &--current {
+            align-self: flex-end;
+        }
+    }
+    &__message-author-image {
+        min-width: 40px;
+        min-height: 40px;
+        background: $banner;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+        margin-bottom: 20px;
+    }
+    &__footer {
+        display: flex;
+        align-items:flex-end;
+        padding: 6px 8px;
+        border-top: 1px solid $border;
+        max-width: 100%;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: $primary-background;
+    }
+    &__footer-input-group {
+        align-self: center;
+        position: relative;
+        color: #fff;
+        background: $search-input-background;
+        border-radius: 16px;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+        flex: 1;
+        margin: 0 6px;
+        &:focus {
+            border-color: $primary;
+        }
+    }
+    &__footer-input-icon, &__footer-icon {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+        outline: none;
+        path {
+            fill: $primary !important;
+        }
+        circle {
+            fill: $primary !important;
+        }
+        &:hover, &:focus {
+            background: $primary-light;
+        }
+    }
+    &__footer-icon {
+        height: 40px;
+        width: 40px;
+        &--disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: default;
+        }
+    }
+    &__footer-input-icon {
+        height: 32px;
+        width: 32px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+}
+.DraftEditor-editorContainer {
+    max-width: 100%;
+    word-wrap: break-word;
+    margin-right: 30px;
+}

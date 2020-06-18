@@ -7,6 +7,7 @@ import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import { compositeDecorator } from '../../helpers/decorators';
+
 import './tweetTextarea.scss';
 import 'draft-js/dist/Draft.css';
 

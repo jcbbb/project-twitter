@@ -9,6 +9,7 @@ import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
 import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
 import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
+
 import './signup.scss';
 
 const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -203,8 +204,7 @@ const Signup = () => {
                                     <a className="signup__link" href="https://twitter.com/tos">
                                         Cookie policy.
                                     </a>{' '}
-                                    You can be found by your email address or phone number if you
-                                    specified.{' '}
+                                    You can be found by your email address or phone number if you specified.{' '}
                                     <a className="signup__link" href="https://twitter.com/tos">
                                         Privacy Settings
                                     </a>
@@ -253,9 +253,7 @@ const Signup = () => {
                             />
                         </FormizStep>
                         <FormizStep name="step4">
-                            <p className="signup__code-info">
-                                Password should no less than 6 characters.
-                            </p>
+                            <p className="signup__code-info">Password should no less than 6 characters.</p>
                             <Input
                                 type="password"
                                 label="Password"

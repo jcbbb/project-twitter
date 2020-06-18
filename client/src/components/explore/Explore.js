@@ -6,7 +6,7 @@ import Wall from '../wall/Wall';
 import './explore.scss';
 
 const Explore = () => {
-    const { request, loading } = useHttp();
+    const { request } = useHttp();
     const [tweets, setTweets] = useState([]);
     const fetchAllTweets = useCallback(async () => {
         try {

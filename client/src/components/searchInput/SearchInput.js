@@ -28,7 +28,7 @@ const SearchInput = ({ ...props }) => {
         if (value && isSubscribed) findUsers(value);
 
         return () => (isSubscribed = false);
-    }, [value]);
+    }, [value, findUsers]);
     return (
         <div className="search-group" {...props}>
             <input

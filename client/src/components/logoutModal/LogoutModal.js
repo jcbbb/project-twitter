@@ -24,7 +24,7 @@ const LogoutModal = () => {
     return (
         <Backdrop>
             {loading ? (
-                <Loader msg="Loggint out" />
+                <Loader msg="Logging out" />
             ) : (
                 <div className="logout-modal">
                     <span className="logout-modal__icon">
@@ -32,22 +32,14 @@ const LogoutModal = () => {
                     </span>
                     <h2 className="logout-modal__heading">Log out of Twitter?</h2>
                     <p className="logout-modal__info">
-                        You can always log back in at any time. If you just want to switch accounts,
-                        you can do that from the “Account info” section.
+                        You can always log back in at any time. If you just want to switch accounts, you can do that
+                        from the “Account info” section.
                     </p>
                     <div className="logout-modal__actions">
-                        <Button
-                            onClick={() => history.goBack()}
-                            className="button__cancel"
-                            style={{ padding: '10px' }}
-                        >
+                        <Button onClick={() => history.goBack()} className="button__cancel" style={{ padding: '10px' }}>
                             Cancel
                         </Button>
-                        <Button
-                            onClick={handleLogut}
-                            className="button__filled"
-                            style={{ padding: '10px' }}
-                        >
+                        <Button onClick={handleLogut} className="button__filled" style={{ padding: '10px' }}>
                             Log out
                         </Button>
                     </div>
