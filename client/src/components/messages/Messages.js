@@ -14,13 +14,6 @@ const routes = [
         main: () => <MessagesChatContainer />,
     },
     {
-        path: '/messages/compose',
-        exact: true,
-        messagesCompose: () => <MessagesCompose />,
-        messagesList: () => <MessagesList />,
-        main: () => <MessagesChatContainer />,
-    },
-    {
         path: '/messages/:threadId',
         exact: true,
         messagesList: () => <MessagesList />,
@@ -44,6 +37,9 @@ const Messages = () => {
     return (
         <>
             <div className="messages">
+                <Route exact path="/messages/compose">
+                    <MessagesCompose />
+                </Route>
                 <Switch>
                     {routes.map((route, index) => (
                         <Route key={index} path={route.path} exact={route.exact}>

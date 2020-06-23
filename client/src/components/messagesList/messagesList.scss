@@ -4,84 +4,84 @@
     &__list {
         border-right: 1px solid $border;
         width: 390px;
-        &-header {
-            color: #fff;
-            display: flex;
-            align-items:center;
-            justify-content: space-between;
-            padding: 8px 6px 8px 15px;
+    }
+    &__list-header {
+        color: #fff;
+        display: flex;
+        align-items:center;
+        justify-content: space-between;
+        padding: 8px 6px 8px 15px;
+    }
+    &__list-header-heading {
+        font-size: 19px;
+        font-weight: $x-bold;
+    }
+    &__list-header-icon {
+        font-size: 22px;
+        height: 36px;
+        width: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        path {
+            fill: $primary !important;
         }
-        &-header-heading {
-            font-size: 19px;
-            font-weight: $x-bold;
+        &:hover, &:focus {
+            background: $primary-light;
         }
-        &-header-icon {
-            font-size: 22px;
-            height: 36px;
-            width: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items:center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 200ms ease-in-out;
-            path {
-                fill: $primary !important;
-            }
-            &:hover, &:focus {
-                background: $primary-light;
-            }
+    }
+    &__list-searchbar {
+        padding: 8px 10px;
+        border-top: 1px solid $border;
+        border-bottom: 1px solid $border;
+    }
+    &__list-item {
+        display: flex;    
+        padding: 12px 15px;
+        align-items: flex-start;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        border-bottom: 1px solid $border;
+        &--active .messages__list-item {
+            border-right: 2px solid $primary;
         }
-        &-searchbar {
-            padding: 8px 10px;
-            border-top: 1px solid $border;
-            border-bottom: 1px solid $border;
+        &:hover, &:focus {
+            background: rgba(255, 255, 255, 0.03);
         }
-        &-item {
-            display: flex;    
-            padding: 12px 15px;
-            align-items: flex-start;
-            cursor: pointer;
-            transition: all 200ms ease-in-out;
-            &:hover, &:focus {
-                background: rgba(255, 255, 255, 0.03);
-            }
-        }
-        &-item-info {
-            overflow: hidden;
-            flex: 1;
-            color: $non-active;
-        }
-        &-item-image {
-            min-width: 50px;
-            min-height: 50px;
-            background: $banner;
-            border-radius: 50%;
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin-right: 10px;
-        }
-        &-item-date {
-            color: $non-active;
-        }
-        &-user, &-user-last-message {
-           overflow-wrap: break-word;
-           overflow: hidden;
-           white-space: nowrap;
-           text-overflow: ellipsis;
-        }
-        &-user-name {
-            color: #fff;
-            font-weight: $bold;
-            margin-right: 6px;
-        }
-        &-user-handle {
-            color: $non-active;
-        }
-        &-user-last-message-text {
-            color: $non-active;
-        }
-
+    }
+    &__list-item-info {
+        overflow: hidden;
+        flex: 1;
+        color: $non-active;
+    }
+    &__list-item-image {
+        min-width: 50px;
+        min-height: 50px;
+        background: $banner;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+    &__list-item-date {
+        color: $non-active;
+    }
+    &__list-user, &__list-user-last-message {
+       overflow-wrap: break-word;
+       overflow: hidden;
+       white-space: nowrap;
+       text-overflow: ellipsis;
+    }
+    &__list-user-name {
+        color: #fff;
+        font-weight: $bold;
+        margin-right: 6px;
+    }
+    &__list-user-handle, &__list-user-last-message-text {
+        color: $non-active;
     }
 }

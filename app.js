@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
 
-io.of('/messages').on('connection', (socket) => {
+io.on('connection', (socket) => {
     console.log('User connected');
 
     socket.on('disconnect', () => {

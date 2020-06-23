@@ -58,14 +58,8 @@ li {
 .rotate-90 {
     transform: rotate(90deg);
 }
-.svg-icon path,
-.svg-icon polygon,
-.svg-icon rect {
-fill: #fff;
-}
 
 .svg-icon circle {
-    stroke: #fff;
     stroke-width: 1;
 }
 .divider {

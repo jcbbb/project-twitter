@@ -7,7 +7,7 @@
         .search-group__input {
             padding: 10px 32px 10px 50px;
         }
-        .search-group__icon {
+        .search-group__icon-search {
             top: 12px;
         }
     }
@@ -30,20 +30,43 @@
         &:not(:placeholder-shown) ~ .search-group__results {
             display: block;
         } 
-        &:focus + .search-group__icon path{
+        &:focus + .search-group__icon-search path{
             fill: $primary;
         }
         &::placeholder {
             color: $non-active;
         }
     }
-    &__icon {
-        position: absolute;
+    &__icon-search {
         left: 20px;
-        font-size: 17px;
         top: 8px;
         path {
-            fill: $non-active;
+            fill: $non-active !important;
+        }
+    }
+    &__icon-close, &__icon-search {
+        position: absolute;
+        font-size: 17px;
+        height: 17px;
+    }
+    &__icon-close {
+        background: $primary;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        &:hover {
+            background: $primary-dark; 
+        }
+        path {
+            fill: $primary-background !important;
         }
     }
     &__results {

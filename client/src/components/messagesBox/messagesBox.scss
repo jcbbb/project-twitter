@@ -3,7 +3,6 @@
 .messageBox {
     position: relative;
     padding-top: 53px;
-    padding-bottom: 53px;
     max-width: 600px;
     height: 100%;
     transform: translateZ(0);
@@ -99,7 +98,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         margin-right: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
     &__footer {
         display: flex;
@@ -164,6 +163,7 @@
 }
 .DraftEditor-editorContainer {
     max-width: 100%;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
     margin-right: 30px;
 }

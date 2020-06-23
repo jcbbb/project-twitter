@@ -16,6 +16,7 @@ const ProfileSettings = () => {
     const { request, loading } = useHttp();
     const { currentUser, getCurrentUser, fetchTweets } = useContext(UserContext);
     const history = useHistory();
+
     const [counts, setCounts] = useState({
         name: 0,
         bio: 0,
@@ -23,10 +24,7 @@ const ProfileSettings = () => {
         website: 0,
     });
 
-    const [images, setImages] = useState({
-        banner: null,
-        profile: null,
-    });
+    const [images, setImages] = useState([]);
 
     const myForm = useForm();
 
@@ -48,20 +46,27 @@ const ProfileSettings = () => {
     };
 
     const preview = ({ target }) => {
-        setImages((prev) => ({
-            ...prev,
-            [target.name]: URL.createObjectURL(target.files[0]),
-        }));
+        [...target.files].map((file) => {
+            setImages((prev) => ({
+                ...prev,
+                [target.name]: {
+                    blob: URL.createObjectURL(file),
+                    file,
+                },
+            }));
+        });
     };
 
-    const upload = async ({ target }) => {
+    const upload = useCallback(async () => {
         const formData = new FormData();
-        formData.append(target.name, target.files[0]);
-        formData.append('folder', target.name);
+        for (let prop in images) {
+            formData.append(images[prop].file.name, images[prop].file);
+            formData.append('folder', prop);
+        }
 
         try {
             await request(
-                `/api/upload/${target.name}`,
+                `/api/upload/profileMedia`,
                 'POST',
                 formData,
                 {
@@ -71,7 +76,7 @@ const ProfileSettings = () => {
                 true,
             );
         } catch (e) {}
-    };
+    }, [request, images]);
 
     const save = useCallback(
         async (values) => {
@@ -104,7 +109,13 @@ const ProfileSettings = () => {
                         </span>
                         <h2 className="profileSettings__header-heading">Edit profile</h2>
                     </div>
-                    <Button className="button__filled profileSettings__header-button" onClick={myForm.submit}>
+                    <Button
+                        className="button__filled profileSettings__header-button"
+                        onClick={() => {
+                            myForm.submit();
+                            upload();
+                        }}
+                    >
                         Save
                     </Button>
                 </div>
@@ -112,7 +123,7 @@ const ProfileSettings = () => {
                     <section
                         className="profile__banner profileSettings__banner"
                         style={{
-                            backgroundImage: `url(${images.banner ? images.banner : currentUser.bannerImageUrl})`,
+                            backgroundImage: `url(${images.banner ? images.banner.blob : currentUser.bannerImageUrl})`,
                         }}
                     >
                         <input
@@ -122,7 +133,6 @@ const ProfileSettings = () => {
                             id="profileSettings__banner-input"
                             onChange={(e) => {
                                 preview(e);
-                                upload(e);
                             }}
                             name="banner"
                         />
@@ -136,7 +146,7 @@ const ProfileSettings = () => {
                                 className="profile__picture profileSettings__picture"
                                 style={{
                                     backgroundImage: `url(${
-                                        images.profile ? images.profile : currentUser.profileImageUrl
+                                        images.profile ? images.profile.blob : currentUser.profileImageUrl
                                     })`,
                                 }}
                             >
@@ -148,7 +158,6 @@ const ProfileSettings = () => {
                                     name="profile"
                                     onChange={(e) => {
                                         preview(e);
-                                        upload(e);
                                     }}
                                 />
                                 <label

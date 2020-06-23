@@ -27,6 +27,7 @@ router.get('/user/profile', verifyToken, async (req, res) => {
                 website: user.website,
                 location: user.location,
                 joined: user.createdAt,
+                bookmarks: user.bookmarks,
                 followers: user.followers,
                 following: user.following,
                 profileImageUrl: user.profile_image_url,

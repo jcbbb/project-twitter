@@ -33,7 +33,7 @@ const Profile = () => {
     const getUser = useCallback(
         async (handle) => {
             try {
-                const response = await request(`/api/users/user/profile?handle=${handle}`);
+                const response = await request(`/api/users/user/profile?handle=${handle}`, 'POST');
                 if (response && response.status === 200 && response.status !== 500) {
                     setUser(response.user);
                 }
@@ -59,7 +59,12 @@ const Profile = () => {
 
     return (
         <Wall className="wall wall--320">
-            <WallHeader arrow="true">{user.name || 'Profile'}</WallHeader>
+            <WallHeader
+                subheading={tweets.length > 1 ? `${tweets.length} Tweets` : tweets.length === 1 ? '1 Tweet' : null}
+                arrow="true"
+            >
+                {user.name || 'Profile'}
+            </WallHeader>
             <Switch>
                 <Route exact path={`${match.path}/following`}>
                     <FollowingFollowers userHandle={user.handle} list="following" />
@@ -157,7 +162,7 @@ const Profile = () => {
                             </ul>
                         </div>
                         <div className="profile__tabs">
-                            <Tab exact to={`${match.url}`}>
+                            <Tab exact to={match.url}>
                                 Tweets
                             </Tab>
                             <Tab exact to={`${match.url}/media`}>

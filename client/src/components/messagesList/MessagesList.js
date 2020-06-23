@@ -10,7 +10,7 @@ const MessagesList = () => {
         <div className="messages__list">
             <div className="messages__list-header">
                 <h2 className="messages__list-header-heading">Messages</h2>
-                <Link to="/messages/compose">
+                <Link exact to="/messages/compose">
                     <span className="messages__list-header-icon">
                         <ComposeMessageIcon />
                     </span>
@@ -31,7 +31,7 @@ const MessagesList = () => {
                 </div>
             </div>
             <ul className="messages__list-items">
-                <NavLink to={'/messages/454545'}>
+                <NavLink exact to="/messages/454545" activeClassName="messages__list-item--active">
                     <li className="messages__list-item">
                         <div className="messages__list-item-image"></div>
                         <div className="messages__list-item-info">

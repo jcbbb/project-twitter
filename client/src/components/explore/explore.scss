@@ -4,5 +4,9 @@
     &__header {
         padding: 10px 15px;
         border-bottom: 1px solid $border;
+        position: sticky;
+        top: 0;
+        background: $primary-background;
+        z-index: 4;
     }
 }

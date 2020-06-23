@@ -99,6 +99,10 @@
         background: $banner;
         border-radius: 50%;
         margin-right: 5px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        outline: none;
     }
     &__selected-user-name {
         color: $primary;

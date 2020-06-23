@@ -3,7 +3,10 @@ import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
 import Explore from '../components/explore/Explore';
+import Notifications from '../components/notifications/Notifications';
+import Bookmarks from '../components/bookmarks/Bookmarks';
 import Messages from '../components/messages/Messages';
+import Lists from '../components/lists/Lists';
 import Signup from '../components/signup/Signup';
 import LogoutModal from '../components/logoutModal/LogoutModal';
 import Profile from '../components/profile/Profile';
@@ -27,9 +30,27 @@ const routes = [
         sidebar: () => <Sidebar />,
     },
     {
+        path: '/notifications',
+        nav: () => <Nav />,
+        main: () => <Notifications />,
+        sidebar: () => <Sidebar />,
+    },
+    {
+        path: '/bookmarks',
+        nav: () => <Nav />,
+        main: () => <Bookmarks />,
+        sidebar: () => <Sidebar />,
+    },
+    {
         path: '/messages',
         nav: () => <Nav />,
         main: () => <Messages />,
+    },
+    {
+        path: '/lists',
+        nav: () => <Nav />,
+        main: () => <Lists />,
+        sidebar: () => <Sidebar />,
     },
     {
         path: '/logout',

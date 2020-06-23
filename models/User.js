@@ -18,6 +18,7 @@ const userSchema = new Schema(
         following: { type: Array },
         email: { type: String, required: true, unique: true, lowercase: true, trim: true },
         password: { type: String, required: true },
+        bookmarks: { type: Array },
         threads: { type: Array },
     },
     { timestamps: true },

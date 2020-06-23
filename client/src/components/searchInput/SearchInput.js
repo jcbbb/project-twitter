@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import useHttp from '../../hooks/useHttp';
-import Loader from '../loader/Loader';
+import ProgressBar from '../progressBar/ProgressBar';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
+import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import './searchInput.scss';
 
 const SearchInput = ({ ...props }) => {
@@ -29,6 +30,7 @@ const SearchInput = ({ ...props }) => {
 
         return () => (isSubscribed = false);
     }, [value, findUsers]);
+
     return (
         <div className="search-group" {...props}>
             <input
@@ -38,16 +40,21 @@ const SearchInput = ({ ...props }) => {
                 onChange={({ target }) => setValue(target.value)}
                 value={value || ''}
             />
-            <span className="search-group__icon">
+            <span className="search-group__icon-search">
                 <SearchIcon />
             </span>
+            {value && (
+                <span className="search-group__icon-close" onClick={() => setValue('')}>
+                    <CloseIcon />
+                </span>
+            )}
             <div className="search-group__results">
+                {loading && <ProgressBar />}
                 <p className="search-group__instruction" style={{ textAlign: value ? 'left' : 'center' }}>
                     {value ? `Search for "${value}"` : 'Try to search for people, topics or keywords'}
                 </p>
                 {foundUsers && <div className="divider"></div>}
                 <ul className="search-group__users relative">
-                    {loading && <Loader />}
                     {foundUsers.map((user, index) => (
                         <Link key={index} to={`/${user.handle}`}>
                             <li className="search-group__user">

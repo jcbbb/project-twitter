@@ -7,12 +7,13 @@ import io from 'socket.io-client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
 
-const ENDPOINT = 'localhost:5000/messages';
+//const ENDPOINT = 'localhost:5000';
+
 const Home = ({ title }) => {
-    useEffect(() => {
-        const socket = io(ENDPOINT);
-        console.log(socket);
-    }, []);
+    //useEffect(() => {
+    //    const socket = io(ENDPOINT);
+    //}, [ENDPOINT]);
+
     return (
         <>
             <HelmetProvider>

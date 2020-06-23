@@ -8,6 +8,7 @@ const UserContext = createContext({
         bio: '',
         website: '',
         location: '',
+        bookmarks: [],
         joined: null,
         followers: [],
         following: [],

@@ -1,0 +1,18 @@
+@import '../../vars';
+
+.no-bookmarks {
+    padding: 40px 20px;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h2 {
+        color: #fff;
+        font-size: 19px;
+        font-weight: $bold;
+    }
+    p {
+        color: $non-active;
+        margin-top: 10px;
+    }
+}

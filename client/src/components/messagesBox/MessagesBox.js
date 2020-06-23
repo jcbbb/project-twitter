@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import React, { useState, useRef, useEffect } from 'react';
+import { Editor, EditorState } from 'draft-js';
 import { compositeDecorator } from '../../helpers/decorators';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
@@ -11,8 +11,29 @@ import './messagesBox.scss';
 const MessagesBox = () => {
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
     const [disabled, setDisabled] = useState(true);
+    const [offsetHeight, setOffsetHeight] = useState();
+    const footerRef = useRef(null);
+    const messagesRef = useRef(null);
+
+    const observer = useRef(
+        new ResizeObserver((entries) => {
+            const { offsetHeight } = entries[0].target;
+            setOffsetHeight(offsetHeight);
+        }),
+    );
+
+    useEffect(() => {
+        if (footerRef.current) observer.current.observe(footerRef.current);
+        return () => {
+            observer.current.unobserve(footerRef.current);
+        };
+    }, [footerRef, observer]);
+    useEffect(() => {
+        messagesRef.current.scrollIntoView({ behavior: 'smooth' });
+    }, [offsetHeight]);
+
     return (
-        <div className="messageBox">
+        <div className="messageBox" style={{ paddingBottom: `${offsetHeight}px` }}>
             <div className="messageBox__header">
                 <div className="messageBox__header--left">
                     <h2 className="messageBox__header-name">Gary Simon</h2>
@@ -95,7 +116,7 @@ const MessagesBox = () => {
                         <span className="messageBox__message-date">Apr 30, 2020, 06:10 PM</span>
                     </div>
                 </div>
-                <div className="messageBox__message messageBox__message--current">
+                <div className="messageBox__message messageBox__message--current" ref={messagesRef}>
                     <div className="messageBox__message-container messageBox__message-container--current">
                         <div className="messageBox__message-content messageBox__message-content--current">
                             <p>Yayyyy... I will get started then.</p>
@@ -106,7 +127,7 @@ const MessagesBox = () => {
                     </div>
                 </div>
             </div>
-            <div className="messageBox__footer">
+            <div className="messageBox__footer" ref={footerRef}>
                 <span className="messageBox__footer-icon">
                     <ImageIcon />
                 </span>

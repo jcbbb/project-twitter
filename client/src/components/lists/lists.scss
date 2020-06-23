@@ -1,0 +1,35 @@
+@import '../../vars';
+
+.lists {
+    &__pinned-header {
+        border-bottom: 1px solid $border;
+    }
+    &__your-header {
+        border-bottom: 1px solid $border; 
+    }
+    &__heading {
+        color: #fff;
+        font-size: 19px;
+        font-weight: $x-bold;
+        padding: 10px 15px;
+    }
+    &__pinned-list {
+        padding: 40px 20px;
+        color: $non-active;
+    }
+    &__your-list {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 40px 20px;
+        h2 {
+            color: #fff;
+            font-size: 19px;
+            font-weight: $bold;
+        }
+        p {
+            color: $non-active;
+            margin: 10px 0 20px 0;
+        }
+    }
+}

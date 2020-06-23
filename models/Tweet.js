@@ -1,12 +1,17 @@
 const { Schema, model } = require('mongoose');
 
 const TweetSchema = new Schema({
-    text: { type: String, required: true, trim: true },
+    text: { type: String, trim: true },
     user: { type: Object, required: true },
     date: { type: Date, default: Date.now },
-    retweets: { type: Number },
-    likes: { type: Number },
-    shares: { type: Number },
+    retweet_count: { type: Number, default: null },
+    like_count: { type: Number, default: null },
+    reply_count: { type: Number, default: null },
+    in_reply_to_tweet_id: { type: Number, default: null },
+    in_reply_to_user_id: { type: Number, default: null },
+    media: {
+        urls: { type: Array },
+    },
     comments: [
         {
             body: String,

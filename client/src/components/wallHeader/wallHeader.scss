@@ -5,10 +5,19 @@
     padding: 0 15px;
     display: flex;
     align-items: center;
+    position: sticky;
+    top: 0;
+    background: $primary-background;
+    z-index: 2;
+    border-bottom: 1px solid $border;
     &__heading {
         color: #fff;
         font-size: 19px;
         font-weight: $x-bold;
+    }
+    &__subheading {
+        color: $non-active;
+        font-size: 13px;
     }
     &__icon {
         font-size: 22px;

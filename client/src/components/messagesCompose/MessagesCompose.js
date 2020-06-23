@@ -15,6 +15,7 @@ const MessagesCompose = () => {
     const [value, setValue] = useState(null);
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
+
     const getUsers = useCallback(
         async (value) => {
             try {
@@ -80,7 +81,10 @@ const MessagesCompose = () => {
                                             );
                                         }}
                                     >
-                                        <div className="messagesCompose__selected-user-image"></div>
+                                        <div
+                                            className="messagesCompose__selected-user-image"
+                                            style={{ backgroundImage: `url(${selectedUser.profile_image_url})` }}
+                                        ></div>
                                         <span className="messagesCompose__selected-user-name">{selectedUser.name}</span>
                                         <span className="messagesCompose__selected-user-icon">
                                             <CloseIcon />
@@ -108,7 +112,10 @@ const MessagesCompose = () => {
                                         );
                                     }}
                                 >
-                                    <div className="messagesCompose__user-image"></div>
+                                    <div
+                                        className="messagesCompose__user-image"
+                                        style={{ backgroundImage: `url(${user.profile_image_url})` }}
+                                    ></div>
                                     <div className="messagesCompose__user-info">
                                         <span className="messagesCompose__user-name">{user.name}</span>
                                         <span className="messagesCompose__user-handle">{user.handle}</span>

@@ -9,6 +9,7 @@ const useUser = () => {
         location: '',
         website: '',
         bio: '',
+        bookmarks: [],
         joined: null,
         followers: [],
         following: [],

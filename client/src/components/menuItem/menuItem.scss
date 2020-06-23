@@ -5,7 +5,25 @@
     color: #fff;
     padding: 15px;
     transition: background 200ms ease-in-out;
+    display: flex;
+    align-items: center;
+    white-space: pre;
+    font-size: 15px;
+    &__icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+        margin-right: 10px;
+        color: $non-active;
+        path {
+            fill: currentColor;
+        }
+    }
     &:hover, &:focus {
         background: $primary-background-light;
     }
+}
+
+.danger {
+    color: $error;
 }

@@ -5,7 +5,6 @@
     padding: 10px 15px;
     width: 100%;
     align-items: flex-start;
-    border-top: 1px solid $border;
     &__profile-image {
         min-width: 50px;
         height: 50px;
@@ -13,12 +12,12 @@
         outline: none;
         background: $banner;
         border-radius: 50%;
+        overflow: hidden;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
         img {
             max-width: 100%;
-            border-radius: 50%;
             &:hover, &:focus {
                 opacity: 0.9;
             }
@@ -36,6 +35,11 @@
         margin-right: 2px;
         cursor: pointer;
         outline: none;
+        &--disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: default;
+        }
         path {
             fill: $primary !important;
         }
@@ -54,12 +58,44 @@
         overflow-x: hidden;
         margin-top: 12px;
     }
+    &__image-preview-container {
+        max-height: 300px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 10px), 1fr));
+        grid-gap: 10px;
+        height: 300px;
+    }
+    &__image-preview {
+        width: 100%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 14px;
+        max-height: 100%;
+    }
+    &__image-preview-icon {
+        font-size: 20px;
+        height: 30px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.77);
+        border-radius: 50%;
+        margin: 5px;
+        transition: background 200ms ease-in-out;
+        cursor: pointer;
+        &:hover, &:focus {
+            background: rgba(26, 26, 26, 0.77); 
+        }
+    }
     &__editable, .DraftEditor-root{
         font-size: 19px;
         color: #fff;
         outline: none;
         word-wrap: break-word;
         max-width: 100%;
+        margin-bottom: 10px;
     }
     &__btn {
         width: fit-content;
@@ -68,7 +104,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 20px;
+        margin-top: 10px;
         &--left {
             display: flex;
             margin-left: -10px;
