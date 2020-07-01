@@ -1,14 +1,17 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import './navlink.scss';
 
-const Navlink = ({ icon, children, ...props }) => {
+const Navlink = ({ icon, children, activeIcon, ...props }) => {
+    const isActive = props.location.pathname === props.to;
     return (
-        <NavLink {...props} className="navlink" activeClassName="navlink--active">
-            <div className="navlink__icon">{icon}</div>
-            <p className="navlink__text">{children}</p>
+        <NavLink className="navlink" activeClassName="navlink--active" tabIndex="0" {...props}>
+            <div className="navlink__inner" tabIndex="-1">
+                <div className="navlink__icon">{isActive && activeIcon ? activeIcon : icon}</div>
+                <div className="navlink__text">{children}</div>
+            </div>
         </NavLink>
     );
 };
 
-export default Navlink;
+export default withRouter(Navlink);

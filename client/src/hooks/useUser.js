@@ -3,18 +3,19 @@ import useHttp from '../hooks/useHttp';
 
 const useUser = () => {
     const [currentUser, setCurrentUser] = useState({
-        userId: null,
+        _id: null,
         name: '',
         handle: '',
         location: '',
         website: '',
         bio: '',
         bookmarks: [],
-        joined: null,
+        createdAt: null,
+        updatedAt: null,
         followers: [],
         following: [],
-        profileImageUrl: null,
-        bannerImageUrl: null,
+        profile_image_url: null,
+        banner_image_url: null,
     });
 
     const [tweets, setTweets] = useState([]);
@@ -56,6 +57,7 @@ const useUser = () => {
         currentUser,
         fetchTweets,
         tweets,
+        setTweets,
         setCurrentUser,
         tweetsLoading: loading,
     };

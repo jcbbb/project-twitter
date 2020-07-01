@@ -19,20 +19,7 @@ router.get('/user/profile', verifyToken, async (req, res) => {
         res.status(200).json({
             message: 'Success',
             status: 200,
-            user: {
-                userId: user._id,
-                handle: user.handle,
-                name: user.name,
-                bio: user.bio,
-                website: user.website,
-                location: user.location,
-                joined: user.createdAt,
-                bookmarks: user.bookmarks,
-                followers: user.followers,
-                following: user.following,
-                profileImageUrl: user.profile_image_url,
-                bannerImageUrl: user.banner_image_url,
-            },
+            user,
         });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again', status: 500 });

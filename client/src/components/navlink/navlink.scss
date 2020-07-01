@@ -2,17 +2,25 @@
 
 .navlink {
     color: #fff;
-    padding: 8px 12px;
     border-radius: 9999px;
-    display: flex;
-    align-items: center;
     width: fit-content;
     margin-bottom: 6px;
-    transition: 200ms ease-in-out;
     outline: none;
-    border: 2px solid transparent;
-    &:hover, &:focus {
+    border: none;
+    transition: all 200ms ease-in-out;
+    &__inner {
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        transition: 200ms ease-in-out;
+        outline: none;
+    }
+    &:hover {
+        color: $primary;
         background: $primary-light;
+    }
+    &:focus {
+        box-shadow: $outline-shadow; 
         color: $primary;
     }
     &:hover &__icon path, &:focus &__icon path {

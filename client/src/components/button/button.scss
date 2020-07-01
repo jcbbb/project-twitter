@@ -2,18 +2,36 @@
 
 .button {
     background: transparent;
-    border: 1px solid $primary;
     outline: none;
+    border: none;
     color: $primary;
-    padding: 5px 15px; 
     font-size: 15px;
     font-weight: $bold;
     border-radius: 9999px;
     cursor: pointer;
-    text-align: center;
     width: 100%;
+    transition: all 200ms ease-in-out;
+    &--fit {
+        width: fit-content;
+    }
+    &__inner {
+        display: block;
+        padding: 5px 15px;
+        text-align: center;
+        border-radius: 9999px;
+        outline: none;
+    } 
+    &--md {
+        padding: 10px 14px;
+    }
+    &--lg {
+        padding: 14px; 
+    }
     &:hover {
         background: $primary-light; 
+    }
+    &:focus {
+        box-shadow: $outline-shadow;
     }
     &:disabled {
         opacity: 0.5;
@@ -33,11 +51,18 @@
             pointer-events: none;
         }
     }
+    &__outlined {
+        border: 1px solid $primary;
+    }
     &__filled {
         background: $primary;
         color: #fff;
-        &:hover, &:focus {
+        border: none;
+        &:hover {
             background: $primary-dark;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
         }
         &:disabled {
             opacity: 0.5;
@@ -45,10 +70,19 @@
             pointer-events: none;
         }
     }
+    &__danger {
+        background: $error;
+        color: #fff;
+        border: none;
+        &:hover {
+            background: $error-dark;
+        }
+    }
     &__unfollow {
         background: $primary;
         color: #fff;
         position: relative;
+        border-color: $error;
         &:hover {
             background: $error;
             border-color: $error;

@@ -4,8 +4,10 @@ import './tab.scss';
 
 const Tab = ({ children, ...props }) => {
     return (
-        <NavLink {...props} className="tab" activeClassName="tab--active">
-            {children}
+        <NavLink {...props} className="tab" activeClassName="tab--active" tabIndex="0">
+            <span className="tab__inner" tabIndex="-1">
+                {children}
+            </span>
         </NavLink>
     );
 };

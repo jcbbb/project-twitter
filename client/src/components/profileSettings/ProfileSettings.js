@@ -110,7 +110,9 @@ const ProfileSettings = () => {
                         <h2 className="profileSettings__header-heading">Edit profile</h2>
                     </div>
                     <Button
-                        className="button__filled profileSettings__header-button"
+                        styleType="filled"
+                        size="sm"
+                        fit
                         onClick={() => {
                             myForm.submit();
                             upload();
@@ -123,7 +125,9 @@ const ProfileSettings = () => {
                     <section
                         className="profile__banner profileSettings__banner"
                         style={{
-                            backgroundImage: `url(${images.banner ? images.banner.blob : currentUser.bannerImageUrl})`,
+                            backgroundImage: `url(${
+                                images.banner ? images.banner.blob : currentUser.banner_image_url
+                            })`,
                         }}
                     >
                         <input
@@ -146,7 +150,7 @@ const ProfileSettings = () => {
                                 className="profile__picture profileSettings__picture"
                                 style={{
                                     backgroundImage: `url(${
-                                        images.profile ? images.profile.blob : currentUser.profileImageUrl
+                                        images.profile ? images.profile.blob : currentUser.profile_image_url
                                     })`,
                                 }}
                             >

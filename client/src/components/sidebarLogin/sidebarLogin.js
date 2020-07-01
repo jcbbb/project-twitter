@@ -45,17 +45,11 @@ const SidebarLogin = () => {
                 <div className="sidebarLogin__img-container">
                     <img src={sidebarIllustration} alt="sidebar login illustration" />
                 </div>
-                <p className="sidebarLogin__slogan">
-                    Find out what's happening in the world right now.
-                </p>
-                {error && history.push(`/login?error=${error.message}`)}
+                <p className="sidebarLogin__slogan">Find out what's happening in the world right now.</p>
+                {error && history.push(`/login?e=${error.message}`)}
                 <div className="sidebarLogin__form-container">
                     <Formiz connect={sidebarLoginForm} onValidSubmit={handleLogin}>
-                        <form
-                            className="sidebarLogin__form"
-                            onSubmit={sidebarLoginForm.submit}
-                            noValidate
-                        >
+                        <form className="sidebarLogin__form" onSubmit={sidebarLoginForm.submit} noValidate>
                             <Input
                                 name="email"
                                 label="Email address"
@@ -81,11 +75,10 @@ const SidebarLogin = () => {
                                 ]}
                             />
                             <Button
-                                style={{ padding: '10px', marginTop: '30px' }}
-                                disabled={
-                                    loading ||
-                                    (!sidebarLoginForm.isValid && sidebarLoginForm.isSubmitted)
-                                }
+                                style={{ marginTop: '30px' }}
+                                styleType="outlined"
+                                size="md"
+                                disabled={loading || (!sidebarLoginForm.isValid && sidebarLoginForm.isSubmitted)}
                             >
                                 Log in
                             </Button>
@@ -93,7 +86,7 @@ const SidebarLogin = () => {
                         </form>
                     </Formiz>
                     <Link to="/signup">
-                        <Button className="button__filled" style={{ padding: '10px' }}>
+                        <Button styleType="filled" size="md">
                             Sign up
                         </Button>
                     </Link>

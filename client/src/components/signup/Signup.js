@@ -111,7 +111,9 @@ const Signup = () => {
                     </span>
                     {myForm.isLastStep ? (
                         <Button
-                            className="button__filled signup__next"
+                            styleType="filled"
+                            size="sm"
+                            fit
                             disabled={loading || (!myForm.isStepValid && myForm.isStepSubmitted)}
                             type="submit"
                             onClick={myForm.submit}
@@ -120,7 +122,9 @@ const Signup = () => {
                         </Button>
                     ) : myForm.currentStep.name === 'step2' ? null : (
                         <Button
-                            className="button__filled signup__next"
+                            styleType="filled"
+                            size="sm"
+                            fit
                             onClick={myForm.nextStep}
                             disabled={emailTaken || !myForm.isStepValid}
                             type="submit"
@@ -211,7 +215,8 @@ const Signup = () => {
                                 </p>
                             </div>
                             <Button
-                                className="button__filled signup__register-btn"
+                                styleType="filled"
+                                size="lg"
                                 type="button"
                                 onClick={(ev) => {
                                     myForm.nextStep();

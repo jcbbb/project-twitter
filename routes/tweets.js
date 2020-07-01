@@ -78,10 +78,24 @@ router.post('/tweet/create', verifyToken, upload.any(), async (req, res) => {
     }
 });
 
-router.post('/tweet/bookmark', verifyToken, async (req, res) => {
+router.delete('/tweet/destroy/:tweetId', verifyToken, async (req, res) => {
+    try {
+        const { tweetId } = req.params;
+
+        const deleted = await Tweet.deleteOne({ _id: tweetId });
+        if (deleted.n < 1) {
+            return res.status(400).json({ message: 'Delete unsuccessfull', status: 400 });
+        }
+        res.json({ message: 'Deleted successfully', status: 200, deleteTweetId: tweetId });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again' });
+    }
+});
+
+router.post('/tweet/bookmark/:tweetId', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const { tweetId } = req.query;
+        const { tweetId } = req.params;
         const user = await User.findById(id);
 
         if (user.bookmarks.includes(tweetId)) {

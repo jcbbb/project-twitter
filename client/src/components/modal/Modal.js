@@ -5,10 +5,18 @@ import useHttp from '../../hooks/useHttp';
 import UserContext from '../../context/UserContext';
 import Loader from '../loader/Loader';
 import { useHistory } from 'react-router-dom';
-import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
-import './logoutModal.scss';
+import './modal.scss';
 
-const LogoutModal = () => {
+const Modal = ({
+    info,
+    heading,
+    buttonProps,
+    primaryButtonProps,
+    backdropProps,
+    icon,
+    buttonText,
+    primaryButtonText,
+}) => {
     const history = useHistory();
     const { request, loading } = useHttp();
     const { logout } = useContext(UserContext);
@@ -22,25 +30,27 @@ const LogoutModal = () => {
     };
 
     return (
-        <Backdrop>
+        <Backdrop {...backdropProps}>
             {loading ? (
                 <Loader msg="Logging out" />
             ) : (
                 <div className="logout-modal">
-                    <span className="logout-modal__icon">
-                        <TwitterWhiteIcon />
-                    </span>
-                    <h2 className="logout-modal__heading">Log out of Twitter?</h2>
+                    {icon && <span className="logout-modal__icon">{icon}</span>}
+                    <h2 className="logout-modal__heading">{heading || 'Log out of Twitter'}</h2>
                     <p className="logout-modal__info">
-                        You can always log back in at any time. If you just want to switch accounts, you can do that
-                        from the “Account info” section.
+                        {info ||
+                            `
+                                You can always log back in at any time. If you just want to switch accounts, you can do that
+                                from the “Account info” section.
+
+                            `}
                     </p>
                     <div className="logout-modal__actions">
-                        <Button onClick={() => history.goBack()} className="button__cancel" style={{ padding: '10px' }}>
-                            Cancel
+                        <Button onClick={() => history.goBack()} styleType="cancel" size="md" {...buttonProps}>
+                            {buttonText || 'Cancel'}
                         </Button>
-                        <Button onClick={handleLogut} className="button__filled" style={{ padding: '10px' }}>
-                            Log out
+                        <Button onClick={handleLogut} styleType="filled" size="md" {...primaryButtonProps}>
+                            {primaryButtonText || 'Log out'}
                         </Button>
                     </div>
                 </div>
@@ -49,4 +59,4 @@ const LogoutModal = () => {
     );
 };
 
-export default LogoutModal;
+export default Modal;

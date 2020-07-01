@@ -69,7 +69,7 @@ const TweetTextarea = () => {
                 <div
                     className="tweet-textarea__profile-image"
                     tabIndex="0"
-                    style={{ backgroundImage: `url(${currentUser.profileImageUrl})` }}
+                    style={{ backgroundImage: `url(${currentUser.profile_image_url})` }}
                 ></div>
                 <div className="tweet-textarea__right">
                     <Editor
@@ -114,7 +114,9 @@ const TweetTextarea = () => {
                                 }`}
                                 tabIndex="0"
                             >
-                                <ImageIcon />
+                                <span className="tweet-textarea__icon-inner" tabIndex="-1">
+                                    <ImageIcon />
+                                </span>
                             </label>
                             <input
                                 id="image-file-input"
@@ -125,20 +127,22 @@ const TweetTextarea = () => {
                                 multiple
                             />
                             <span className="tweet-textarea__icon" tabIndex="0">
-                                <GifIcon />
+                                <span className="tweet-textarea__icon-inner" tabIndex="-1">
+                                    <GifIcon />
+                                </span>
                             </span>
                             <span className="tweet-textarea__icon" tabIndex="0">
-                                <SmileIcon />
+                                <span className="tweet-textarea__icon-inner" tabIndex="-1">
+                                    <SmileIcon />
+                                </span>
                             </span>
                         </div>
                         <Button
-                            className="button__filled tweet-textarea__btn"
-                            style={{ padding: '9px 14px' }}
+                            styleType="filled"
+                            fit
+                            size="md"
                             disabled={loading || disabled}
-                            tabIndex="0"
-                            onClick={() => {
-                                handleTweetSubmit();
-                            }}
+                            onClick={handleTweetSubmit}
                         >
                             Tweet
                         </Button>

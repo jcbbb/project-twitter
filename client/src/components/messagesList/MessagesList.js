@@ -10,8 +10,8 @@ const MessagesList = () => {
         <div className="messages__list">
             <div className="messages__list-header">
                 <h2 className="messages__list-header-heading">Messages</h2>
-                <Link exact to="/messages/compose">
-                    <span className="messages__list-header-icon">
+                <Link exact to="/messages/compose" className="messages__list-header-icon" tabIndex="0">
+                    <span className="messages__list-header-icon-inner" tabIndex="-1">
                         <ComposeMessageIcon />
                     </span>
                 </Link>
@@ -25,14 +25,20 @@ const MessagesList = () => {
                         className="search-group__input"
                         onChange={({ target }) => setValue(target.value)}
                     />
-                    <span className="search-group__icon">
+                    <span className="search-group__icon-search">
                         <SearchIcon />
                     </span>
                 </div>
             </div>
             <ul className="messages__list-items">
-                <NavLink exact to="/messages/454545" activeClassName="messages__list-item--active">
-                    <li className="messages__list-item">
+                <li className="messages__list-item" tabIndex="0">
+                    <NavLink
+                        exact
+                        to="/messages/454545"
+                        activeClassName="messages__list-item--active"
+                        className="messages__list-item-inner"
+                        tabIndex="-1"
+                    >
                         <div className="messages__list-item-image"></div>
                         <div className="messages__list-item-info">
                             <div className="messages__list-user">
@@ -46,8 +52,8 @@ const MessagesList = () => {
                             </div>
                         </div>
                         <span className="messages__list-item-date">Apr 30</span>
-                    </li>
-                </NavLink>
+                    </NavLink>
+                </li>
             </ul>
         </div>
     );

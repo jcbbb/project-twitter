@@ -27,7 +27,9 @@ const MessagesChatContainer = () => (
             <h2 className="messages__new-message-heading">You don't have a message selected</h2>
             <p className="messages__new-message-sub">Choose one from your existing messages, or start a new one</p>
             <Link to="/messages/compose">
-                <Button className="button__filled messages__new-message-btn">New message</Button>
+                <Button styleType="filled" size="md">
+                    New message
+                </Button>
             </Link>
         </div>
     </div>

@@ -16,11 +16,11 @@ const Header = () => {
                 <SearchInput />
             </div>
             <div className="header__actions">
-                <Link to="/login" className="header__login-action">
-                    <Button className="header__login-action">Login</Button>
+                <Link to="/login" style={{ marginRight: '10px', outline: 'none' }} tabIndex="-1">
+                    <Button styleType="outlined">Login</Button>
                 </Link>
-                <Link to="/signup" className="header__register-action">
-                    <Button className="button__filled">Sign up</Button>
+                <Link to="/signup" style={{ outline: 'none' }} tabIndex="-1">
+                    <Button styleType="filled">Sign up</Button>
                 </Link>
             </div>
         </header>

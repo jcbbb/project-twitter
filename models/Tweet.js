@@ -9,6 +9,8 @@ const TweetSchema = new Schema({
     reply_count: { type: Number, default: null },
     in_reply_to_tweet_id: { type: Number, default: null },
     in_reply_to_user_id: { type: Number, default: null },
+    liked: { type: Boolean, default: false },
+    retweeted: { type: Boolean, default: false },
     media: {
         urls: { type: Array },
     },

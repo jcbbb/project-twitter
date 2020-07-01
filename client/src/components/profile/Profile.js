@@ -9,20 +9,19 @@ import ProfileSettings from '../profileSettings/ProfileSettings';
 import useHttp from '../../hooks/useHttp';
 import FollowingFollowers from '../followingFollowers/FollowingFollowers';
 import { format } from 'date-fns';
-import { Switch, Route, useRouteMatch, Link, useParams } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
 import { ReactComponent as ExternalLinkIcon } from '../../assets/icons/external-link.svg';
 import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg';
 
 import './profile.scss';
 
-const Profile = () => {
+const Profile = ({ match }) => {
     const { currentUser, setCurrentUser, fetchTweets, tweets, tweetsLoading } = useContext(UserContext);
 
-    const { handle } = useParams();
+    const { handle } = match.params;
     const { request } = useHttp();
     const [user, setUser] = useState(currentUser);
-    const match = useRouteMatch();
 
     useEffect(() => {
         let isSubscribed = true;
@@ -77,7 +76,7 @@ const Profile = () => {
                         <section
                             className="profile__banner"
                             style={{
-                                backgroundImage: `url(${user.bannerImageUrl || user.banner_image_url})`,
+                                backgroundImage: `url(${user.banner_image_url})`,
                             }}
                         ></section>
                         <div className="profile__container">
@@ -85,14 +84,15 @@ const Profile = () => {
                                 <div
                                     className="profile__picture"
                                     style={{
-                                        backgroundImage: `url(${user.profileImageUrl || user.profile_image_url})`,
+                                        backgroundImage: `url(${user.profile_image_url})`,
                                     }}
                                 ></div>
                                 {user.handle !== currentUser.handle ? (
                                     <Button
-                                        className={`profile__follow-btn ${
-                                            currentUser.following.includes(user._id) && 'button__unfollow'
-                                        }`}
+                                        size="md"
+                                        fit
+                                        styleType={currentUser.following.includes(user._id) && 'unfollow'}
+                                        style={{ marginBottom: '22px' }}
                                         data-usertofollowid={user._id}
                                         onClick={({ target }) => {
                                             if (currentUser.following.includes(target.dataset.usertofollowid)) {
@@ -115,7 +115,9 @@ const Profile = () => {
                                     </Button>
                                 ) : (
                                     <Link to="/settings/profile">
-                                        <Button className="profile__follow-btn">Edit profile</Button>
+                                        <Button styleType="outlined" size="md" style={{ marginBottom: '22px' }}>
+                                            Edit profile
+                                        </Button>
                                     </Link>
                                 )}
                             </section>
@@ -143,7 +145,7 @@ const Profile = () => {
                                     <span className="profile__item-icon">
                                         <CalendarIcon />
                                     </span>
-                                    Joined {format(new Date(user.joined || user.createdAt), 'MMMM yyyy')}
+                                    Joined {format(new Date(user.createdAt), 'MMMM yyyy')}
                                 </li>
                             </ul>
                             <ul className="profile__stats">
@@ -185,4 +187,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default withRouter(Profile);

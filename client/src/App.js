@@ -9,7 +9,16 @@ import './app.scss';
 
 const App = () => {
     const { loading, isAuthenticated, login, logout } = useAuth();
-    const { currentUser, getCurrentUser, setCurrentUser, fetchTweets, tweets, tweetUser, tweetsLoading } = useUser();
+    const {
+        currentUser,
+        getCurrentUser,
+        setCurrentUser,
+        fetchTweets,
+        setTweets,
+        tweets,
+        tweetUser,
+        tweetsLoading,
+    } = useUser();
     const routes = useRoutes(isAuthenticated);
     return (
         <UserContext.Provider
@@ -20,6 +29,7 @@ const App = () => {
                 currentUser,
                 getCurrentUser,
                 fetchTweets,
+                setTweets,
                 tweets,
                 tweetUser,
                 tweetsLoading,

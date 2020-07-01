@@ -24,12 +24,6 @@
         }
     }
     &__icon {
-        font-size: 24px;
-        height: 40px;
-        width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         border-radius: 50%;
         transition: all 200ms ease-in-out;
         margin-right: 2px;
@@ -40,15 +34,22 @@
             pointer-events: none;
             cursor: default;
         }
-        path {
-            fill: $primary !important;
-        }
-        circle {
-            fill: $primary !important;
-        }
-        &:hover, &:focus {
+        &:hover {
             background: $primary-light;
         }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__icon-inner {
+        font-size: 24px;
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary;
+        outline: none;
     }
     &__right {
         display: flex;
@@ -85,6 +86,7 @@
         margin: 5px;
         transition: background 200ms ease-in-out;
         cursor: pointer;
+        color: #fff;
         &:hover, &:focus {
             background: rgba(26, 26, 26, 0.77); 
         }
@@ -97,14 +99,12 @@
         max-width: 100%;
         margin-bottom: 10px;
     }
-    &__btn {
-        width: fit-content;
-    }
     &__bottom {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 10px;
+        padding: 2px;
         &--left {
             display: flex;
             margin-left: -10px;

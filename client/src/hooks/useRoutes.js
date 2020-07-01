@@ -8,10 +8,11 @@ import Bookmarks from '../components/bookmarks/Bookmarks';
 import Messages from '../components/messages/Messages';
 import Lists from '../components/lists/Lists';
 import Signup from '../components/signup/Signup';
-import LogoutModal from '../components/logoutModal/LogoutModal';
+import Modal from '../components/modal/Modal';
 import Profile from '../components/profile/Profile';
 import Nav from '../components/nav/Nav';
 import Sidebar from '../components/sidebar/Sidebar';
+import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const routes = [
@@ -19,48 +20,48 @@ const routes = [
         path: '/home',
         exact: true,
         nav: () => <Nav />,
-        main: () => <Home />,
+        main: () => <Home title="Home" />,
         sidebar: () => <Sidebar />,
     },
     {
         path: '/explore',
         exact: true,
         nav: () => <Nav />,
-        main: () => <Explore />,
+        main: () => <Explore title="Explore" />,
         sidebar: () => <Sidebar />,
     },
     {
         path: '/notifications',
         nav: () => <Nav />,
-        main: () => <Notifications />,
+        main: () => <Notifications title="Notifications" />,
         sidebar: () => <Sidebar />,
     },
     {
         path: '/bookmarks',
         nav: () => <Nav />,
-        main: () => <Bookmarks />,
+        main: () => <Bookmarks title="Bookmarks" />,
         sidebar: () => <Sidebar />,
     },
     {
         path: '/messages',
         nav: () => <Nav />,
-        main: () => <Messages />,
+        main: () => <Messages title="Messages" />,
     },
     {
         path: '/lists',
         nav: () => <Nav />,
-        main: () => <Lists />,
+        main: () => <Lists title="Lists" />,
         sidebar: () => <Sidebar />,
     },
     {
         path: '/logout',
         exact: true,
-        main: () => <LogoutModal />,
+        main: () => <Modal icon={<TwitterWhiteIcon />} />,
     },
     {
         path: '/:handle',
         nav: () => <Nav />,
-        main: () => <Profile />,
+        main: () => <Profile title="Profile" />,
         sidebar: () => <Sidebar />,
     },
 ];

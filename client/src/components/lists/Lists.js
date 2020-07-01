@@ -33,11 +33,9 @@ const Lists = () => {
                     <div className="lists__your-list">
                         <h2>You haven't created any Lists yet</h2>
                         <p>When you do, it'll show up here.</p>
-                        <div>
-                            <Button className="button__filled" style={{ padding: '9px 14px' }}>
-                                Create a List
-                            </Button>
-                        </div>
+                        <Button styleType="filled" fit size="md">
+                            Create a List
+                        </Button>
                     </div>
                 </div>
             </Wall>

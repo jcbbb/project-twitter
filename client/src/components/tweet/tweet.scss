@@ -1,16 +1,22 @@
 @import '../../vars';
 
 .tweet {
-    display: flex;
-    align-items: flex-start;
-    color: #fff;
     cursor: pointer;
-    padding: 10px 15px 2px 15px;
-    transition: background 200ms ease-in-out; 
+    transition: all 200ms ease-in-out; 
     outline: none;
     border-bottom: 1px solid $border;
-    &:hover, &:focus {
+    &:hover {
         background: rgba(255, 255, 255, 0.03);
+    }
+    &:focus {
+        box-shadow: $outline-shadow;
+    }
+    &__inner {
+        padding: 10px 15px 2px 15px;
+        display: flex;
+        align-items: flex-start;
+        color: #fff;
+        outline: none;
     }
     &__actions {
         display: flex;
@@ -52,6 +58,60 @@
         align-items: center;
         justify-content:center;
         position: relative;
+        border-radius: 50%;
+        outline: none;
+        transition: all 200ms ease-in-out;
+        color: $primary;
+        &:hover {
+            background: $primary-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+            background: $primary-light;
+        }
+        &:focus + .tweet__actions-count, &:hover + .tweet__actions-count {
+            color: $primary;
+        }
+        &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
+            color: $primary;
+        }
+
+        &--retweet {
+            &:hover {
+                background: $green-light;
+            }
+            &:hover + .tweet__actions-count {
+                color: $green;
+            }
+            &:hover .tweet__actions-icon {
+                color: $green;
+            }
+            &:focus {
+                box-shadow: $green 0 0 0 2px;  
+                background: $green-light;
+            }
+            &:focus .tweet__actions-icon {
+                color: $green;
+            }
+        }
+        &--heart {
+            &:hover {
+                background: $error-light;
+            }
+            &:hover + .tweet__actions-count {
+                color: $error;
+            }
+            &:hover .tweet__actions-icon {
+                color: $error;
+            }
+            &:focus {
+                box-shadow: $error 0 0 0 2px;
+                background: $error-light;
+            }
+            &:focus .tweet__actions-icon {
+                color: $error;
+            }
+        }
     }
     &__actions-count {
         font-size: 13px;
@@ -66,78 +126,50 @@
         justify-content: center;
         border-radius: 50%;
         transition: all 200ms ease-in-out;
-        margin-right: 2px;
         outline: none;
+        color: $non-active;
         svg {
             pointer-events: none;
         }
         path {
             transition: all 200ms ease-in-out;
-            fill: $non-active;
-        }
-    }
-    &__actions-comment, &__actions-share{
-        &:hover, &:focus {
-            background: $primary-light;
-        }
-        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
-            color: $primary;
-        }
-        &:hover path, &:focus path {
-            fill: $primary;
-        }
-    }
-    &__actions-retweet {
-        &:hover, &:focus {
-            background: $green-light;
-        }
-        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
-            color: $green;
-        }
-        &:hover path, &:focus path {
-            fill: $green;
-        }
-    }
-    &__actions-heart {
-        &:hover, &:focus {
-            background: $error-light;
-        }
-        &:hover + .tweet__actions-count, &:focus + .tweet__actions-count {
-            color: $error;
-        }
-        &:hover path, &:focus path {
-            fill: $error;
         }
     }
     &__content {
         margin: 0 10px;
         width: 100%;
     }
+    &__dropdown-icon-container {
+        margin-left: auto;
+        margin-right: -13px;
+        border-radius: 50%;
+        transition: all 200ms ease-in-out;
+        outline: none;
+        position: relative;
+        &:hover {
+            background: $primary-light; 
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+        &:hover .tweet__dropdown-icon, &:focus .tweet__dropdown-icon {
+            color: $primary;
+        }
+    }
     &__dropdown-icon {
         font-size: 20px;
-        margin-left: auto;
         width: 26px;
         height: 26px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        margin-right: -13px;
-        transition: background 200ms ease-in-out;
         outline: none;
-        position: relative;
         color: $non-active;
         svg {
             pointer-events: none;
         }
-        &:hover, &:focus {
-            background: $primary-light; 
-        }
-        &:hover path, &:focus path {
-            fill: currentColor;
-        }
         path {
-            fill: currentColor;
             transition: fill 200ms ease-in-out;
         }
     }

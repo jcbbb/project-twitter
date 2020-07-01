@@ -1,18 +1,25 @@
 @import '../../vars';
 
 .tab {
-  padding: 15px 40px;  
   color: $non-active;
   font-weight: $bold;
   outline: none;
-  display: inline-block;
   width: 100%;
-  text-align:center;
   transition: all 200ms ease-in-out;
   border-bottom: 2px solid transparent;
-  &:hover, &:focus {
-    background: $primary-light;
-    color: $primary
+  outline: none;
+  &:hover {
+      background: $primary-light;
+      color: $primary;
+  }
+  &:focus {
+      box-shadow: $outline-shadow;
+  }
+  &__inner {
+      display: block;
+      padding: 15px 40px;  
+      text-align:center;
+      outline: none;
   }
   &--active {
     border-bottom-color: $primary;

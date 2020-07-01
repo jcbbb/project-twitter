@@ -3,24 +3,29 @@
 .menuItem {
     background: $primary-background;
     color: #fff;
-    padding: 15px;
-    transition: background 200ms ease-in-out;
-    display: flex;
-    align-items: center;
-    white-space: pre;
-    font-size: 15px;
+    outline: none;
+    transition: all 200ms ease-in-out;
+    display: block;
+    &:hover  {
+        background: $primary-background-light;
+    }
+    &:focus {
+        box-shadow: $outline-shadow;
+    }
+    &__inner {
+        padding: 15px;
+        font-size: 15px;
+        outline: none;
+        white-space: pre;
+        display: flex;
+        align-items: center;
+    }
     &__icon {
         font-size: 18px;
         height: 18px;
         width: 18px;
         margin-right: 10px;
         color: $non-active;
-        path {
-            fill: currentColor;
-        }
-    }
-    &:hover, &:focus {
-        background: $primary-background-light;
     }
 }
 

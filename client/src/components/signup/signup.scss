@@ -38,9 +38,6 @@
             background: $primary-light; 
         }
     }
-    &__next {
-        width: fit-content;
-    }
     &__heading {
         font-size: 23px;
         font-weight: $bold;
@@ -60,9 +57,6 @@
         font-size: 15px;
         align-self: flex-end;
         margin: 4px 8px;
-    }
-    &__register-btn {
-        padding: 14px;
     }
     &__tos {
         color: #fff;

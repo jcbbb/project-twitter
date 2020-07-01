@@ -27,23 +27,28 @@
             background: $primary-light;
         }
     }
-    &__tweet-btn {
-        margin: 10px 0;
-    }
     &__profile {
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
         cursor: pointer;
         border-radius: 9999px;
         margin-top: auto;
-        outline: none;
         width: 100%;
-        &:hover, &:focus {
+        transition: all 200ms ease-in-out;
+        outline: none;
+        &:hover {
             background: $primary-light;
         }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__profile-inner {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        outline: none;
     }
     &__profile-icon {
+        color: #fff;
         font-size: 18px;
         height: 18px;
     }

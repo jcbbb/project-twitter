@@ -51,12 +51,9 @@ const Login = () => {
                         <TwitterWhiteIcon />
                     </span>
                     <h1 className="login__heading">Login to twitter</h1>
-                    {(params.get('error') || error) && (
-                        <p
-                            style={{ alignSelf: 'flex-start', marginBottom: '5px' }}
-                            className="error"
-                        >
-                            {error ? error.message : params.get('error')}
+                    {(params.get('e') || error) && (
+                        <p style={{ alignSelf: 'flex-start', marginBottom: '5px' }} className="error">
+                            {error ? error.message : params.get('e')}
                         </p>
                     )}
 
@@ -85,12 +82,7 @@ const Login = () => {
                                     },
                                 ]}
                             />
-                            <Button
-                                className="button__filled"
-                                disabled={!myForm.isValid}
-                                type="submit"
-                                style={{ padding: '14px' }}
-                            >
+                            <Button styleType="filled" type="submit" size="lg" disabled={!myForm.isValid}>
                                 Login
                             </Button>
                         </form>

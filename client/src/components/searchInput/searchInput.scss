@@ -22,14 +22,8 @@
         width: 100%;
         &:focus {
             border-color: $primary;
-            background: transparent;
+            background: $primary-background;
         }
-        &:focus ~ .search-group__results {
-            display: block;
-        }
-        &:not(:placeholder-shown) ~ .search-group__results {
-            display: block;
-        } 
         &:focus + .search-group__icon-search path{
             fill: $primary;
         }
@@ -73,7 +67,6 @@
         background: $primary-background;
         min-height: 70px;
         box-shadow: $shadow;
-        display: none;
         position: absolute;
         width: 100%;
         z-index: 6;
