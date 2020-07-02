@@ -12,6 +12,9 @@
     &:focus {
         box-shadow: $outline-shadow;
     }
+    &:active {
+        box-shadow: none;
+    }
     &__inner {
         padding: 15px;
         font-size: 15px;

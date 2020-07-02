@@ -3,6 +3,7 @@ import useHttp from '../../hooks/useHttp';
 import Tweets from '../tweets/Tweets';
 import SearchInput from '../searchInput/SearchInput';
 import Wall from '../wall/Wall';
+
 import './explore.scss';
 
 const Explore = () => {

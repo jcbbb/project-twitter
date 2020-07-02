@@ -3,20 +3,13 @@ import Tab from '../tab/Tab';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
+import useFollow from '../../hooks/useFollow';
 
 const FollowingFollowers = ({ userHandle, list }) => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
     const { request } = useHttp();
+    const { startFollowing } = useFollow();
     const [users, setUsers] = useState([]);
-
-    const startFollowing = useCallback(
-        async ({ dataset }) => {
-            try {
-                await request(`/api/users/user/follow/${dataset.usertofollowid}`);
-            } catch (e) {}
-        },
-        [request],
-    );
 
     const getUsers = useCallback(
         async (userHandle, list) => {
@@ -49,41 +42,29 @@ const FollowingFollowers = ({ userHandle, list }) => {
             <ul className="sidebar__list relative" style={{ borderTop: '1px solid rgb(61, 84, 102)' }}>
                 {users.map((user, index) => (
                     <li className="sidebar__list-item" tabIndex="0" key={index}>
-                        <div
-                            className="sidebar__list-item-image-container"
-                            style={{
-                                backgroundImage: `url(${user.profile_image_url})`,
-                            }}
-                        ></div>
-                        <div className="sidebar__list-item-info">
-                            <p className="sidebar__list-item-name" tabIndex="0">
-                                {user.name}
-                            </p>
-                            <span className="sidebar__list-item-handle">{user.handle}</span>
-                            {user.bio && <p className="profile__bio">{user.bio}</p>}
+                        <div className="sidebar__list-item-inner">
+                            <div
+                                className="sidebar__list-item-image-container"
+                                style={{
+                                    backgroundImage: `url(${user.profile_image_url})`,
+                                }}
+                            ></div>
+                            <div className="sidebar__list-item-info">
+                                <p className="sidebar__list-item-name" tabIndex="0">
+                                    {user.name}
+                                </p>
+                                <span className="sidebar__list-item-handle">{user.handle}</span>
+                                {user.bio && <p className="profile__bio">{user.bio}</p>}
+                            </div>
+                            <Button
+                                styleType={currentUser.following.includes(user._id) ? 'unfollow' : 'outlined'}
+                                inner
+                                fit
+                                onClick={() => startFollowing(user._id)}
+                            >
+                                {currentUser.following.includes(user._id) ? null : 'Follow'}
+                            </Button>
                         </div>
-                        <Button
-                            className={`sidebar__list-item-action ${
-                                currentUser.following.includes(user._id) && 'button__unfollow'
-                            }`}
-                            data-usertofollowid={user._id}
-                            onClick={({ target }) => {
-                                if (currentUser.following.includes(target.dataset.usertofollowid)) {
-                                    setCurrentUser((prev) => ({
-                                        ...prev,
-                                        following: prev.following.filter((id) => id !== target.dataset.usertofollowid),
-                                    }));
-                                    return startFollowing(target);
-                                }
-                                setCurrentUser((prev) => ({
-                                    ...prev,
-                                    following: [...prev.following, target.dataset.usertofollowid],
-                                }));
-                                startFollowing(target);
-                            }}
-                        >
-                            {currentUser.following.includes(user._id) ? null : 'Follow'}
-                        </Button>
                     </li>
                 ))}
             </ul>

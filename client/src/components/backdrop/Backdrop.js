@@ -1,9 +1,9 @@
 import React from 'react';
 import './backdrop.scss';
 
-const Backdrop = ({ children, ...backdropProps }) => {
+const Backdrop = ({ children, noBg, ...backdropProps }) => {
     return (
-        <div tabIndex="-1" className="backdrop" {...backdropProps}>
+        <div tabIndex="-1" className={`backdrop ${noBg && 'backdrop--noBg'}`} {...backdropProps}>
             {children}
         </div>
     );

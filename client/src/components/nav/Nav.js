@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Navlink from '../navlink/Navlink';
 import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
+import Backdrop from '../../components/backdrop/Backdrop';
 import UserContext from '../../context/UserContext';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as HomeIconFilled } from '../../assets/icons/home-filled.svg';
@@ -29,7 +30,8 @@ import { ReactComponent as SettingsIcon } from '../../assets/icons/settings.svg'
 import './nav.scss';
 
 const Nav = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [menu, setMenu] = useState({});
+
     const { currentUser, getCurrentUser } = useContext(UserContext);
 
     useEffect(() => {
@@ -74,27 +76,38 @@ const Nav = () => {
                     >
                         Profile
                     </Navlink>
-                    <Navlink to="/more" icon={<MoreIcon />} onClick={(e) => e.preventDefault()}>
-                        <ul className="tweet__actions-menu">
-                            <MenuItem to="https://support.twitter.com" target="_blank" icon={<HelpCenterIcon />}>
-                                Help Center
-                            </MenuItem>
-                            <MenuItem to="https://analytics.twitter.com" target="_blank" icon={<AnalyticsIcon />}>
-                                Analytics
-                            </MenuItem>
-                            <MenuItem to="https://ads.twitter.com" target="_blank" icon={<AdsIcon />}>
-                                Ads
-                            </MenuItem>
-                            <MenuItem to="/profile/settings" target="_blank" icon={<SettingsIcon />}>
-                                Settings and Privacy
-                            </MenuItem>
-                        </ul>
+                    <Navlink noLink icon={<MoreIcon />} onClick={() => setMenu({ id: 'more' })}>
                         More
                     </Navlink>
+                    {menu.id === 'more' && (
+                        <>
+                            <Backdrop
+                                noBg
+                                onClick={(ev) => {
+                                    ev.stopPropagation();
+                                    setMenu({});
+                                }}
+                            />
+                            <ul className="nav__actions-menu">
+                                <MenuItem href="https://support.twitter.com" target="_blank" icon={<HelpCenterIcon />}>
+                                    Help Center
+                                </MenuItem>
+                                <MenuItem href="https://analytics.twitter.com" target="_blank" icon={<AnalyticsIcon />}>
+                                    Analytics
+                                </MenuItem>
+                                <MenuItem href="https://ads.twitter.com" target="_blank" icon={<AdsIcon />}>
+                                    Ads
+                                </MenuItem>
+                                <MenuItem href="/profile/settings" target="_blank" icon={<SettingsIcon />}>
+                                    Settings and Privacy
+                                </MenuItem>
+                            </ul>
+                        </>
+                    )}
                     <Button size="lg" styleType="filled" style={{ marginTop: '10px', width: '90%' }}>
                         Tweet
                     </Button>
-                    <div className="nav__profile" tabIndex="0" onClick={() => setIsOpen((o) => !o)}>
+                    <div className="nav__profile" tabIndex="0" onClick={() => setMenu({ id: 'profile' })}>
                         <div className="nav__profile-inner" tabIndex="-1">
                             <div
                                 className="nav__profile-image"
@@ -111,31 +124,40 @@ const Nav = () => {
                             <span className="nav__profile-icon">
                                 <ChevronIcon />
                             </span>
-                            {isOpen && (
-                                <div className="nav__menu">
-                                    <div className="nav__menu-header">
-                                        <div
-                                            className="nav__profile-image"
-                                            style={{
-                                                backgroundImage: `url(${currentUser.profile_image_url})`,
-                                            }}
-                                        ></div>
-                                        <div className="nav__profile-info">
-                                            <div className="nav__profile-name-container">
-                                                <span className="nav__profile-name">{currentUser.name}</span>
+                            {menu.id === 'profile' && (
+                                <>
+                                    <Backdrop
+                                        noBg
+                                        onClick={(ev) => {
+                                            ev.stopPropagation();
+                                            setMenu({});
+                                        }}
+                                    />
+                                    <div className="nav__menu">
+                                        <div className="nav__menu-header">
+                                            <div
+                                                className="nav__profile-image"
+                                                style={{
+                                                    backgroundImage: `url(${currentUser.profile_image_url})`,
+                                                }}
+                                            ></div>
+                                            <div className="nav__profile-info">
+                                                <div className="nav__profile-name-container">
+                                                    <span className="nav__profile-name">{currentUser.name}</span>
+                                                </div>
+                                                <div className="nav__profile-handle-container">
+                                                    <span className="nav__profile-handle">{currentUser.handle}</span>
+                                                </div>
                                             </div>
-                                            <div className="nav__profile-handle-container">
-                                                <span className="nav__profile-handle">{currentUser.handle}</span>
-                                            </div>
+                                            <span className="nav__menu-icon">
+                                                <CheckmarkIcon />
+                                            </span>
                                         </div>
-                                        <span className="nav__menu-icon">
-                                            <CheckmarkIcon />
-                                        </span>
+                                        <MenuItem exact to="/logout">
+                                            Log out {currentUser.handle}
+                                        </MenuItem>
                                     </div>
-                                    <MenuItem exact to="/logout">
-                                        Log out {currentUser.handle}
-                                    </MenuItem>
-                                </div>
+                                </>
                             )}
                         </div>
                     </div>

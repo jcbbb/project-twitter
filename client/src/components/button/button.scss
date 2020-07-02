@@ -8,6 +8,7 @@
     font-size: 15px;
     font-weight: $bold;
     border-radius: 9999px;
+    overflow: hidden;
     cursor: pointer;
     width: 100%;
     transition: all 200ms ease-in-out;
@@ -81,8 +82,8 @@
     &__unfollow {
         background: $primary;
         color: #fff;
-        position: relative;
         border-color: $error;
+        position: relative;
         &:hover {
             background: $error;
             border-color: $error;

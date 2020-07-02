@@ -8,6 +8,7 @@
     outline: none;
     border: none;
     transition: all 200ms ease-in-out;
+    cursor: pointer;
     &__inner {
         display: flex;
         align-items: center;
@@ -46,6 +47,7 @@
         font-weight: $bold;
         margin: 0 20px;
         transition: 200ms ease-in-out;
+        pointer-events: none;
     }
 }
 

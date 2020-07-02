@@ -5,6 +5,7 @@
     position: fixed;
     top: 5px;
     right: 55px;
+    z-index: 1;
     &__trends, &__who-to-follow {
         background: $primary-background-light;
         border-radius: 14px;
@@ -31,15 +32,22 @@
         color: $primary;
     }
     &__list-item {
+        cursor: pointer;
+        border-bottom: 1px solid $border;
+        transition: all 200ms ease-in-out;
+        outline: none;
+        &:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__list-item-inner {
         display: flex;
         padding: 12px 15px;
         align-items: flex-start;
-        cursor: pointer;
-        border-bottom: 1px solid $border;
-        transition: background 200ms ease-in-out;
-        &:hover, &:focus {
-            background: rgba(255, 255, 255, 0.03);
-        }
+        outline: none;
     }
     &__list-item-info {
        flex-grow: 1;
@@ -54,15 +62,11 @@
         color: #fff;
         font-weight: $bold;
         cursor: pointer;
-        outline: none;
         pointer-events: none;
     }
     &__list-item-handle {
         color: $non-active;
         pointer-events: none;
-    }
-    &__list-item-action {
-        width: fit-content;
     }
     &__list-item-image-container {
         min-width: 50px;

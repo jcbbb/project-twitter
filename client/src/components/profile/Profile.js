@@ -7,6 +7,7 @@ import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
 import useHttp from '../../hooks/useHttp';
+import useFollow from '../../hooks/useFollow';
 import FollowingFollowers from '../followingFollowers/FollowingFollowers';
 import { format } from 'date-fns';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
@@ -17,10 +18,10 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = ({ match }) => {
-    const { currentUser, setCurrentUser, fetchTweets, tweets, tweetsLoading } = useContext(UserContext);
-
+    const { currentUser, fetchTweets, tweets, tweetsLoading } = useContext(UserContext);
     const { handle } = match.params;
     const { request } = useHttp();
+    const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
 
     useEffect(() => {
@@ -36,15 +37,6 @@ const Profile = ({ match }) => {
                 if (response && response.status === 200 && response.status !== 500) {
                     setUser(response.user);
                 }
-            } catch (e) {}
-        },
-        [request],
-    );
-
-    const startFollowing = useCallback(
-        async ({ dataset }) => {
-            try {
-                await request(`/api/users/user/follow/${dataset.usertofollowid}`);
             } catch (e) {}
         },
         [request],
@@ -91,25 +83,10 @@ const Profile = ({ match }) => {
                                     <Button
                                         size="md"
                                         fit
-                                        styleType={currentUser.following.includes(user._id) && 'unfollow'}
+                                        inner
+                                        styleType={currentUser.following.includes(user._id) ? 'unfollow' : 'outlined'}
                                         style={{ marginBottom: '22px' }}
-                                        data-usertofollowid={user._id}
-                                        onClick={({ target }) => {
-                                            if (currentUser.following.includes(target.dataset.usertofollowid)) {
-                                                setCurrentUser((prev) => ({
-                                                    ...prev,
-                                                    following: prev.following.filter(
-                                                        (id) => id !== target.dataset.usertofollowid,
-                                                    ),
-                                                }));
-                                                return startFollowing(target);
-                                            }
-                                            setCurrentUser((prev) => ({
-                                                ...prev,
-                                                following: [...prev.following, target.dataset.usertofollowid],
-                                            }));
-                                            startFollowing(target);
-                                        }}
+                                        onClick={() => startFollowing(user._id)}
                                     >
                                         {currentUser.following.includes(user._id) ? null : 'Follow'}
                                     </Button>

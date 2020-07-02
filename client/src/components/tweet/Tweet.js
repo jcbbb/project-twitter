@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useContext } from 'react';
 import MenuItem from '../menuItem/MenuItem';
 import useHttp from '../../hooks/useHttp';
+import useFollow from '../../hooks/useFollow';
 import UserContext from '../../context/UserContext';
 import Modal from '../modal/Modal';
+import Backdrop from '../backdrop/Backdrop';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
@@ -30,7 +32,8 @@ const Tweet = ({ tweet }) => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { setCurrentUser, currentUser, setTweets } = useContext(UserContext);
-    const { request, loading } = useHttp();
+    const { request } = useHttp();
+    const { startFollowing } = useFollow();
 
     const bookmark = useCallback(
         async (ev) => {
@@ -61,7 +64,6 @@ const Tweet = ({ tweet }) => {
             ev.preventDefault();
             try {
                 const response = await request(`/api/tweets/tweet/destroy/${tweet._id}`, 'DELETE');
-                console.log(response);
                 if (response && response.status === 200 && response.status !== 500) {
                     setIsModalOpen((prev) => !prev);
                     setTweets((prev) => prev.filter((twt) => twt._id !== tweet._id));
@@ -109,39 +111,50 @@ const Tweet = ({ tweet }) => {
                             >
                                 <ChevronIcon />
                             </span>
-                            <div
-                                className={`tweet__actions-backdrop ${
-                                    accordion.id === 'chevron' && 'tweet__actions-backdrop--active'
-                                }`}
-                                tabIndex="-1"
-                                onClick={() => setAccordion({})}
-                            ></div>
+                            {accordion.id === 'chevron' && <Backdrop noBg onClick={() => setAccordion({})} />}
                             <ul
                                 tabIndex="-1"
                                 className={`tweet__actions-menu ${
                                     accordion.id === 'chevron' && 'tweet__actions-menu--active'
                                 }`}
                             >
-                                <MenuItem
-                                    icon={<TrashIcon />}
-                                    danger={true}
-                                    onClick={(ev) => {
-                                        ev.preventDefault();
-                                        setIsModalOpen((prev) => !prev);
-                                        setAccordion({});
-                                    }}
-                                >
-                                    Delete
-                                </MenuItem>
-                                <MenuItem icon={<PinIcon />} data-id={tweet._id}>
-                                    Pin to your profile
-                                </MenuItem>
-                                <MenuItem icon={<FollowIcon />} data-id={tweet._id}>
-                                    Follow {tweet.user.handle}
-                                </MenuItem>
-                                <MenuItem icon={<UnfollowIcon />} data-id={tweet._id}>
-                                    Unfollow {tweet.user.handle}
-                                </MenuItem>
+                                {tweet.user._id === currentUser._id && (
+                                    <>
+                                        <MenuItem
+                                            icon={<TrashIcon />}
+                                            danger={true}
+                                            onClick={(ev) => {
+                                                ev.preventDefault();
+                                                setIsModalOpen((prev) => !prev);
+                                                setAccordion({});
+                                            }}
+                                        >
+                                            Delete
+                                        </MenuItem>
+                                        <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
+                                    </>
+                                )}
+                                {!currentUser.following.includes(tweet.user._id) ? (
+                                    <MenuItem
+                                        icon={<FollowIcon />}
+                                        onClick={() => {
+                                            startFollowing(tweet.user._id);
+                                            setAccordion({});
+                                        }}
+                                    >
+                                        Follow {tweet.user.handle}
+                                    </MenuItem>
+                                ) : (
+                                    <MenuItem
+                                        icon={<UnfollowIcon />}
+                                        onClick={() => {
+                                            startFollowing(tweet.user._id);
+                                            setAccordion({});
+                                        }}
+                                    >
+                                        Unfollow {tweet.user.handle}
+                                    </MenuItem>
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -193,13 +206,7 @@ const Tweet = ({ tweet }) => {
                                 <ShareIcon />
                             </span>
                             <span className="tweet__actions-count"></span>
-                            <div
-                                className={`tweet__actions-backdrop ${
-                                    accordion.id === 'share' && 'tweet__actions-backdrop--active'
-                                }`}
-                                onClick={() => setAccordion({})}
-                                tabIndex="-1"
-                            ></div>
+                            {accordion.id === 'share' && <Backdrop noBg onClick={() => setAccordion({})} />}
                             <ul
                                 tabIndex="-1"
                                 className={`tweet__actions-menu ${

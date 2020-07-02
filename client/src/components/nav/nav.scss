@@ -83,6 +83,14 @@
         background-size: cover;
         background-repeat: no-repeat;
     }
+    &__actions-menu {
+        position: fixed;
+        top: 280px;
+        left: 65px;
+        box-shadow: $shadow;
+        border-radius: 5px;
+        z-index: 12;
+    }
     &__menu {
         position: fixed;
         bottom: 85px;
@@ -93,6 +101,8 @@
         min-width: 260px;
         border-radius: 14px; 
         padding-bottom: 10px;
+        z-index: 12;
+        cursor: default;
     }
     &__menu-header {
         display: flex;

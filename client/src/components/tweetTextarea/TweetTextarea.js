@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback, useEffect, useRef } from 'react';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
@@ -20,6 +20,7 @@ const TweetTextarea = () => {
     const { currentUser } = useContext(UserContext);
     const [images, setImages] = useState([]);
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
+    const editorRef = useRef();
 
     const handleTweetSubmit = useCallback(async () => {
         const tweet = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
@@ -44,6 +45,7 @@ const TweetTextarea = () => {
             if (response && response.status === 200 && response.status !== 500) {
                 setEditorState(() => EditorState.createEmpty(compositeDecorator));
                 setImages([]);
+                editorRef.current.focus();
             }
         } catch (e) {}
     }, [request, editorState, images]);
@@ -73,6 +75,7 @@ const TweetTextarea = () => {
                 ></div>
                 <div className="tweet-textarea__right">
                     <Editor
+                        ref={editorRef}
                         editorState={editorState}
                         onChange={(editorState) => {
                             const textLength = editorState.getCurrentContent().getPlainText().length;

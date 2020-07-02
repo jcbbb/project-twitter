@@ -16,13 +16,11 @@ const Home = ({ title }) => {
                     <title>{title ? `${title} / Twitter Doom` : 'Twitter Doom'}</title>
                 </Helmet>
             </HelmetProvider>
-            <>
-                <Wall className="wall wall--320">
-                    <WallHeader>Home</WallHeader>
-                    <TweetTextarea />
-                </Wall>
-                <Sidebar />
-            </>
+            <Wall className="wall wall--320">
+                <WallHeader>Home</WallHeader>
+                <TweetTextarea />
+            </Wall>
+            <Sidebar />
         </>
     );
 };
