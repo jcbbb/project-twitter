@@ -1,24 +1,18 @@
 import React from 'react';
 import UserContext from './context/UserContext';
+import TweetsContext from './context/TweetsContext';
 import useAuth from './hooks/useAuth';
 import useRoutes from './hooks/useRoutes';
 import useUser from './hooks/useUser';
+import useTweets from './hooks/useTweets';
 import TwitterLogo from './assets/images/twitter192.png';
 
 import './app.scss';
 
 const App = () => {
     const { loading, isAuthenticated, login, logout } = useAuth();
-    const {
-        currentUser,
-        getCurrentUser,
-        setCurrentUser,
-        fetchTweets,
-        setTweets,
-        tweets,
-        tweetUser,
-        tweetsLoading,
-    } = useUser();
+    const { currentUser, getCurrentUser, setCurrentUser } = useUser();
+    const { tweets, tweetsLoading, setTweets, fetchTweets } = useTweets();
     const routes = useRoutes(isAuthenticated);
     return (
         <UserContext.Provider
@@ -28,21 +22,25 @@ const App = () => {
                 logout,
                 currentUser,
                 getCurrentUser,
-                fetchTweets,
-                setTweets,
-                tweets,
-                tweetUser,
-                tweetsLoading,
                 setCurrentUser,
             }}
         >
-            {loading ? (
-                <div className="backdrop" style={{ background: 'transparent' }}>
-                    <img src={TwitterLogo} style={{ width: '72px' }} alt="Twitter Logo" />
-                </div>
-            ) : (
-                <div className="wrapper">{routes}</div>
-            )}
+            <TweetsContext.Provider
+                value={{
+                    fetchTweets,
+                    setTweets,
+                    tweets,
+                    tweetsLoading,
+                }}
+            >
+                {loading ? (
+                    <div className="backdrop" style={{ background: 'transparent' }}>
+                        <img src={TwitterLogo} style={{ width: '72px' }} alt="Twitter Logo" />
+                    </div>
+                ) : (
+                    <div className="wrapper">{routes}</div>
+                )}
+            </TweetsContext.Provider>
         </UserContext.Provider>
     );
 };

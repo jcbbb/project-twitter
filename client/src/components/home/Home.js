@@ -19,6 +19,9 @@ const Home = ({ title }) => {
             <Wall className="wall wall--320">
                 <WallHeader>Home</WallHeader>
                 <TweetTextarea />
+                <div className="home">
+                    <div className="divider"></div>
+                </div>
             </Wall>
             <Sidebar />
         </>

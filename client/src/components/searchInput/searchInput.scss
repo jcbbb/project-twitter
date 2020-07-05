@@ -1,7 +1,7 @@
 @import '../../vars';
 
 .search-group {
-    position: relative;
+    transform: translateZ(0);
     width: 100%;
     &--lg {
         .search-group__input {
@@ -56,22 +56,20 @@
         transform: translateY(-50%);
         cursor: pointer;
         transition: all 200ms ease-in-out;
+        color: $primary-background;
         &:hover {
             background: $primary-dark; 
-        }
-        path {
-            fill: $primary-background !important;
         }
     }
     &__results {
         background: $primary-background;
         min-height: 70px;
         box-shadow: $shadow;
-        position: absolute;
+        position: fixed;
         width: 100%;
-        z-index: 6;
+        z-index: 12;
         overflow-y: auto;
-        max-height: calc(-53 + 80vh);
+        max-height: calc(-53px + 80vh);
         border-radius: 5px;
     }
     &__instruction {

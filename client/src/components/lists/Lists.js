@@ -3,6 +3,7 @@ import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
+import { ReactComponent as DotsIcon } from '../../assets/icons/dots.svg';
 
 import './lists.scss';
 
@@ -11,7 +12,7 @@ const Lists = () => {
     return (
         <div className="lists">
             <Wall className="wall wall--320">
-                <WallHeader arrow="true" subheading={currentUser.handle}>
+                <WallHeader arrow="true" subheading={currentUser.handle} icon={<DotsIcon />}>
                     Lists
                 </WallHeader>
                 <div className="lists__pinned">

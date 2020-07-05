@@ -18,9 +18,7 @@ const useUser = () => {
         banner_image_url: null,
     });
 
-    const [tweets, setTweets] = useState([]);
-
-    const { request, loading } = useHttp();
+    const { request } = useHttp();
 
     const getCurrentUser = useCallback(async () => {
         try {
@@ -31,18 +29,6 @@ const useUser = () => {
             setCurrentUser((prev) => ({ ...prev }));
         } catch (e) {}
     }, [request, setCurrentUser]);
-
-    const fetchTweets = useCallback(
-        async (handle) => {
-            try {
-                const response = await request(`/api/users/user/tweets?handle=${handle}`, 'GET');
-                if (response.status === 200 && response.status !== 500) {
-                    setTweets(response.tweets);
-                }
-            } catch (e) {}
-        },
-        [request],
-    );
 
     useEffect(() => {
         let isSubscribed = true;
@@ -55,11 +41,7 @@ const useUser = () => {
     return {
         getCurrentUser,
         currentUser,
-        fetchTweets,
-        tweets,
-        setTweets,
         setCurrentUser,
-        tweetsLoading: loading,
     };
 };
 

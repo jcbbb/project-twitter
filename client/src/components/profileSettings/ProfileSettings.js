@@ -2,6 +2,7 @@ import React, { useContext, useState, useCallback, useEffect } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
+import TweetsContext from '../../context/TweetsContext';
 import Input from '../input/Input';
 import useHttp from '../../hooks/useHttp';
 import Loader from '../loader/Loader';
@@ -14,7 +15,8 @@ import './profileSettings.scss';
 
 const ProfileSettings = () => {
     const { request, loading } = useHttp();
-    const { currentUser, getCurrentUser, fetchTweets } = useContext(UserContext);
+    const { currentUser, getCurrentUser } = useContext(UserContext);
+    const { fetchTweets } = useContext(TweetsContext);
     const history = useHistory();
 
     const [counts, setCounts] = useState({
@@ -104,9 +106,11 @@ const ProfileSettings = () => {
                 )}
                 <div className="profileSettings__header">
                     <div className="profileSettings__header-left">
-                        <span className="profileSettings__header-icon" onClick={() => history.goBack()}>
-                            <CloseIcon />
-                        </span>
+                        <div className="profileSettings__header-icon" tabIndex="0" onClick={() => history.goBack()}>
+                            <span className="profileSettings__header-icon-inner" tabIndex="-1">
+                                <CloseIcon />
+                            </span>
+                        </div>
                         <h2 className="profileSettings__header-heading">Edit profile</h2>
                     </div>
                     <Button
@@ -135,13 +139,17 @@ const ProfileSettings = () => {
                             type="file"
                             accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
                             id="profileSettings__banner-input"
-                            onChange={(e) => {
-                                preview(e);
-                            }}
+                            onChange={preview}
                             name="banner"
                         />
-                        <label htmlFor="profileSettings__banner-input" className="profileSettings__picture-icon">
-                            <CameraIcon />
+                        <label
+                            htmlFor="profileSettings__banner-input"
+                            className="profileSettings__picture-icon"
+                            tabIndex="0"
+                        >
+                            <span className="profileSettings__picture-icon-inner" tabIndex="-1">
+                                <CameraIcon />
+                            </span>
                         </label>
                     </section>
                     <div className="profile__container">
@@ -160,15 +168,16 @@ const ProfileSettings = () => {
                                     accept="image/png, image/jpeg, image/svg, image/jpg, image/webp"
                                     id="profileSettings__picture-input"
                                     name="profile"
-                                    onChange={(e) => {
-                                        preview(e);
-                                    }}
+                                    onChange={preview}
                                 />
                                 <label
                                     htmlFor="profileSettings__picture-input"
                                     className="profileSettings__picture-icon"
+                                    tabIndex="0"
                                 >
-                                    <CameraIcon />
+                                    <span className="profileSettings__picture-icon-inner" tabIndex="-1">
+                                        <CameraIcon />
+                                    </span>
                                 </label>
                             </div>
                         </section>

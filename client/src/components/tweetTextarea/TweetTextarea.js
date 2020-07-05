@@ -14,7 +14,7 @@ import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = () => {
+const TweetTextarea = ({ size }) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
@@ -68,23 +68,27 @@ const TweetTextarea = () => {
     return (
         <>
             <div className="tweet-textarea">
-                <div
-                    className="tweet-textarea__profile-image"
-                    tabIndex="0"
-                    style={{ backgroundImage: `url(${currentUser.profile_image_url})` }}
-                ></div>
+                <div className="tweet-textarea__left">
+                    <div
+                        className="tweet-textarea__profile-image"
+                        tabIndex="0"
+                        style={{ backgroundImage: `url(${currentUser.profile_image_url})` }}
+                    ></div>
+                    <div className="tweet-textarea__line"></div>
+                </div>
                 <div className="tweet-textarea__right">
-                    <Editor
-                        ref={editorRef}
-                        editorState={editorState}
-                        onChange={(editorState) => {
-                            const textLength = editorState.getCurrentContent().getPlainText().length;
-                            setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
-                            setEditorState(editorState);
-                        }}
-                        className="tweet-textarea__editable"
-                        placeholder="What's happening?"
-                    />
+                    <div className={`tweet-textarea__editable ${size && `tweet-textarea__editable--${size}`}`}>
+                        <Editor
+                            ref={editorRef}
+                            editorState={editorState}
+                            onChange={(editorState) => {
+                                const textLength = editorState.getCurrentContent().getPlainText().length;
+                                setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
+                                setEditorState(editorState);
+                            }}
+                            placeholder="What's happening?"
+                        />
+                    </div>
                     {images.length > 0 && (
                         <div className="tweet-textarea__image-preview-container">
                             {images.map((image, index) => (
@@ -152,7 +156,6 @@ const TweetTextarea = () => {
                     </div>
                 </div>
             </div>
-            <div className="divider"></div>
         </>
     );
 };

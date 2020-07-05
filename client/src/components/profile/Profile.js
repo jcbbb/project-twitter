@@ -3,6 +3,7 @@ import Button from '../button/Button';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import UserContext from '../../context/UserContext';
+import TweetsContext from '../../context/TweetsContext';
 import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
@@ -18,8 +19,9 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 import './profile.scss';
 
 const Profile = ({ match }) => {
-    const { currentUser, fetchTweets, tweets, tweetsLoading } = useContext(UserContext);
     const { handle } = match.params;
+    const { currentUser } = useContext(UserContext);
+    const { tweets, fetchTweets, tweetsLoading } = useContext(TweetsContext);
     const { request } = useHttp();
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
@@ -50,20 +52,22 @@ const Profile = ({ match }) => {
 
     return (
         <Wall className="wall wall--320">
-            <WallHeader
-                subheading={tweets.length > 1 ? `${tweets.length} Tweets` : tweets.length === 1 ? '1 Tweet' : null}
-                arrow="true"
-            >
-                {user.name || 'Profile'}
-            </WallHeader>
             <Switch>
                 <Route exact path={`${match.path}/following`}>
-                    <FollowingFollowers userHandle={user.handle} list="following" />
+                    <FollowingFollowers userHandle={user.handle} userName={user.name} list="following" />
                 </Route>
                 <Route exact path={`${match.path}/followers`}>
-                    <FollowingFollowers userHandle={user.handle} list="followers" />
+                    <FollowingFollowers userHandle={user.handle} userName={user.name} list="followers" />
                 </Route>
                 <Route path={match.path}>
+                    <WallHeader
+                        subheading={
+                            tweets.length > 1 ? `${tweets.length} Tweets` : tweets.length === 1 ? '1 Tweet' : null
+                        }
+                        arrow="true"
+                    >
+                        {user.name || 'Profile'}
+                    </WallHeader>
                     <div className="profile">
                         <section
                             className="profile__banner"
@@ -91,8 +95,8 @@ const Profile = ({ match }) => {
                                         {currentUser.following.includes(user._id) ? null : 'Follow'}
                                     </Button>
                                 ) : (
-                                    <Link to="/settings/profile">
-                                        <Button styleType="outlined" size="md" style={{ marginBottom: '22px' }}>
+                                    <Link to="/settings/profile" tabIndex="-1" style={{ marginBottom: '22px' }}>
+                                        <Button styleType="outlined" size="md">
                                             Edit profile
                                         </Button>
                                     </Link>

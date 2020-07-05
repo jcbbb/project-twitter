@@ -40,7 +40,7 @@ const SearchInput = ({ ...props }) => {
                 placeholder="Search Twitter"
                 onChange={({ target }) => setValue(target.value)}
                 value={value || ''}
-                onFocus={() => setFocused(true)}
+                onClick={() => setFocused(true)}
             />
             <span className="search-group__icon-search">
                 <SearchIcon />
@@ -51,12 +51,18 @@ const SearchInput = ({ ...props }) => {
                 </span>
             )}
             {focused && (
-                <div className="search-group__results">
+                <div
+                    className="search-group__results"
+                    onClick={(ev) => {
+                        console.log('ev target', ev.target, 'current', ev.currenTarget);
+                        if (focused) return;
+                    }}
+                >
                     {loading && <ProgressBar />}
                     <p className="search-group__instruction" style={{ textAlign: value ? 'left' : 'center' }}>
                         {value ? `Search for "${value}"` : 'Try to search for people, topics or keywords'}
                     </p>
-                    {foundUsers && <div className="divider"></div>}
+                    {foundUsers.length > 0 && <div className="divider"></div>}
                     <ul className="search-group__users relative">
                         {foundUsers.map((user, index) => (
                             <Link key={index} to={`/${user.handle}`}>

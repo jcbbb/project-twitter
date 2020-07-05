@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const verifyToken = require('./utils/verifyToken');
 const socketio = require('socket.io');
 const http = require('http');
-const { MONGOURI } = require('./config/secrets');
+const { DEV_DATABASE_URI } = require('./config/secrets');
 
 const app = express();
 const server = http.createServer(app);
@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
 
 // Connecting to database...
 mongoose
-    .connect(MONGOURI, {
+    .connect(DEV_DATABASE_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

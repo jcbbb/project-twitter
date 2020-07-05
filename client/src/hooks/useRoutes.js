@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
@@ -12,6 +12,7 @@ import Modal from '../components/modal/Modal';
 import Profile from '../components/profile/Profile';
 import Nav from '../components/nav/Nav';
 import Sidebar from '../components/sidebar/Sidebar';
+import TweetCompose from '../components/tweetCompose/TweetCompose';
 import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
@@ -90,6 +91,9 @@ const useRoutes = (isAuthenticated) => {
                             {route.sidebar}
                         </Route>
                     ))}
+                </Switch>
+                <Switch>
+                    <Route path="/compose/tweet" component={TweetCompose} />
                 </Switch>
             </>
         );

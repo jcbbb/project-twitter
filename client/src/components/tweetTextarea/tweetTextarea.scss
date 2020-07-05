@@ -4,10 +4,20 @@
     display: flex;
     padding: 10px 15px;
     width: 100%;
-    align-items: flex-start;
+    &__left {
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+    }
+    &__line {
+        width: 2px;
+        height: 100%;
+        background: $border;
+        margin-top: 4px;
+    }
     &__profile-image {
         min-width: 50px;
-        height: 50px;
+        min-height: 50px;
         cursor: pointer;
         outline: none;
         background: $banner;
@@ -91,13 +101,22 @@
             background: rgba(26, 26, 26, 0.77); 
         }
     }
-    &__editable, .DraftEditor-root{
+    &__editable {
+        margin-bottom: 10px;
+        &--lg {
+            height: 9em;
+        }
+    }
+    .DraftEditor-root {
         font-size: 19px;
         color: #fff;
         outline: none;
         word-wrap: break-word;
         max-width: 100%;
-        margin-bottom: 10px;
+        cursor: text;
+    }
+    .DraftEditor-editorContainer {
+        margin-right: 0;
     }
     &__bottom {
         display: flex;

@@ -45,8 +45,8 @@ const Sidebar = () => {
                 </div>
                 <ul className="sidebar__list relative">
                     {whoToFollowUsers.map((whoToFollowUser, index) => (
-                        <Link to={`/${whoToFollowUser.handle}`} key={index}>
-                            <li className="sidebar__list-item" tabIndex="0" key={index}>
+                        <Link to={`/${whoToFollowUser.handle}`} key={index} tabIndex="-1">
+                            <li className="sidebar__list-item" tabIndex="0">
                                 <div className="sidebar__list-item-inner" tabIndex="-1">
                                     <div
                                         className="sidebar__list-item-image-container"

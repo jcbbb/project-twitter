@@ -4,6 +4,7 @@ import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
 import Backdrop from '../../components/backdrop/Backdrop';
 import UserContext from '../../context/UserContext';
+import { useHistory } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as HomeIconFilled } from '../../assets/icons/home-filled.svg';
 import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
@@ -30,8 +31,8 @@ import { ReactComponent as SettingsIcon } from '../../assets/icons/settings.svg'
 import './nav.scss';
 
 const Nav = () => {
+    const history = useHistory();
     const [menu, setMenu] = useState({});
-
     const { currentUser, getCurrentUser } = useContext(UserContext);
 
     useEffect(() => {
@@ -104,7 +105,12 @@ const Nav = () => {
                             </ul>
                         </>
                     )}
-                    <Button size="lg" styleType="filled" style={{ marginTop: '10px', width: '90%' }}>
+                    <Button
+                        size="lg"
+                        styleType="filled"
+                        onClick={() => history.push('/compose/tweet')}
+                        style={{ margin: '10px 0', width: '90%' }}
+                    >
                         Tweet
                     </Button>
                     <div className="nav__profile" tabIndex="0" onClick={() => setMenu({ id: 'profile' })}>

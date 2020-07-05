@@ -25,6 +25,7 @@
         position: sticky;
         top: 0;
         left: 0;
+        border-bottom: 1px solid $border;
     }
     &__banner {
         position: relative;
@@ -42,19 +43,28 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 24px;
-        filter: brightness(80%);
         cursor: pointer;
+        border-radius: 50%;
+        color: #fff;
+        transition: all 200ms ease-in-out;
+        outline: none;
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+    &__picture-icon-inner {
+        opacity: 0.6;
         height: 38px;
         width: 38px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-        transition: background 200ms ease-in-out;
-        &:hover, &:focus {
-            background: rgba(255,255,255,0.1);
-        }
+        outline: none;
+        font-size: 24px;
     }
     &__file-input {
         position: absolute;
@@ -68,6 +78,20 @@
         align-items: center;
     }
     &__header-icon {
+        border-radius: 50%;
+        cursor: pointer;
+        margin-right: 22px;
+        transition: all 200ms ease-in-out;
+        color: $primary;
+        outline: none;
+        &:hover {
+            background: $primary-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__header-icon-inner {
         font-size: 22px;
         height: 38px;
         width: 38px;
@@ -75,15 +99,7 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        cursor: pointer;
-        margin-right: 22px;
-        transition: all 200ms ease-in-out;
-        path {
-            fill: $primary !important;
-        }
-        &:hover, &:focus {
-            background: $primary-light; 
-        }
+        outline: none;
     }
     &__header-heading {
         font-weight: $x-bold;

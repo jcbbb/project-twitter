@@ -2,10 +2,10 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const { MONGOURI, JWTSECRET, GCSPROJECTID, USERNAME, PASSWORD } = process.env;
+const { DEV_DATABASE_URI, JWTSECRET, GCSPROJECTID, USERNAME, PASSWORD } = process.env;
 
 module.exports = {
-    MONGOURI,
+    DEV_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
     USERNAME,

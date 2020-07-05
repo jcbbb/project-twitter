@@ -1,11 +1,13 @@
 import React, { useContext, useCallback, useState, useEffect } from 'react';
 import Tab from '../tab/Tab';
 import Button from '../button/Button';
+import WallHeader from '../wallHeader/WallHeader';
 import UserContext from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
 import useFollow from '../../hooks/useFollow';
+import { Link } from 'react-router-dom';
 
-const FollowingFollowers = ({ userHandle, list }) => {
+const FollowingFollowers = ({ userHandle, userName, list }) => {
     const { currentUser } = useContext(UserContext);
     const { request } = useHttp();
     const { startFollowing } = useFollow();
@@ -31,6 +33,9 @@ const FollowingFollowers = ({ userHandle, list }) => {
 
     return (
         <div className="relative">
+            <WallHeader subheading={userHandle} arrow="true" noBorder>
+                {userName || 'Profile'}
+            </WallHeader>
             <div className="profile__tabs">
                 <Tab exact to={`/${userHandle}/followers`}>
                     Followers
@@ -41,31 +46,39 @@ const FollowingFollowers = ({ userHandle, list }) => {
             </div>
             <ul className="sidebar__list relative" style={{ borderTop: '1px solid rgb(61, 84, 102)' }}>
                 {users.map((user, index) => (
-                    <li className="sidebar__list-item" tabIndex="0" key={index}>
-                        <div className="sidebar__list-item-inner">
-                            <div
-                                className="sidebar__list-item-image-container"
-                                style={{
-                                    backgroundImage: `url(${user.profile_image_url})`,
-                                }}
-                            ></div>
-                            <div className="sidebar__list-item-info">
-                                <p className="sidebar__list-item-name" tabIndex="0">
-                                    {user.name}
-                                </p>
-                                <span className="sidebar__list-item-handle">{user.handle}</span>
-                                {user.bio && <p className="profile__bio">{user.bio}</p>}
+                    <Link to={`/${user.handle}`} key={index} tabIndex="-1">
+                        <li className="sidebar__list-item" tabIndex="0">
+                            <div className="sidebar__list-item-inner" tabIndex="-1">
+                                <div
+                                    className="sidebar__list-item-image-container"
+                                    style={{
+                                        backgroundImage: `url(${user.profile_image_url})`,
+                                    }}
+                                ></div>
+                                <div className="sidebar__list-item-info">
+                                    <p className="sidebar__list-item-name" tabIndex="0">
+                                        {user.name}
+                                    </p>
+                                    <span className="sidebar__list-item-handle">{user.handle}</span>
+                                    {user.bio && <p className="profile__bio">{user.bio}</p>}
+                                </div>
+                                {currentUser._id !== user._id && (
+                                    <Button
+                                        styleType={currentUser.following.includes(user._id) ? 'unfollow' : 'outlined'}
+                                        inner
+                                        fit
+                                        onClick={(ev) => {
+                                            ev.preventDefault();
+                                            ev.stopPropagation();
+                                            startFollowing(user._id);
+                                        }}
+                                    >
+                                        {currentUser.following.includes(user._id) ? null : 'Follow'}
+                                    </Button>
+                                )}
                             </div>
-                            <Button
-                                styleType={currentUser.following.includes(user._id) ? 'unfollow' : 'outlined'}
-                                inner
-                                fit
-                                onClick={() => startFollowing(user._id)}
-                            >
-                                {currentUser.following.includes(user._id) ? null : 'Follow'}
-                            </Button>
-                        </div>
-                    </li>
+                        </li>
+                    </Link>
                 ))}
             </ul>
         </div>

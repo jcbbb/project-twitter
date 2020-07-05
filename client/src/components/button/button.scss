@@ -12,6 +12,7 @@
     cursor: pointer;
     width: 100%;
     transition: all 200ms ease-in-out;
+    overflow: visible;
     &--fit {
         width: fit-content;
     }

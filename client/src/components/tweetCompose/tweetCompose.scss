@@ -1,0 +1,37 @@
+@import '../../vars';
+
+.tweetCompose {
+    background: $primary-background;
+    max-width: 80vw;
+    width: 600px;
+    border-radius: 14px;
+    margin-top: 30px;
+    &__header {
+        padding: 8px 15px;
+        border-bottom: 1px solid $border;
+    }
+    &__header-icon {
+        outline: none; 
+        transition: box-shadow 200ms ease-in-out;
+        width: fit-content;
+        margin-left: -8px;
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+        &:hover .tweetCompose__header-icon-inner {
+            background: $primary-light; 
+        }
+    }
+    &__header-icon-inner {
+        font-size: 22px;
+        height: 38px;
+        width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 200ms ease-in-out;
+        color: $primary;
+    }
+}

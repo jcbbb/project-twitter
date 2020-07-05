@@ -4,6 +4,7 @@ import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import Loader from '../loader/Loader';
 import Tweets from '../tweets/Tweets';
+import { ReactComponent as DotsIcon } from '../../assets/icons/dots.svg';
 import UserContext from '../../context/UserContext';
 
 import './bookmarks.scss';
@@ -32,7 +33,9 @@ const Bookmarks = () => {
 
     return (
         <Wall className="wall wall--320">
-            <WallHeader subheading={currentUser.handle}>Bookmarks</WallHeader>
+            <WallHeader subheading={currentUser.handle} icon={<DotsIcon />}>
+                Bookmarks
+            </WallHeader>
             <div className="bookmarks relative">
                 {loading && <Loader />}
                 <Tweets tweets={tweets} />

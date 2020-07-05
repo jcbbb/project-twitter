@@ -8,7 +8,7 @@ const Notifications = () => {
     const match = useRouteMatch();
     return (
         <Wall className="wall wall--320">
-            <WallHeader>Notifications</WallHeader>
+            <WallHeader noBorder>Notifications</WallHeader>
             <div className="profile__tabs">
                 <Tab exact to={match.url}>
                     All

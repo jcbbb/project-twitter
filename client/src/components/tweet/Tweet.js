@@ -3,8 +3,10 @@ import MenuItem from '../menuItem/MenuItem';
 import useHttp from '../../hooks/useHttp';
 import useFollow from '../../hooks/useFollow';
 import UserContext from '../../context/UserContext';
+import TweetsContext from '../../context/TweetsContext';
 import Modal from '../modal/Modal';
 import Backdrop from '../backdrop/Backdrop';
+import { useHistory } from 'react-router-dom';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
@@ -29,9 +31,11 @@ const convertToEditorState = (text) => {
 };
 
 const Tweet = ({ tweet }) => {
+    const history = useHistory();
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { setCurrentUser, currentUser, setTweets } = useContext(UserContext);
+    const { setCurrentUser, currentUser } = useContext(UserContext);
+    const { setTweets } = useContext(TweetsContext);
     const { request } = useHttp();
     const { startFollowing } = useFollow();
 
@@ -90,10 +94,13 @@ const Tweet = ({ tweet }) => {
                 />
             )}
             <div className="tweet__inner" tabIndex="-1">
-                <div
-                    className="tweeter__profile-image-container"
-                    style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
-                ></div>
+                <div className="tweet-textarea__left">
+                    <div
+                        className="tweeter__profile-image-container"
+                        style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
+                    ></div>
+                    <div className="tweet-textarea__line"></div>
+                </div>
                 <div className="tweet__content">
                     <div className="tweeter__info">
                         <h2 className="tweeter__info-name" tabIndex="0">
@@ -134,7 +141,8 @@ const Tweet = ({ tweet }) => {
                                         <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
                                     </>
                                 )}
-                                {!currentUser.following.includes(tweet.user._id) ? (
+                                {!currentUser.following.includes(tweet.user._id) &&
+                                currentUser._id !== tweet.user._id ? (
                                     <MenuItem
                                         icon={<FollowIcon />}
                                         onClick={() => {
@@ -144,7 +152,7 @@ const Tweet = ({ tweet }) => {
                                     >
                                         Follow {tweet.user.handle}
                                     </MenuItem>
-                                ) : (
+                                ) : currentUser._id === tweet.user._id ? null : (
                                     <MenuItem
                                         icon={<UnfollowIcon />}
                                         onClick={() => {
@@ -176,7 +184,11 @@ const Tweet = ({ tweet }) => {
                         </div>
                     )}
                     <div className="tweet__actions">
-                        <div className="tweet__actions-container" tabIndex="0">
+                        <div
+                            className="tweet__actions-container"
+                            tabIndex="0"
+                            onClick={() => history.push('/compose/tweet')}
+                        >
                             <span className="tweet__actions-icon tweet__actions-comment" tabIndex="-1">
                                 <CommentIcon />
                             </span>
