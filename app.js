@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -7,11 +6,18 @@ const cookieParser = require('cookie-parser');
 const verifyToken = require('./utils/verifyToken');
 const socketio = require('socket.io');
 const http = require('http');
-const { DEV_DATABASE_URI } = require('./config/secrets');
+const db = require('./db');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
+
+if (process.env.NODE_ENV === 'prod') {
+    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 io.on('connection', (socket) => {
     console.log('User connected');
@@ -22,15 +28,7 @@ io.on('connection', (socket) => {
 });
 
 // Connecting to database...
-mongoose
-    .connect(DEV_DATABASE_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-    })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.log('Database connection error', err.message));
+db.connect();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

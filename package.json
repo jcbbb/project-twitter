@@ -5,11 +5,11 @@
     "author": "jc",
     "license": "MIT",
     "scripts": {
-        "start": "node server.js",
+        "start": "cross-env NODE_ENV=prod PORT=80 node server.js",
         "server": "nodemon server.js",
         "client": "npm run start --prefix client",
         "dev": "concurrently 'npm run server' 'npm run client'",
-        "test": "jest"
+        "test": "cross-env NODE_ENV=test jest"
     },
     "dependencies": {
         "@google-cloud/storage": "^5.0.1",
@@ -31,6 +31,7 @@
         "uuid": "^8.1.0"
     },
     "devDependencies": {
+        "cross-env": "^7.0.2",
         "eslint": "^6.6.0",
         "eslint-config-airbnb": "^18.1.0",
         "eslint-plugin-import": "^2.20.2",
@@ -45,6 +46,7 @@
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
             "/node_modules/"
-        ]
+        ],
+        "testTimeout": 10000
     }
 }
