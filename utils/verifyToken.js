@@ -6,9 +6,7 @@ const verifyToken = (req, res, next) => {
 
     try {
         if (!token) {
-            return res
-                .status(401)
-                .json({ message: "Authorization cookies don't exist", status: 401 });
+            return res.status(401).json({ message: "Authorization cookies don't exist", status: 401 });
         }
         const decrypt = jwt.verify(token, JWTSECRET);
 

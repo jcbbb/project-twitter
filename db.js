@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-const { PROD_DATABASE_URI, TEST_DATABASE_URI } = require('./config/secrets');
+const env = process.env.NODE_ENV || 'dev';
+const config = require(`./config/${env}`);
 
 const db = (() => {
     const connect = () => {
         mongoose
-            .connect(process.env.NODE_ENV === 'prod' ? PROD_DATABASE_URI : TEST_DATABASE_URI, {
+            .connect(config.mongoUri, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useCreateIndex: true,
                 useFindAndModify: false,
             })
+            .then(console.log('Connected to db'))
             .catch((err) => console.log('Database connection error', err.message));
     };
 

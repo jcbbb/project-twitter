@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const verifyToken = require('./utils/verifyToken');
 const socketio = require('socket.io');
 const http = require('http');
+const path = require('path');
 const db = require('./db');
 
 const app = express();

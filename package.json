@@ -8,7 +8,7 @@
         "start": "cross-env NODE_ENV=prod PORT=80 node server.js",
         "server": "nodemon server.js",
         "client": "npm run start --prefix client",
-        "dev": "concurrently 'npm run server' 'npm run client'",
+        "dev": "cross-env NODE_ENV=dev concurrently 'npm run server' 'npm run client'",
         "test": "cross-env NODE_ENV=test jest"
     },
     "dependencies": {
@@ -47,6 +47,6 @@
         "coveragePathIgnorePatterns": [
             "/node_modules/"
         ],
-        "testTimeout": 10000
+        "testTimeout": 100000
     }
 }
