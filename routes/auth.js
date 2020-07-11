@@ -123,9 +123,7 @@ router.post(
             const isMatch = await user.comparePassword(password);
 
             if (!isMatch) {
-                return res
-                    .status(400)
-                    .json({ message: 'Incorrect password or email', status: 400 });
+                return res.status(400).json({ message: 'Incorrect password or email', status: 400 });
             }
 
             await generateToken(res, user.id);

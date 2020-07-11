@@ -1,0 +1,115 @@
+@import '../../vars';
+
+.tweet {
+    &__actions {
+        display: flex;
+        max-width: 100%;
+        justify-content: space-between;
+        margin-top: 5px; 
+        color: $non-active;
+    }
+    &__actions-menu {
+        box-shadow: $shadow;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 12;
+        border-radius: 5px;
+        overflow: hidden;
+        display: none;
+        outline: none;
+        &--active {
+            display: block;
+        }
+    }
+    &__actions-container {
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        position: relative;
+        border-radius: 50%;
+        outline: none;
+        transition: all 200ms ease-in-out;
+        color: $primary;
+        cursor: pointer;
+        &:hover {
+            background: $primary-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+            background: $primary-light;
+        }
+        &:focus + .tweet__actions-count, &:hover + .tweet__actions-count {
+            color: $primary;
+        }
+        &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
+            color: $primary;
+        }
+
+        &--retweet {
+            &:hover {
+                background: $green-light;
+            }
+            &:hover + .tweet__actions-count {
+                color: $green;
+            }
+            &:hover .tweet__actions-icon {
+                color: $green;
+            }
+            &:focus {
+                box-shadow: $green 0 0 0 2px;  
+                background: $green-light;
+            }
+            &:focus .tweet__actions-icon {
+                color: $green;
+            }
+        }
+        &--heart {
+            &:hover {
+                background: $error-light;
+            }
+            &:hover + .tweet__actions-count {
+                color: $error;
+            }
+            &:hover .tweet__actions-icon {
+                color: $error;
+            }
+            &:focus {
+                box-shadow: $error 0 0 0 2px;
+                background: $error-light;
+            }
+            &:focus .tweet__actions-icon {
+                color: $error;
+            }
+        }
+    }
+    &__actions-count {
+        font-size: 13px;
+        transition: color 200ms ease-in-out;
+        color: $non-active;
+    }
+    &__actions-icon {
+        font-size: 20px;
+        height: 34px;
+        width: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 200ms ease-in-out;
+        outline: none;
+        color: $non-active;
+        svg {
+            pointer-events: none;
+        }
+        path {
+            transition: all 200ms ease-in-out;
+        }
+        &--lg {
+            font-size: 22px;
+            height: 36px;
+            width: 36px;
+        }
+    }
+
+}

@@ -30,6 +30,7 @@
         cursor: pointer;
         outline: none;
         transition: all 200ms ease-in-out;
+        position: relative;
         &:hover {
             background: $primary-light;
         }
@@ -50,6 +51,15 @@
         justify-content: center;
         border-radius: 50%;
         color: $primary;
+    }
+    &__menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+        box-shadow: $shadow;
+        border-radius: 5px;
+        z-index: 12;
+        overflow: hidden;
     }
 }
 

@@ -4,15 +4,16 @@
     max-width: 275px;
     width: 275px;
     height: 100vh;
-    padding: 0 15px 10px 20px; 
-    position: fixed;
-    left: 45px;
+    padding: 0 15px 10px 10px; 
+    position: sticky;
+    left: 0;
     top: 0;
     overflow-y: auto;
     &__container {
         display: flex;
         flex-direction: column;
         height: 100%;
+        margin-top: 5px;
     }
     &__icon {
         font-size: 32px;

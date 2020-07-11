@@ -16,12 +16,13 @@ const Bookmarks = () => {
 
     const getBookmarkedTweets = useCallback(async () => {
         try {
+            if (!currentUser.bookmarks.length) return setTweets([]);
             const response = await request('/api/tweets/bookmarked', 'GET');
             if (response && response.status === 200 && response.status !== 500) {
                 setTweets(response.tweets);
             }
         } catch (e) {}
-    }, [request]);
+    }, [request, currentUser]);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -29,10 +30,10 @@ const Bookmarks = () => {
             getBookmarkedTweets();
         }
         return () => (isSubscribed = false);
-    }, [getBookmarkedTweets, currentUser]);
+    }, [getBookmarkedTweets, currentUser.bookmarks]);
 
     return (
-        <Wall className="wall wall--320">
+        <Wall>
             <WallHeader subheading={currentUser.handle} icon={<DotsIcon />}>
                 Bookmarks
             </WallHeader>

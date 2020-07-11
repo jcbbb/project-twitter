@@ -2,10 +2,10 @@
 
 .sidebar {
     width: 350px; 
-    position: fixed;
-    top: 5px;
-    right: 55px;
     z-index: 1;
+    margin-left: auto;
+    margin-top: 5px;
+    position: sticky;
     &__trends, &__who-to-follow {
         background: $primary-background-light;
         border-radius: 14px;

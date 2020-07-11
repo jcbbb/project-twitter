@@ -28,21 +28,27 @@
         font-size: 13px;
     }
     &__header-icon {
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+        color: $primary;
+        outline: none;
+        &:hover {
+            background: $primary-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__header-icon-inner {
+        display: flex;
+        align-items:center;
+        justify-content: center;
         font-size: 22px;
         height: 36px;
         width: 36px;
         border-radius: 50%;
-        display: flex;
-        align-items:center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 200ms ease-in-out;
-        path {
-            fill: $primary !important;
-        }
-        &:hover, &:focus {
-            background: $primary-light;
-        }
+        outline: none;
     }
     &__body {
         padding: 20px 15px 0 15px;
@@ -50,6 +56,11 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+    }
+    &__messages {
+        display: flex;
+        flex-direction: column;
+        margin-top: auto;
     }
     &__message {
         display: flex;
@@ -72,11 +83,15 @@
         color: #fff;
         padding: 10px 15px;
         border-radius: 18.75px 18.75px 18.75px 0;
+        margin-right: auto;
+        margin-left: 0;
         &--current {
             background: $primary;
             border-radius: 18.75px 18.75px 0 18.75px;
             cursor: pointer;
             transition: background 200ms ease-in-out;
+            margin-left: auto;
+            margin-right: 0;
             &:hover, &:focus {
                 background: $primary-dark;
             }
@@ -125,28 +140,33 @@
             border-color: $primary;
         }
     }
+    &__footer-input {
+        margin-right: 30px;
+    }
     &__footer-input-icon, &__footer-icon {
+        border-radius: 50%;
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+        outline: none;
+        color: $primary;
+        &:hover {
+            background: $primary-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__footer-icon-inner {
+        height: 40px;
+        width: 40px;
         font-size: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        transition: all 200ms ease-in-out;
-        cursor: pointer;
         outline: none;
-        path {
-            fill: $primary !important;
-        }
-        circle {
-            fill: $primary !important;
-        }
-        &:hover, &:focus {
-            background: $primary-light;
-        }
     }
     &__footer-icon {
-        height: 40px;
-        width: 40px;
         &--disabled {
             opacity: 0.5;
             pointer-events: none;
@@ -154,16 +174,17 @@
         }
     }
     &__footer-input-icon {
-        height: 32px;
-        width: 32px;
         position: absolute;
         right: 0;
         bottom: 0;
+    }
+    &__footer-input-icon-inner {
+        height: 32px;
+        width: 32px;
     }
 }
 .DraftEditor-editorContainer {
     max-width: 100%;
     overflow-wrap: break-word;
     word-break: break-all;
-    margin-right: 30px;
 }

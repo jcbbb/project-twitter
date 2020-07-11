@@ -1,8 +1,8 @@
 import React from 'react';
 import './wall.scss';
 
-const Wall = ({ children, className }) => {
-    return <div className={`wall ${className}`}>{children}</div>;
+const Wall = ({ children }) => {
+    return <div className="wall">{children}</div>;
 };
 
 export default Wall;

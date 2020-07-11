@@ -10,8 +10,8 @@ import './lists.scss';
 const Lists = () => {
     const { currentUser } = useContext(UserContext);
     return (
-        <div className="lists">
-            <Wall className="wall wall--320">
+        <Wall>
+            <div className="lists">
                 <WallHeader arrow="true" subheading={currentUser.handle} icon={<DotsIcon />}>
                     Lists
                 </WallHeader>
@@ -39,8 +39,8 @@ const Lists = () => {
                         </Button>
                     </div>
                 </div>
-            </Wall>
-        </div>
+            </div>
+        </Wall>
     );
 };
 

@@ -9,6 +9,7 @@
 
 html {
     font-size: 15px;
+    overflow-y: scroll;
 }
 body {
     background: $primary-background;
@@ -41,6 +42,12 @@ li {
 .container-990 {
     max-width: 990px;
     margin: auto;
+}
+.container-1265 {
+    max-width: 1265px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
 }
 .flex {
     display: flex;

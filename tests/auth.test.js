@@ -57,3 +57,4 @@ describe('Auth endpoints', () => {
         app.close(done);
     });
 });
+

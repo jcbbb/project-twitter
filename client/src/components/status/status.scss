@@ -1,0 +1,57 @@
+@import '../../vars';
+
+.status {
+    padding: 10px;
+    &__header {
+       display: flex;
+       align-items: flex-start;
+    }
+    &__header-left {
+        display: flex;
+    }
+    &__header-profile-image {
+        min-width: 50px;
+        min-height: 50px;
+        background: $banner;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    &__content {
+        color: #fff;
+        font-size: 23px;
+        margin-top: 10px;
+    }
+    &__date {
+        color: $non-active;
+        margin: 15px 0;
+    }
+    &__date-middle-dot {
+        margin: 0 4px;
+    }
+    &__metrics {
+        display: flex;
+        padding: 15px 0;
+        border-top: 1px solid $border;
+        border-bottom: 1px solid $border;
+    }
+    &__metric {
+        margin-right: 20px;
+    }
+    &__metric-link {
+        color: #fff;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    &__metric-text {
+        cursor: pointer;
+        color: $non-active;
+    }
+    &__metric-count {
+        color: #fff;
+        margin-right: 3px;
+    }
+}
+

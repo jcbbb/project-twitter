@@ -9,9 +9,20 @@ const handleSpan = React.memo(({ children, offsetKey }) => (
         {children}
     </span>
 ));
+const handleSpanWhite = React.memo(({ children, offsetKey }) => (
+    <span data-offset-key={offsetKey} style={{ color: '#fff', textDecoration: 'underline' }}>
+        {children}
+    </span>
+));
 
 const hashtagSpan = React.memo(({ children, offsetKey }) => (
     <span data-offset-key={offsetKey} style={{ color: 'rgb(29, 161, 242)' }}>
+        {children}
+    </span>
+));
+
+const hashtagSpanWhite = React.memo(({ children, offsetKey }) => (
+    <span data-offset-key={offsetKey} style={{ color: '#fff', textDecoration: 'underline' }}>
         {children}
     </span>
 ));
@@ -27,6 +38,12 @@ const urlSpan = React.memo(({ children, offsetKey, decoratedText }) => (
     </a>
 ));
 
+const urlSpanWhite = React.memo(({ children, offsetKey, decoratedText }) => (
+    <a data-offset-key={offsetKey} href={decoratedText} style={{ color: '#fff', textDecoration: 'underline' }}>
+        {children}
+    </a>
+));
+
 const overflowSpan = React.memo(({ children }) => <span style={{ background: 'rgb(224, 36, 94)' }}>{children}</span>);
 
 const findWithRegex = (regex, contentBlock, cb) => {
@@ -38,13 +55,13 @@ const findWithRegex = (regex, contentBlock, cb) => {
     }
 };
 
-const handleStrategy = (contentBlock, cb, contentState) => {
+const handleStrategy = (contentBlock, cb) => {
     findWithRegex(HANDLE_REGEX, contentBlock, cb);
 };
-const hashtagStrategy = (contentBlock, cb, contentState) => {
+const hashtagStrategy = (contentBlock, cb) => {
     findWithRegex(HASHTAG_REGEX, contentBlock, cb);
 };
-const urlStrategy = (contentBlock, cb, contentState) => {
+const urlStrategy = (contentBlock, cb) => {
     findWithRegex(URL_REGEX, contentBlock, cb);
 };
 const overflowStrategy = (contentBlock, cb) => {
@@ -68,5 +85,20 @@ export const compositeDecorator = new CompositeDecorator([
     {
         strategy: urlStrategy,
         component: urlSpan,
+    },
+]);
+
+export const messageBoxDecorator = new CompositeDecorator([
+    {
+        strategy: handleStrategy,
+        component: handleSpanWhite,
+    },
+    {
+        strategy: hashtagStrategy,
+        component: hashtagSpanWhite,
+    },
+    {
+        strategy: urlStrategy,
+        component: urlSpanWhite,
     },
 ]);

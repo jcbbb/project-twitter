@@ -5,11 +5,12 @@ const MessagesContext = createContext({
         {
             id: '',
             initiatedBy: '',
-            members: [],
+            participants: [],
         },
     ],
-    selectedUsers: [],
-    setSelectedUsers: () => {},
+    createNewThread: () => {},
+    selectedParticpants: [],
+    setSelectedParticipants: () => {},
 });
 
 export default MessagesContext;

@@ -12,6 +12,7 @@ import Modal from '../components/modal/Modal';
 import Profile from '../components/profile/Profile';
 import Nav from '../components/nav/Nav';
 import Sidebar from '../components/sidebar/Sidebar';
+import Status from '../components/status/Status';
 import TweetCompose from '../components/tweetCompose/TweetCompose';
 import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -60,41 +61,51 @@ const routes = [
         main: () => <Modal icon={<TwitterWhiteIcon />} />,
     },
     {
+        path: '/:handle/status/:tweetId',
+        exact: true,
+        nav: () => <Nav />,
+        main: () => <Status />,
+        sidebar: () => <Sidebar />,
+    },
+    {
         path: '/:handle',
         nav: () => <Nav />,
         main: () => <Profile title="Profile" />,
         sidebar: () => <Sidebar />,
     },
 ];
+
 const useRoutes = (isAuthenticated) => {
     if (isAuthenticated) {
         return (
             <>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact || false}>
-                            {route.nav}
-                        </Route>
-                    ))}
-                    <Redirect to="/home" />
-                </Switch>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact || false}>
-                            {route.main}
-                        </Route>
-                    ))}
-                </Switch>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact || false}>
-                            {route.sidebar}
-                        </Route>
-                    ))}
-                </Switch>
-                <Switch>
-                    <Route path="/compose/tweet" component={TweetCompose} />
-                </Switch>
+                <div className="container-1265">
+                    <Switch>
+                        {routes.map((route, index) => (
+                            <Route key={index} path={route.path} exact={route.exact || false}>
+                                {route.nav}
+                            </Route>
+                        ))}
+                        <Redirect to="/home" />
+                    </Switch>
+                    <Switch>
+                        {routes.map((route, index) => (
+                            <Route key={index} path={route.path} exact={route.exact || false}>
+                                {route.main}
+                            </Route>
+                        ))}
+                    </Switch>
+                    <Switch>
+                        {routes.map((route, index) => (
+                            <Route key={index} path={route.path} exact={route.exact || false}>
+                                {route.sidebar}
+                            </Route>
+                        ))}
+                    </Switch>
+                    <Switch>
+                        <Route path="/compose/tweet" component={TweetCompose} />
+                    </Switch>
+                </div>
             </>
         );
     }

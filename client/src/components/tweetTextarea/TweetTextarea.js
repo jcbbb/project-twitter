@@ -1,8 +1,9 @@
 import React, { useState, useContext, useCallback, useEffect, useRef } from 'react';
 import Button from '../button/Button';
 import UserContext from '../../context/UserContext';
+import TweetsContext from '../../context/TweetsContext';
 import useHttp from '../../hooks/useHttp';
-import { Editor, EditorState, convertToRaw } from 'draft-js';
+import { Editor, EditorState, convertToRaw, ContentState } from 'draft-js';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
@@ -14,10 +15,11 @@ import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = ({ size }) => {
+const TweetTextarea = ({ size, placeholder }) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
+    const { replyingTweetId } = useContext(TweetsContext);
     const [images, setImages] = useState([]);
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
     const editorRef = useRef();
@@ -43,7 +45,7 @@ const TweetTextarea = ({ size }) => {
                 true,
             );
             if (response && response.status === 200 && response.status !== 500) {
-                setEditorState(() => EditorState.createEmpty(compositeDecorator));
+                setEditorState((prevState) => EditorState.push(prevState, ContentState.createFromText('')));
                 setImages([]);
                 editorRef.current.focus();
             }
@@ -65,6 +67,7 @@ const TweetTextarea = ({ size }) => {
     useEffect(() => {
         images.length >= 1 ? setDisabled(false) : setDisabled(true);
     }, [images]);
+
     return (
         <>
             <div className="tweet-textarea">
@@ -74,7 +77,6 @@ const TweetTextarea = ({ size }) => {
                         tabIndex="0"
                         style={{ backgroundImage: `url(${currentUser.profile_image_url})` }}
                     ></div>
-                    <div className="tweet-textarea__line"></div>
                 </div>
                 <div className="tweet-textarea__right">
                     <div className={`tweet-textarea__editable ${size && `tweet-textarea__editable--${size}`}`}>
@@ -86,7 +88,7 @@ const TweetTextarea = ({ size }) => {
                                 setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
                                 setEditorState(editorState);
                             }}
-                            placeholder="What's happening?"
+                            placeholder={placeholder || "What's happening?"}
                         />
                     </div>
                     {images.length > 0 && (

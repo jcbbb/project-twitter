@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import Button from '../button/Button';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
+import UserContext from '../../context/UserContext';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
@@ -11,7 +12,8 @@ import './messagesCompose.scss';
 const MessagesCompose = () => {
     const history = useHistory();
     const inputRef = useRef();
-    const { request } = useHttp();
+    const { currentUser } = useContext(UserContext);
+    const { request, loading } = useHttp();
     const [value, setValue] = useState(null);
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -28,11 +30,23 @@ const MessagesCompose = () => {
         [request],
     );
 
+    const createNewThread = useCallback(async () => {
+        try {
+            const threadId = selectedUsers[0]._id.concat(currentUser._id);
+            const response = await request('/api/direct/thread/new', 'POST', {
+                selectedUsers,
+                threadId,
+            });
+            if (response && response.status === 200 && response.status !== 500) history.push(`/messages/${threadId}`);
+        } catch (e) {}
+    }, [request, selectedUsers, currentUser._id, history]);
+
     useEffect(() => {
         let isSubscribed = true;
         if (isSubscribed) getUsers(value);
         return () => (isSubscribed = false);
     }, [value, getUsers]);
+
     useEffect(() => {
         inputRef.current.focus();
     }, [selectedUsers]);
@@ -48,7 +62,12 @@ const MessagesCompose = () => {
                         <h2 className="messagesCompose__header-heading">New message</h2>
                     </div>
                     <div className="messagesCompose__header--right">
-                        <Button className="button__filled" disabled={selectedUsers.length < 1}>
+                        <Button
+                            styleType="filled"
+                            size="sm"
+                            disabled={selectedUsers.length < 1 || loading}
+                            onClick={createNewThread}
+                        >
                             Next
                         </Button>
                     </div>

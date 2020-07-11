@@ -25,14 +25,14 @@ const Explore = () => {
     }, [fetchAllTweets]);
 
     return (
-        <div className="explore">
-            <Wall className="wall wall--320">
+        <Wall>
+            <div className="explore">
                 <div className="explore__header">
                     <SearchInput />
                 </div>
                 <Tweets tweets={tweets} />
-            </Wall>
-        </div>
+            </div>
+        </Wall>
     );
 };
 

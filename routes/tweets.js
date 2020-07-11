@@ -59,11 +59,10 @@ router.post('/tweet/create', verifyToken, upload.any(), async (req, res) => {
     try {
         const { id } = req.user;
         const { tweet } = req.body;
-        const user = await User.findById(id);
 
         const newTweet = new Tweet({
             text: tweet,
-            user,
+            user: id,
             media: { urls },
         });
 
@@ -110,6 +109,27 @@ router.post('/tweet/bookmark/:tweetId', verifyToken, async (req, res) => {
     }
 });
 
+router.post('/tweet/react/:tweetId', verifyToken, async (req, res) => {
+    try {
+        const { tweetId } = req.params;
+        const { reaction } = req.body;
+        const counter = reaction === 'Like' ? 1 : -1;
+        await Tweet.updateOne({ _id: tweetId }, { $inc: { like_count: counter } });
+        res.json({ message: 'Reacted', status: 200, counter, reaction });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again' });
+    }
+});
+router.delete('/tweet/bookmark/destroyAll', verifyToken, async (req, res) => {
+    try {
+        const { id } = req.user;
+        await User.updateOne({ _id: id }, { $set: { bookmarks: [] } });
+        res.json({ message: 'Cleared all bookmarks', status: 200 });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again' });
+    }
+});
+
 router.get('/bookmarked', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
@@ -120,16 +140,32 @@ router.get('/bookmarked', verifyToken, async (req, res) => {
         }
         const mongoIds = user.bookmarks.map((id) => new mongoose.Types.ObjectId(id));
 
-        const tweets = await Tweet.find({ _id: { $in: mongoIds } });
+        const tweets = await Tweet.find({ _id: { $in: mongoIds } }).populate('user');
 
         res.json({ message: 'Retrieved bookmarked tweeets', tweets, status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again' });
     }
 });
+
+router.get('/tweet/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const tweet = await Tweet.findById(id).populate('user');
+
+        if (!tweet) {
+            return res.status(400).json({ message: 'Tweet not found', status: 400 });
+        }
+
+        res.json({ message: 'Tweet found', status: 200, tweet });
+    } catch (e) {
+        return res.status(500).json({ message: 'Something went wrong. Try again' });
+    }
+});
+
 router.get('/all', async (req, res) => {
     try {
-        const tweets = await Tweet.find({}).sort({ _id: -1 }).limit(20);
+        const tweets = await Tweet.find({}).sort({ _id: -1 }).limit(20).populate('user');
         res.json({ message: 'Retrieved last 20 tweets', tweets, status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Please try again.', status: 500 });

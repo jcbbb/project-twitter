@@ -4,17 +4,6 @@
     display: flex;
     padding: 10px 15px;
     width: 100%;
-    &__left {
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-    }
-    &__line {
-        width: 2px;
-        height: 100%;
-        background: $border;
-        margin-top: 4px;
-    }
     &__profile-image {
         min-width: 50px;
         min-height: 50px;
@@ -115,9 +104,6 @@
         max-width: 100%;
         cursor: text;
     }
-    .DraftEditor-editorContainer {
-        margin-right: 0;
-    }
     &__bottom {
         display: flex;
         justify-content: space-between;
@@ -135,9 +121,7 @@
     color: $primary;
     font-style: cursive;
 }
-[contenteditable=true]:empty::before {
-  content: attr(placeholder);
-  pointer-events: none;
-  color: $non-active;
-}
 
+.DraftEditor-editorContainer {
+    margin-right: 0;
+}

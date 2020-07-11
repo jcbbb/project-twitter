@@ -26,12 +26,6 @@ const Profile = ({ match }) => {
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
 
-    useEffect(() => {
-        let isSubscribed = true;
-        if (isSubscribed) fetchTweets(handle);
-        return () => (isSubscribed = false);
-    }, [fetchTweets, handle]);
-
     const getUser = useCallback(
         async (handle) => {
             try {
@@ -46,12 +40,18 @@ const Profile = ({ match }) => {
 
     useEffect(() => {
         let isSubscribed = true;
+        if (isSubscribed) fetchTweets(user._id);
+        return () => (isSubscribed = false);
+    }, [fetchTweets, user._id]);
+
+    useEffect(() => {
+        let isSubscribed = true;
         if (isSubscribed) getUser(handle);
         return () => (isSubscribed = false);
     }, [handle, getUser]);
 
     return (
-        <Wall className="wall wall--320">
+        <Wall>
             <Switch>
                 <Route exact path={`${match.path}/following`}>
                     <FollowingFollowers userHandle={user.handle} userName={user.name} list="following" />
@@ -64,7 +64,7 @@ const Profile = ({ match }) => {
                         subheading={
                             tweets.length > 1 ? `${tweets.length} Tweets` : tweets.length === 1 ? '1 Tweet' : null
                         }
-                        arrow="true"
+                        arrow
                     >
                         {user.name || 'Profile'}
                     </WallHeader>

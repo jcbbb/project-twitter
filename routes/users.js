@@ -67,14 +67,11 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
 
 router.get('/user/tweets', verifyToken, async (req, res) => {
     try {
-        const { handle } = req.query;
-
-        const tweets = await Tweet.find({ 'user.handle': handle }).sort({ _id: -1 });
-
+        const { userId } = req.query;
+        const tweets = await Tweet.find({ user: userId }).sort({ _id: -1 }).populate('user');
         if (!tweets) {
             return res.status(400).json({ message: 'Tweets not found', status: 400 });
         }
-
         res.json({
             message: 'Success',
             status: 200,

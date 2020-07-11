@@ -2,14 +2,15 @@
 
 .messages {
     max-width: 990px;
-    margin-left: 320px;
     display: flex;
     border-left: 1px solid $border;
     border-right: 1px solid $border;
     height: 100vh;
+    justify-content: space-between;
+    flex-grow: 1;
     &__chat {
-        width: 600px;
         max-width: 600px;
+        flex: 1;
         &-container {
             height: 100%;
             display: flex;
@@ -21,6 +22,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 0 15px;
+        text-align: center;
         &-heading {
             color: #fff;
             font-weight: $bold;

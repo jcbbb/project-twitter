@@ -3,6 +3,7 @@
 .messages {
     &__list {
         border-right: 1px solid $border;
+        max-width: 390px;
         width: 390px;
     }
     &__list-header {
@@ -48,8 +49,9 @@
         cursor: pointer;
         transition: all 200ms ease-in-out;
         outline: none;
-        &--active .messages__list-item {
-            border-right: 2px solid $primary;
+        border-right: 2px solid transparent;
+        &--active {
+            border-color: $primary;
         }
         &:hover {
             background: rgba(255, 255, 255, 0.03);

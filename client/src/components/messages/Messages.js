@@ -43,19 +43,22 @@ const Messages = () => {
                     <MessagesCompose />
                 </Route>
                 <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact}>
-                            {route.messagesList}
-                        </Route>
-                    ))}
+                    <Route path="/messages" exact>
+                        <MessagesList />
+                    </Route>
+
+                    <Route path="/messages/:threadId" exact>
+                        <MessagesList />
+                    </Route>
                 </Switch>
                 <div className="messages__chat">
                     <Switch>
-                        {routes.map((route, index) => (
-                            <Route key={index} path={route.path} exact={route.exact}>
-                                {route.main}
-                            </Route>
-                        ))}
+                        <Route path="/messages" exact>
+                            <MessagesChatContainer />
+                        </Route>
+                        <Route path="/messages/:threadId" exact>
+                            <MessagesBox />
+                        </Route>
                     </Switch>
                 </div>
                 <Switch>

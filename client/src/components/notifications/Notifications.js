@@ -7,7 +7,7 @@ import { useRouteMatch } from 'react-router-dom';
 const Notifications = () => {
     const match = useRouteMatch();
     return (
-        <Wall className="wall wall--320">
+        <Wall>
             <WallHeader noBorder>Notifications</WallHeader>
             <div className="profile__tabs">
                 <Tab exact to={match.url}>
