@@ -3,6 +3,7 @@ import Button from '../button/Button';
 import MessagesCompose from '../messagesCompose/MessagesCompose';
 import MessagesBox from '../messagesBox/MessagesBox';
 import MessagesList from '../messagesList/MessagesList';
+import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { Link, Route, Switch } from 'react-router-dom';
 import './messages.scss';
 
@@ -68,6 +69,15 @@ const Messages = () => {
                         </Route>
                     ))}
                 </Switch>
+                <div className="tweet-fixed-button">
+                    <Link to="/messages/compose">
+                        <Button
+                            size="lg"
+                            styleType="filled button__round button__round--lg"
+                            icon={<ComposeMessageIcon />}
+                        ></Button>
+                    </Link>
+                </div>
             </div>
         </>
     );

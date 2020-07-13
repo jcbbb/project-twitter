@@ -5,8 +5,8 @@ import './menuItem.scss';
 const MenuItem = ({ children, icon, danger, to, href, ...props }) => {
     if (to) {
         return (
-            <Link to={to} className="menuItem">
-                <li {...props} className={`menuItem__inner ${danger && 'danger'}`}>
+            <Link to={to} className="menuItem" tabIndex="0">
+                <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
                     {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
                     {children}
                 </li>
@@ -14,8 +14,8 @@ const MenuItem = ({ children, icon, danger, to, href, ...props }) => {
         );
     }
     return (
-        <a href={href} className="menuItem">
-            <li {...props} className={`menuItem__inner ${danger && 'danger'}`}>
+        <a href={href} className="menuItem" tabIndex="0">
+            <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
                 {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
                 {children}
             </li>

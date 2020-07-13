@@ -1,14 +1,16 @@
 const { Router } = require('express');
 const nodemailer = require('nodemailer');
+const env = process.env.NODE_ENV || 'dev';
+const config = require(`../config/${env}`);
 
 const router = Router();
 
 const transport = {
-    host: 'smtp.ethereal.email',
-    port: 587,
+    host: config.smtpServer,
+    port: config.smtpPort,
     auth: {
-        user: 'eleanore64@ethereal.email',
-        pass: 'TrbmC8dM8TzB22HPw9',
+        user: config.smtpUser,
+        pass: config.smtpUserPassword,
     },
 };
 

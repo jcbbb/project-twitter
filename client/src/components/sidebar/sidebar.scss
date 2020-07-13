@@ -3,8 +3,9 @@
 .sidebar {
     width: 350px; 
     z-index: 1;
-    margin-left: auto;
     margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
     position: sticky;
     &__trends, &__who-to-follow {
         background: $primary-background-light;
@@ -89,5 +90,17 @@
         color: #fff;
         font-size: 19px;
         font-weight: $bold;
+    }
+}
+
+@media only screen and (max-width: 1090px) {
+    .sidebar {
+        width: auto;
+    }        
+}
+
+@media only screen and (max-width: 990px) {
+    .sidebar {
+        display: none;
     }
 }

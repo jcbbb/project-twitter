@@ -30,10 +30,6 @@
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
-        img {
-            border-radius: 50%;
-            max-width: 100%;
-        }
     }
     &__name {
         color: #fff;
@@ -50,10 +46,12 @@
     &__items {
         display: flex;
         justify-content: space-between;
-        margin-top: 10px;
+        margin: 10px -6px 0 -6px;
+        flex-wrap: wrap;
     }
     &__item {
         display: flex;
+        margin: 0 6px;
         a {
             color: $primary;
             outline: none;
@@ -96,4 +94,10 @@
     }
 }
 
-
+@media only screen and (max-width: 500px) {
+    .profile {
+        &__items {
+            justify-content: start;
+        }
+    }
+}

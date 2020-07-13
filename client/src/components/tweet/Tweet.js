@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import MenuItem from '../menuItem/MenuItem';
-import useHttp from '../../hooks/useHttp';
 import useFollow from '../../hooks/useFollow';
 import UserContext from '../../context/UserContext';
 import TweetsContext from '../../context/TweetsContext';
@@ -140,9 +139,11 @@ const Tweet = ({ tweet }) => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="tweeter__tweet">
-                            <Editor editorState={convertToEditorState(tweet.text)} readOnly />
-                        </div>
+                        {tweet.text && (
+                            <div className="tweeter__tweet">
+                                <Editor editorState={convertToEditorState(tweet.text)} readOnly />
+                            </div>
+                        )}
                         {tweet.media.urls.length > 0 && (
                             <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
                                 {tweet.media.urls.map((url, index) => (

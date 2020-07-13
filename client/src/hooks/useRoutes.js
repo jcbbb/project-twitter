@@ -14,6 +14,7 @@ import Nav from '../components/nav/Nav';
 import Sidebar from '../components/sidebar/Sidebar';
 import Status from '../components/status/Status';
 import TweetCompose from '../components/tweetCompose/TweetCompose';
+import FooterNav from '../components/footerNav/FooterNav';
 import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
@@ -88,23 +89,26 @@ const useRoutes = (isAuthenticated) => {
                         ))}
                         <Redirect to="/home" />
                     </Switch>
-                    <Switch>
-                        {routes.map((route, index) => (
-                            <Route key={index} path={route.path} exact={route.exact || false}>
-                                {route.main}
-                            </Route>
-                        ))}
-                    </Switch>
-                    <Switch>
-                        {routes.map((route, index) => (
-                            <Route key={index} path={route.path} exact={route.exact || false}>
-                                {route.sidebar}
-                            </Route>
-                        ))}
-                    </Switch>
+                    <div className="container-990">
+                        <Switch>
+                            {routes.map((route, index) => (
+                                <Route key={index} path={route.path} exact={route.exact || false}>
+                                    {route.main}
+                                </Route>
+                            ))}
+                        </Switch>
+                        <Switch>
+                            {routes.map((route, index) => (
+                                <Route key={index} path={route.path} exact={route.exact || false}>
+                                    {route.sidebar}
+                                </Route>
+                            ))}
+                        </Switch>
+                    </div>
                     <Switch>
                         <Route path="/compose/tweet" component={TweetCompose} />
                     </Switch>
+                    <FooterNav />
                 </div>
             </>
         );

@@ -1,0 +1,21 @@
+@import '../../vars';
+
+.footerNav {
+    display: none;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    height: 3.5rem;
+    max-height: 16vh;
+    background: $primary-background;
+    width: 100%;
+    justify-content: space-around;
+    border-top: 1px solid $border;
+}
+
+@media only screen and (max-width: 500px) {
+    .footerNav {
+        display: flex;    
+    }
+}

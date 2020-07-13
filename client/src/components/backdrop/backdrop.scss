@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 200ms ease-in-out;
     &--noBg {
         background: transparent;
     }

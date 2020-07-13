@@ -8,8 +8,10 @@ const {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    USERNAME,
-    PASSWORD,
+    SMTP_PORT,
+    SMTP_USER_PASSWORD,
+    SMTP_USER,
+    SMTP_SERVER,
 } = process.env;
 
 module.exports = {
@@ -18,6 +20,8 @@ module.exports = {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    USERNAME,
-    PASSWORD,
+    SMTP_PORT,
+    SMTP_USER_PASSWORD,
+    SMTP_USER,
+    SMTP_SERVER,
 };

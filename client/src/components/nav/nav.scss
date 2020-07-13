@@ -76,8 +76,8 @@
         color: $non-active;
     }
     &__profile-image {
-        width: 40px;
-        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
         background: $banner;
         border-radius: 50%;
         background-position: center;
@@ -118,5 +118,33 @@
         path {
             fill: $primary !important;
         }
+    }
+}
+
+@media only screen and (max-width: 1270px) {
+    .nav {
+        width: 88px;
+        margin-right: -5px;
+        &__container {
+            align-items: center;
+        }
+        &__profile {
+            width: auto;
+        }
+        &__profile-inner {
+            padding: 8px;
+        }
+        &__profile-info {
+            display: none;
+        }
+        &__profile-icon {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .nav {
+        display: none;
     }
 }

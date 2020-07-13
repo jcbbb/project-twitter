@@ -27,6 +27,7 @@ import { ReactComponent as HelpCenterIcon } from '../../assets/icons/help-center
 import { ReactComponent as AnalyticsIcon } from '../../assets/icons/analytics.svg';
 import { ReactComponent as AdsIcon } from '../../assets/icons/ads.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/icons/settings.svg';
+import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
 
 import './nav.scss';
 
@@ -107,8 +108,9 @@ const Nav = () => {
                     )}
                     <Button
                         size="lg"
-                        styleType="filled"
+                        styleType="filled button__round"
                         onClick={() => history.push('/compose/tweet')}
+                        icon={<FeatherIcon />}
                         style={{ margin: '10px 0', width: '90%' }}
                     >
                         Tweet

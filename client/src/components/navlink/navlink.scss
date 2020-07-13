@@ -38,7 +38,6 @@
         height: 28px;
         color: #fff;
         path {
-            fill: currentColor;
             transition: 200ms ease-in-out;
         }
     }
@@ -51,3 +50,26 @@
     }
 }
 
+@media only screen and (max-width: 1270px) {
+    .navlink {
+        &__text {
+            display: none; 
+        }
+        &__inner {
+            padding: 10px;
+        }
+    }    
+}
+
+@media only screen and (max-width: 500px) {
+    .navlink {
+        &__inner {
+            padding: 8px;
+        }
+        &__icon {
+            font-size: 24px;
+            height: 24px;
+        }
+    }
+
+}

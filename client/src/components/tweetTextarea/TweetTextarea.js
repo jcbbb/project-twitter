@@ -146,15 +146,17 @@ const TweetTextarea = ({ size, placeholder }) => {
                                 </span>
                             </span>
                         </div>
-                        <Button
-                            styleType="filled"
-                            fit
-                            size="md"
-                            disabled={loading || disabled}
-                            onClick={handleTweetSubmit}
-                        >
-                            Tweet
-                        </Button>
+                        <div className="tweet-textarea__button">
+                            <Button
+                                styleType="filled"
+                                fit
+                                size="md"
+                                disabled={loading || disabled}
+                                onClick={handleTweetSubmit}
+                            >
+                                Tweet
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,9 @@
     width: 100%;
     transition: all 200ms ease-in-out;
     overflow: visible;
+    &__icon {
+        display: none;
+    }
     &--fit {
         width: fit-content;
     }
@@ -28,6 +31,9 @@
     }
     &--lg {
         padding: 14px; 
+    }
+    &--x-lg {
+        padding: 18px;
     }
     &:hover {
         background: $primary-light; 
@@ -99,6 +105,44 @@
             opacity: 0.5;
             cursor: default;
             pointer-events: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 1270px) {
+    .button {
+        &__icon {
+            display: block;
+        }
+        &__round {
+            border-radius: 50%; 
+            width: auto !important;
+            overflow: hidden;
+        }
+        &__round  &__inner {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        &__round &__icon {
+            font-size: 22px;
+            height: 22px;
+        }
+        &__round--lg {
+            box-shadow: $shadow;
+        }
+        &__round--lg &__inner {
+            width: 58px;
+            height: 58px;
+        }
+        &__round--lg &__icon {
+            font-size: 24px;
+            height: 24px;
+        }
+        &__round .button__text {
+            display: none;
         }
     }
 }

@@ -125,3 +125,11 @@
 .DraftEditor-editorContainer {
     margin-right: 0;
 }
+
+@media only screen and (max-width: 680px) {
+    .tweet-textarea {
+        &__button {
+            display: none;
+        }
+    }
+}

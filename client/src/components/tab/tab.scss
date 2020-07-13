@@ -8,6 +8,7 @@
   transition: all 200ms ease-in-out;
   border-bottom: 2px solid transparent;
   outline: none;
+  flex: 1;
   &:hover {
       background: $primary-light;
       color: $primary;
@@ -25,4 +26,12 @@
     border-bottom-color: $primary;
     color: $primary;
   }
+}
+
+@media only screen and(max-width: 500px) {
+    .tab {
+        &__inner {
+            padding: 15px 20px;
+        }
+    }    
 }

@@ -1,14 +1,19 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import useHttp from '../../hooks/useHttp';
 import Tweets from '../tweets/Tweets';
 import SearchInput from '../searchInput/SearchInput';
 import Wall from '../wall/Wall';
+import TweetsContext from '../../context/TweetsContext';
+import Button from '../button/Button';
+import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
+import { Link } from 'react-router-dom';
 
 import './explore.scss';
 
 const Explore = () => {
     const { request } = useHttp();
-    const [tweets, setTweets] = useState([]);
+    const { tweets, setTweets } = useContext(TweetsContext);
+
     const fetchAllTweets = useCallback(async () => {
         try {
             const response = await request('/api/tweets/all', 'GET');
@@ -31,6 +36,15 @@ const Explore = () => {
                     <SearchInput />
                 </div>
                 <Tweets tweets={tweets} />
+            </div>
+            <div className="tweet-fixed-button">
+                <Link to="/compose/tweet">
+                    <Button
+                        size="lg"
+                        styleType="filled button__round button__round--lg"
+                        icon={<FeatherIcon />}
+                    ></Button>
+                </Link>
             </div>
         </Wall>
     );

@@ -1,16 +1,24 @@
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import useHttp from '../../hooks/useHttp';
-import MessagesBody from '../messagesBody/MessagesBody';
+import UserContext from '../../context/UserContext';
 import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
-import { Editor, EditorState, ContentState, convertToRaw } from 'draft-js';
-import { compositeDecorator } from '../../helpers/decorators';
+import { format } from 'date-fns';
+import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
+import { compositeDecorator, messageBoxDecorator } from '../../helpers/decorators';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import { ReactComponent as PlaneIcon } from '../../assets/icons/plane.svg';
+
 import './messagesBox.scss';
+
+const convertToEditorState = (text) => {
+    const content = convertFromRaw(JSON.parse(text));
+    const editorStateReadonly = EditorState.createWithContent(content, messageBoxDecorator);
+    return editorStateReadonly;
+};
 
 const MessagesBox = () => {
     const [messages, setMessages] = useState([]);
@@ -18,6 +26,7 @@ const MessagesBox = () => {
     const [disabled, setDisabled] = useState(true);
     const [offsetHeight, setOffsetHeight] = useState();
     const [socket, setSocket] = useState({});
+    const { currentUser } = useContext(UserContext);
     const { request } = useHttp();
     const footerRef = useRef(null);
     const messagesRef = useRef(null);
@@ -97,7 +106,43 @@ const MessagesBox = () => {
                     </div>
                 </div>
             </div>
-            <MessagesBody messages={messages} ref={messagesRef} />
+            <div className="messageBox__body relative">
+                <div className="messageBox__messages">
+                    {messages.map((message, index) => (
+                        <div
+                            className={`messageBox__message ${
+                                message.sender_id === currentUser._id && 'messageBox__message--current'
+                            }`}
+                            key={index}
+                        >
+                            {message.sender_id !== currentUser._id && (
+                                <div className="messageBox__message-author-image"></div>
+                            )}
+                            <div
+                                className={`messageBox__message-container ${
+                                    message.sender_id === currentUser._id && 'messageBox__message-container--current'
+                                }`}
+                            >
+                                <div
+                                    className={`messageBox__message-content ${
+                                        message.sender_id === currentUser._id && 'messageBox__message-content--current'
+                                    }`}
+                                >
+                                    <Editor editorState={convertToEditorState(message.message_text)} readOnly />
+                                </div>
+                                <span
+                                    className={`messageBox__message-date ${
+                                        message.sender_id === currentUser._id && 'messageBox__message-date--current'
+                                    }`}
+                                >
+                                    {format(new Date(message.createdAt), 'MMM dd, yyyy, KK:mm a')}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                    <div ref={messagesRef}></div>
+                </div>
+            </div>
             <div className="messageBox__footer" ref={footerRef}>
                 <div className="messageBox__footer-icon" tabIndex="0">
                     <div className="messageBox__footer-icon-inner" tabIndex="-1">

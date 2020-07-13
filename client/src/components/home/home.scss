@@ -1,3 +1,16 @@
 .home-container {
     padding: 0 45px;
 }
+
+.tweet-fixed-button {
+    position: fixed;
+    bottom: 75px;
+    right: 20px;
+    display: none;
+}
+
+@media only screen and (max-width: 500px) {
+    .tweet-fixed-button {
+        display: block;
+    }
+}

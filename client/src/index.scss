@@ -40,15 +40,18 @@ li {
    max-width: 600px;
 }
 .container-990 {
-    max-width: 990px;
-    margin: auto;
+    width: 990px;
+    display: flex;
+    justify-content: space-between;
 }
+
 .container-1265 {
     max-width: 1265px;
     margin: auto;
     display: flex;
     justify-content: space-between;
 }
+
 .flex {
     display: flex;
     width: 100%;
@@ -74,4 +77,22 @@ li {
     height: 10px;
     background: $search-input-background;
     width: 100%;
+}
+
+@media only screen and (max-width: 1270px) {
+    .container-1265 {
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 1090px) {
+    .container-990 {
+        width: auto;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .container-990 {
+        width: 100%;
+    }
 }

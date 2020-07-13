@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import TweetTextarea from '../tweetTextarea/TweetTextarea';
 import TweetsContext from '../../context/TweetsContext';
+import Button from '../button/Button';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 
@@ -24,6 +25,11 @@ const TweetCompose = () => {
                         >
                             <CloseIcon />
                         </div>
+                    </div>
+                    <div className="tweetCompose__header-button">
+                        <Button styleType="filled" size="sm" fit>
+                            Tweet
+                        </Button>
                     </div>
                 </div>
                 <TweetTextarea size="lg" placeholder={replyingTweetId && 'Tweet your reply'} />
