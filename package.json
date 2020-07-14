@@ -5,7 +5,7 @@
     "author": "jc",
     "license": "MIT",
     "scripts": {
-        "start": "cross-env NODE_ENV=prod PORT=80 node server.js",
+        "start": "cross-env NODE_ENV=prod PORT=8080 node server.js",
         "server": "nodemon server.js",
         "client": "npm run start --prefix client",
         "dev": "cross-env NODE_ENV=dev concurrently 'npm run server' 'npm run client'",
