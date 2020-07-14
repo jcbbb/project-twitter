@@ -125,6 +125,9 @@ const useRoutes = (isAuthenticated) => {
             <Route path="/signup">
                 <Signup />
             </Route>
+            <Route path="/:handle">
+                <Profile />
+            </Route>
             <Redirect to="/" />
         </Switch>
     );

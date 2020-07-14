@@ -1,51 +1,40 @@
 const { Router } = require('express');
-const nodemailer = require('nodemailer');
 const env = process.env.NODE_ENV || 'dev';
 const config = require(`../config/${env}`);
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(config.sgApiKey);
 
 const router = Router();
-
-const transport = {
-    host: config.smtpServer,
-    port: config.smtpPort,
-    auth: {
-        user: config.smtpUser,
-        pass: config.smtpUserPassword,
-    },
-};
-
-const transporter = nodemailer.createTransport(transport);
 
 router.post('/verification', async (req, res) => {
     const { email, verificationCode } = req.body;
 
-    const mail = {
-        from: 'Twitter Inc.',
-        to: email,
-        subject: `${verificationCode} - Verification code`,
-        html: `<div width: 400px; margin: auto;">
-                <h2>Confirm your email address</h2>
-                <p>
-                    One more step before you create your account on Twitter.
-                    We want to make sure that you entered a correct email address.
-                </p>
-                <br />
-                <p>Enter verification code to start using Twitter:</p>
-                <h1>${verificationCode}</h1>
-                <p>Code will not work after 1 hour</p>
-                <br />
-                <p>Thank you!</p>
-                <p>Twitter</p>
-        </div>`,
+    const msg = {
+        personalizations: [
+            {
+                to: [{ email }],
+                dynamic_template_data: {
+                    code: verificationCode,
+                },
+                subject: `${verificationCode} - Verification Code`,
+            },
+        ],
+        from: {
+            email: 'verify@twitter-doom.com',
+            name: 'Twitter Doom Ltd.',
+        },
+        template_id: 'd-7fa3a0c0ec934da3b169e8d7c5b9b5ec',
     };
 
     try {
-        await transporter.sendMail(mail);
+        await sgMail.send(msg);
         res.json({ message: 'Email sent successfully' });
     } catch (err) {
         return res.status(400).json({
             message: 'Something went wrong while sending email',
             status: 400,
+            err: err.response.body.errors,
         });
     }
 });

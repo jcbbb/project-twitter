@@ -52,7 +52,7 @@ const Signup = () => {
                     email,
                 });
                 if (status === 201 || status === 200) {
-                    await request('/api/send/verification', 'POST', {
+                    const response = await request('/api/send/verification', 'POST', {
                         email,
                         verificationCode,
                     });

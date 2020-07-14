@@ -8,10 +8,7 @@ const {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    SMTP_PORT,
-    SMTP_USER_PASSWORD,
-    SMTP_USER,
-    SMTP_SERVER,
+    SENDGRID_API_KEY,
 } = process.env;
 
 module.exports = {
@@ -20,8 +17,5 @@ module.exports = {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    SMTP_PORT,
-    SMTP_USER_PASSWORD,
-    SMTP_USER,
-    SMTP_SERVER,
+    SENDGRID_API_KEY,
 };

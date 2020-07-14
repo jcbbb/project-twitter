@@ -1,10 +1,24 @@
 @import '../../vars';
 
 .header {
-    height: 53px;
-    margin: auto;
-    display: flex;
-    align-items:center; 
+    position: sticky;
+    top: 0;
+    background: $primary-background;
+    border-bottom: 1px solid $border;
+    width: 100%;
+    z-index: 1;
+    &__inner {
+        margin: auto;
+        width: 100%;
+        display: flex;
+        align-items:center; 
+        margin: auto;
+        height: 53px;
+    }
+    &__left {
+        align-items: center;
+        margin-right: 20px;
+    }
     &__icon {
         font-size: 26px;
         width: 42px;
@@ -25,4 +39,15 @@
         display:flex;
         margin-left: auto;
     }
+}
+
+@media only screen and (max-width: 1000px) {
+    .header {
+        &__actions {
+            display: none;
+        }
+        &__inner {
+            justify-content: center;
+        }
+    } 
 }
