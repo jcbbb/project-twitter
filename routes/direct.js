@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const verifyToken = require('../utils/verifyToken');
 const Thread = require('../models/Thread');
-//const ThreadParticipant = require('../models/ThreadParticipant');
 const Message = require('../models/Message');
 
 const router = Router();
@@ -34,15 +33,19 @@ router.post('/thread/new', verifyToken, async (req, res) => {
 router.post('/message/new', verifyToken, async (req, res) => {
     try {
         const io = req.io;
-        const { message_text, threadId } = req.body;
+        const { message_text, draft_message_text, threadId } = req.body;
         const { id } = req.user;
+
         const message = new Message({
             sender_id: id,
             thread_id: threadId,
             message_text,
+            draft_message_text,
         });
+
         io.to(threadId).emit('thread message', message);
         await message.save();
+        await Thread.updateOne({ thread_id: threadId }, { last_message: message._id });
 
         res.json({ message: 'New message created', status: 200 });
     } catch (e) {
@@ -63,7 +66,7 @@ router.get('/messages', verifyToken, async (req, res) => {
 router.get('/threads', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const threads = await Thread.find({ participants: id }).populate('participants');
+        const threads = await Thread.find({ participants: id }).populate('participants').populate('last_message');
 
         res.json({ message: 'Retrieved all threads', status: 200, threads });
     } catch (e) {

@@ -15,3 +15,10 @@
         width: 100%;
     }
 }
+
+@media only scree and (max-width: 600px) {
+    .wall {
+        border-left: none;
+        border-right: none;
+    }
+}

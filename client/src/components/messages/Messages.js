@@ -4,73 +4,59 @@ import MessagesCompose from '../messagesCompose/MessagesCompose';
 import MessagesBox from '../messagesBox/MessagesBox';
 import MessagesList from '../messagesList/MessagesList';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useLocation } from 'react-router-dom';
 import './messages.scss';
 
-const routes = [
-    {
-        path: '/messages',
-        exact: true,
-        messagesList: () => <MessagesList />,
-        main: () => <MessagesChatContainer />,
-    },
-    {
-        path: '/messages/:threadId',
-        exact: true,
-        messagesList: () => <MessagesList />,
-        main: () => <MessagesBox />,
-    },
-];
-
-const MessagesChatContainer = () => (
-    <div className="messages__chat-container">
-        <div className="messages__new-message">
-            <h2 className="messages__new-message-heading">You don't have a message selected</h2>
-            <p className="messages__new-message-sub">Choose one from your existing messages, or start a new one</p>
-            <Link to="/messages/compose">
-                <Button styleType="filled" size="md">
-                    New message
-                </Button>
-            </Link>
+const MessagesChatContainer = () => {
+    const location = useLocation();
+    return (
+        <div className="messages__chat">
+            <div className="messages__chat-container">
+                <div className="messages__new-message">
+                    <h2 className="messages__new-message-heading">You don't have a message selected</h2>
+                    <p className="messages__new-message-sub">
+                        Choose one from your existing messages, or start a new one
+                    </p>
+                    <Link
+                        to={{
+                            pathname: '/messages/compose',
+                            state: { background: location },
+                        }}
+                    >
+                        <Button styleType="filled" size="md">
+                            New message
+                        </Button>
+                    </Link>
+                </div>
+            </div>{' '}
         </div>
-    </div>
-);
+    );
+};
 
 const Messages = () => {
+    const location = useLocation();
+    const background = location.state && location.state.background;
     return (
         <>
             <div className="messages">
-                <Route exact path="/messages/compose">
-                    <MessagesCompose />
-                </Route>
-                <Switch>
-                    <Route path="/messages" exact>
+                <Switch location={background || location}>
+                    <Route exact path="/messages/:threadId">
                         <MessagesList />
+                        <MessagesBox />
                     </Route>
-
-                    <Route path="/messages/:threadId" exact>
+                    <Route path="/messages">
                         <MessagesList />
+                        <MessagesChatContainer />
                     </Route>
                 </Switch>
-                <div className="messages__chat">
-                    <Switch>
-                        <Route path="/messages" exact>
-                            <MessagesChatContainer />
-                        </Route>
-                        <Route path="/messages/:threadId" exact>
-                            <MessagesBox />
-                        </Route>
-                    </Switch>
-                </div>
-                <Switch>
-                    {routes.map((route, index) => (
-                        <Route key={index} path={route.path} exact={route.exact}>
-                            {route.messagesCompose}
-                        </Route>
-                    ))}
-                </Switch>
+                {background && <Route path="/messages/compose" component={MessagesCompose} />}
                 <div className="tweet-fixed-button">
-                    <Link to="/messages/compose">
+                    <Link
+                        to={{
+                            pathname: '/messages/compose',
+                            state: { background: location },
+                        }}
+                    >
                         <Button
                             size="lg"
                             styleType="filled button__round button__round--lg"

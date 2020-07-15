@@ -39,7 +39,7 @@
             box-shadow: $outline-shadow;
             background: $primary-light;
         }
-        &:focus + .tweet__actions-count, &:hover + .tweet__actions-count {
+        &:focus .tweet__actions-count, &:hover .tweet__actions-count {
             color: $primary;
         }
         &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
@@ -50,36 +50,24 @@
             &:hover {
                 background: $green-light;
             }
-            &:hover + .tweet__actions-count {
-                color: $green;
-            }
-            &:hover .tweet__actions-icon {
+            &:hover .tweet__actions-count, &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
                 color: $green;
             }
             &:focus {
                 box-shadow: $green 0 0 0 2px;  
                 background: $green-light;
             }
-            &:focus .tweet__actions-icon {
-                color: $green;
-            }
         }
         &--heart {
             &:hover {
                 background: $error-light;
             }
-            &:hover + .tweet__actions-count {
-                color: $error;
-            }
-            &:hover .tweet__actions-icon {
+            &:hover .tweet__actions-count, &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
                 color: $error;
             }
             &:focus {
                 box-shadow: $error 0 0 0 2px;
                 background: $error-light;
-            }
-            &:focus .tweet__actions-icon {
-                color: $error;
             }
         }
     }

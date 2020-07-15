@@ -4,7 +4,7 @@ import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
 import Backdrop from '../../components/backdrop/Backdrop';
 import UserContext from '../../context/UserContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as HomeIconFilled } from '../../assets/icons/home-filled.svg';
 import { ReactComponent as NotificationIcon } from '../../assets/icons/notification.svg';
@@ -33,6 +33,7 @@ import './nav.scss';
 
 const Nav = () => {
     const history = useHistory();
+    const location = useLocation();
     const [menu, setMenu] = useState({});
     const { currentUser, getCurrentUser } = useContext(UserContext);
 
@@ -109,7 +110,12 @@ const Nav = () => {
                     <Button
                         size="lg"
                         styleType="filled button__round"
-                        onClick={() => history.push('/compose/tweet')}
+                        onClick={() =>
+                            history.push({
+                                pathname: '/compose/tweet',
+                                state: { background: location },
+                            })
+                        }
                         icon={<FeatherIcon />}
                         style={{ margin: '10px 0', width: '90%' }}
                     >

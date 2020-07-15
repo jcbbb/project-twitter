@@ -7,7 +7,7 @@ const Tweets = ({ tweets, loading }) => {
         <div className="relative">
             {loading && <Loader />}
             {tweets.map((tweet, index) => (
-                <Tweet key={index} tweet={tweet} />
+                <Tweet key={index} tweet={tweet} hasActions={true} hasMedia={true} hasBorder={true} />
             ))}
         </div>
     );

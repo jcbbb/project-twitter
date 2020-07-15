@@ -8,13 +8,12 @@ import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './home.scss';
 
-// TODO: Configure socket.io for messaging
-
 const Home = ({ title }) => {
     const [viewport, setViewport] = useState(0);
     const resize = () => setViewport(window.innerWidth);
 
     useEffect(() => {
+        setViewport(window.innerWidth);
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);
     }, []);

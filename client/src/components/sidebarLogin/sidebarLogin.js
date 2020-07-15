@@ -6,13 +6,14 @@ import useHttp from '../../hooks/useHttp';
 import UserContext from '../../context/UserContext';
 import Loader from '../loader/Loader';
 import Backdrop from '../backdrop/Backdrop';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Formiz, useForm } from '@formiz/core';
 import { isEmail, isMinLength } from '@formiz/validations';
 import './sidebarLogin.scss';
 
 const SidebarLogin = () => {
     const history = useHistory();
+    const location = useLocation();
     const { request, loading, error } = useHttp();
     const { login, getCurrentUser } = useContext(UserContext);
 
@@ -85,7 +86,13 @@ const SidebarLogin = () => {
                             <p className="sidebarLogin__or">or</p>
                         </form>
                     </Formiz>
-                    <Link to="/signup">
+                    <Link
+                        to="/signup"
+                        to={{
+                            pathname: '/signup',
+                            state: { background: location },
+                        }}
+                    >
                         <Button styleType="filled" size="md">
                             Sign up
                         </Button>

@@ -5,12 +5,12 @@ const useTweets = () => {
     const { request, loading } = useHttp();
     const [tweets, setTweets] = useState([]);
     const [tweet, setTweet] = useState({});
-    const [replyingTweetId, setReplyingTweetId] = useState('');
+    const [replyingTweet, setReplyingTweet] = useState({});
 
     const fetchTweets = useCallback(
-        async (userId) => {
+        async (userId, query) => {
             try {
-                const response = await request(`/api/users/user/tweets?userId=${userId}`, 'GET');
+                const response = await request(`/api/users/user/tweets?userId=${userId}&type=${query}`, 'GET');
                 if (response.status === 200 && response.status !== 500) {
                     setTweets(response.tweets);
                 }
@@ -46,8 +46,8 @@ const useTweets = () => {
         tweets,
         fetchTweets,
         setTweets,
-        replyingTweetId,
-        setReplyingTweetId,
+        replyingTweet,
+        setReplyingTweet,
         getTweet,
         tweet,
         setTweet,

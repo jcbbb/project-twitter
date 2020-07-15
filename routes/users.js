@@ -67,11 +67,21 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
 
 router.get('/user/tweets', verifyToken, async (req, res) => {
     try {
-        const { userId } = req.query;
-        const tweets = await Tweet.find({ user: userId }).sort({ _id: -1 }).populate('user');
-        if (!tweets) {
-            return res.status(400).json({ message: 'Tweets not found', status: 400 });
+        const { userId, type } = req.query;
+        let tweets;
+
+        switch (type) {
+            case 'with_media':
+                tweets = await Tweet.find({ user: userId, 'media.urls_count': { $gt: 0 } }).populate('user');
+                break;
+            case 'with_likes':
+                tweets = await Tweet.find({ user: userId, liked: { $ne: false } }).populate('user');
+                break;
+            default:
+                tweets = await Tweet.find({ user: userId }).sort({ _id: -1 }).populate('user');
+                break;
         }
+
         res.json({
             message: 'Success',
             status: 200,

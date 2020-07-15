@@ -2,11 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useHttp from '../../hooks/useHttp';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
-import { NavLink, Link, useParams } from 'react-router-dom';
+import { NavLink, Link, useParams, useLocation } from 'react-router-dom';
 import './messagesList.scss';
 
 const MessagesList = () => {
     const params = useParams();
+    const location = useLocation();
     const { request } = useHttp();
     const [value, setValue] = useState(null);
     const [threads, setThreads] = useState([]);
@@ -30,7 +31,14 @@ const MessagesList = () => {
         <div className="messages__list">
             <div className="messages__list-header">
                 <h2 className="messages__list-header-heading">Messages</h2>
-                <Link exact to="/messages/compose" className="messages__list-header-icon" tabIndex="0">
+                <Link
+                    to={{
+                        pathname: '/messages/compose',
+                        state: { background: location },
+                    }}
+                    className="messages__list-header-icon"
+                    tabIndex="0"
+                >
                     <span className="messages__list-header-icon-inner" tabIndex="-1">
                         <ComposeMessageIcon />
                     </span>
@@ -73,12 +81,14 @@ const MessagesList = () => {
                                         <span className="messages__list-user-name">{participant.name}</span>
                                     ))}
                                     {thread.participants < 2 && (
-                                        <span className="messages__list-user-handle">@designcoursecom</span>
+                                        <span className="messages__list-user-handle">
+                                            {thread.participants[0].handle}
+                                        </span>
                                     )}
                                 </div>
                                 <div className="messages__list-user-last-message">
                                     <span className="messages__list-user-last-message-text">
-                                        We are sorry you are having some technical issues
+                                        {thread.last_message.message_text}
                                     </span>
                                 </div>
                             </div>

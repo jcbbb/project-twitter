@@ -148,6 +148,20 @@ const Status = () => {
                 <div className="status__content">
                     <Editor editorState={convertToEditorState(tweet.text)} readOnly />
                 </div>
+                {tweet.media.urls.length > 0 && (
+                    <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
+                        {tweet.media.urls.map((url, index) => (
+                            <div
+                                key={index}
+                                className="tweet-textarea__image-preview"
+                                style={{
+                                    backgroundImage: `url(${url})`,
+                                    gridRow: index === 1 && tweet.media.urls.length === 3 && 'span 2',
+                                }}
+                            ></div>
+                        ))}
+                    </div>
+                )}
                 <div className="status__date">
                     <span>{format(new Date(tweet.createdAt), 'hh:mm a')}</span>
                     <span className="status__date-middle-dot">&#183;</span>

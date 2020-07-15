@@ -3,6 +3,7 @@ import Backdrop from '../backdrop/Backdrop';
 import TweetTextarea from '../tweetTextarea/TweetTextarea';
 import TweetsContext from '../../context/TweetsContext';
 import Button from '../button/Button';
+import Tweet from '../tweet/Tweet';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 
@@ -10,7 +11,7 @@ import './tweetCompose.scss';
 
 const TweetCompose = () => {
     const history = useHistory();
-    const { replyingTweetId, setReplyingTweetId } = useContext(TweetsContext);
+    const { replyingTweet, setReplyingTweet } = useContext(TweetsContext);
     return (
         <Backdrop style={{ alignItems: 'flex-start' }}>
             <div className="tweetCompose">
@@ -20,7 +21,7 @@ const TweetCompose = () => {
                             className="tweetCompose__header-icon-inner"
                             onClick={() => {
                                 history.goBack();
-                                setReplyingTweetId('');
+                                setReplyingTweet({});
                             }}
                         >
                             <CloseIcon />
@@ -32,7 +33,8 @@ const TweetCompose = () => {
                         </Button>
                     </div>
                 </div>
-                <TweetTextarea size="lg" placeholder={replyingTweetId && 'Tweet your reply'} />
+                <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} />
+                <TweetTextarea size="lg" placeholder={Object.keys(replyingTweet).length !== 0 && 'Tweet your reply'} />
             </div>
         </Backdrop>
     );

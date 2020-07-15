@@ -16,7 +16,7 @@ import Status from '../components/status/Status';
 import TweetCompose from '../components/tweetCompose/TweetCompose';
 import FooterNav from '../components/footerNav/FooterNav';
 import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 
 const routes = [
     {
@@ -77,11 +77,14 @@ const routes = [
 ];
 
 const useRoutes = (isAuthenticated) => {
+    const location = useLocation();
+
+    const background = location.state && location.state.background;
     if (isAuthenticated) {
         return (
             <>
                 <div className="container-1265">
-                    <Switch>
+                    <Switch location={background || location}>
                         {routes.map((route, index) => (
                             <Route key={index} path={route.path} exact={route.exact || false}>
                                 {route.nav}
@@ -90,14 +93,14 @@ const useRoutes = (isAuthenticated) => {
                         <Redirect to="/home" />
                     </Switch>
                     <div className="container-990">
-                        <Switch>
+                        <Switch location={background || location}>
                             {routes.map((route, index) => (
                                 <Route key={index} path={route.path} exact={route.exact || false}>
                                     {route.main}
                                 </Route>
                             ))}
                         </Switch>
-                        <Switch>
+                        <Switch location={background || location}>
                             {routes.map((route, index) => (
                                 <Route key={index} path={route.path} exact={route.exact || false}>
                                     {route.sidebar}
@@ -115,21 +118,18 @@ const useRoutes = (isAuthenticated) => {
     }
 
     return (
-        <Switch>
-            <Route exact path="/">
-                <Landing />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <Route path="/signup">
-                <Signup />
-            </Route>
-            <Route path="/:handle">
-                <Profile />
-            </Route>
-            <Redirect to="/" />
-        </Switch>
+        <>
+            <Switch location={background || location}>
+                <Route exact path="/">
+                    <Landing />
+                </Route>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Redirect to="/" />
+            </Switch>
+            {background && <Route path="/signup" component={Signup} />}
+        </>
     );
 };
 

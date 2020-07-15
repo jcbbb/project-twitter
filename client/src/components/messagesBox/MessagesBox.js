@@ -67,10 +67,12 @@ const MessagesBox = () => {
 
     const sendMessage = useCallback(async () => {
         try {
-            const message_text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+            const message_text = editorState.getCurrentContent().getPlainText();
+            const draft_message_text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
             setEditorState((prevState) => EditorState.push(prevState, ContentState.createFromText('')));
             await request('/api/direct/message/new', 'POST', {
                 threadId: params.threadId,
+                draft_message_text,
                 message_text,
             });
             editorRef.current.focus();
@@ -94,95 +96,102 @@ const MessagesBox = () => {
     }, [getMessages, params.threadId]);
 
     return (
-        <div className="messageBox" style={{ paddingBottom: `${offsetHeight}px` }}>
-            <div className="messageBox__header">
-                <div className="messageBox__header--left">
-                    <h2 className="messageBox__header-name">Gary Simon</h2>
-                    <span className="messageBox__header-handle">@designcoursecom</span>
-                </div>
-                <div className="messageBox__header-icon" tabIndex="0">
-                    <div className="messageBox__header-icon-inner" tabIndex="-1">
-                        <InfoIcon />
+        <div className="messages__chat">
+            <div className="messageBox" style={{ paddingBottom: `${offsetHeight}px` }}>
+                <div className="messageBox__header">
+                    <div className="messageBox__header--left">
+                        <h2 className="messageBox__header-name">Gary Simon</h2>
+                        <span className="messageBox__header-handle">@designcoursecom</span>
+                    </div>
+                    <div className="messageBox__header-icon" tabIndex="0">
+                        <div className="messageBox__header-icon-inner" tabIndex="-1">
+                            <InfoIcon />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="messageBox__body relative">
-                <div className="messageBox__messages">
-                    {messages.map((message, index) => (
-                        <div
-                            className={`messageBox__message ${
-                                message.sender_id === currentUser._id && 'messageBox__message--current'
-                            }`}
-                            key={index}
-                        >
-                            {message.sender_id !== currentUser._id && (
-                                <div className="messageBox__message-author-image"></div>
-                            )}
+                <div className="messageBox__body relative">
+                    <div className="messageBox__messages">
+                        {messages.map((message, index) => (
                             <div
-                                className={`messageBox__message-container ${
-                                    message.sender_id === currentUser._id && 'messageBox__message-container--current'
+                                className={`messageBox__message ${
+                                    message.sender_id === currentUser._id && 'messageBox__message--current'
                                 }`}
+                                key={index}
                             >
+                                {message.sender_id !== currentUser._id && (
+                                    <div className="messageBox__message-author-image"></div>
+                                )}
                                 <div
-                                    className={`messageBox__message-content ${
-                                        message.sender_id === currentUser._id && 'messageBox__message-content--current'
+                                    className={`messageBox__message-container ${
+                                        message.sender_id === currentUser._id &&
+                                        'messageBox__message-container--current'
                                     }`}
                                 >
-                                    <Editor editorState={convertToEditorState(message.message_text)} readOnly />
+                                    <div
+                                        className={`messageBox__message-content ${
+                                            message.sender_id === currentUser._id &&
+                                            'messageBox__message-content--current'
+                                        }`}
+                                    >
+                                        <Editor
+                                            editorState={convertToEditorState(message.draft_message_text)}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <span
+                                        className={`messageBox__message-date ${
+                                            message.sender_id === currentUser._id && 'messageBox__message-date--current'
+                                        }`}
+                                    >
+                                        {format(new Date(message.createdAt), 'MMM dd, yyyy, KK:mm a')}
+                                    </span>
                                 </div>
-                                <span
-                                    className={`messageBox__message-date ${
-                                        message.sender_id === currentUser._id && 'messageBox__message-date--current'
-                                    }`}
-                                >
-                                    {format(new Date(message.createdAt), 'MMM dd, yyyy, KK:mm a')}
-                                </span>
+                            </div>
+                        ))}
+                        <div ref={messagesRef}></div>
+                    </div>
+                </div>
+                <div className="messageBox__footer" ref={footerRef}>
+                    <div className="messageBox__footer-icon" tabIndex="0">
+                        <div className="messageBox__footer-icon-inner" tabIndex="-1">
+                            <ImageIcon />
+                        </div>
+                    </div>
+                    <div className="messageBox__footer-icon" tabIndex="0">
+                        <div className="messageBox__footer-icon-inner" tabIndex="-1">
+                            <GifIcon />
+                        </div>
+                    </div>
+                    <div className="messageBox__footer-input-group">
+                        <div className="messageBox__footer-input">
+                            <Editor
+                                ref={editorRef}
+                                editorState={editorState}
+                                onChange={(editorState) => {
+                                    const textLength = editorState.getCurrentContent().getPlainText().length;
+                                    setDisabled(textLength < 1 ? true : false);
+                                    setEditorState(editorState);
+                                }}
+                                placeholder="Start a new message"
+                            />
+                        </div>
+                        <div className="messageBox__footer-icon messageBox__footer-input-icon" tabIndex="0">
+                            <div
+                                className="messageBox__footer-input-icon-inner messageBox__footer-icon-inner"
+                                tabIndex="-1"
+                            >
+                                <SmileIcon />
                             </div>
                         </div>
-                    ))}
-                    <div ref={messagesRef}></div>
-                </div>
-            </div>
-            <div className="messageBox__footer" ref={footerRef}>
-                <div className="messageBox__footer-icon" tabIndex="0">
-                    <div className="messageBox__footer-icon-inner" tabIndex="-1">
-                        <ImageIcon />
                     </div>
-                </div>
-                <div className="messageBox__footer-icon" tabIndex="0">
-                    <div className="messageBox__footer-icon-inner" tabIndex="-1">
-                        <GifIcon />
-                    </div>
-                </div>
-                <div className="messageBox__footer-input-group">
-                    <div className="messageBox__footer-input">
-                        <Editor
-                            ref={editorRef}
-                            editorState={editorState}
-                            onChange={(editorState) => {
-                                const textLength = editorState.getCurrentContent().getPlainText().length;
-                                setDisabled(textLength < 1 ? true : false);
-                                setEditorState(editorState);
-                            }}
-                            placeholder="Start a new message"
-                        />
-                    </div>
-                    <div className="messageBox__footer-icon messageBox__footer-input-icon" tabIndex="0">
-                        <div
-                            className="messageBox__footer-input-icon-inner messageBox__footer-icon-inner"
-                            tabIndex="-1"
-                        >
-                            <SmileIcon />
+                    <div
+                        onClick={sendMessage}
+                        className={`messageBox__footer-icon ${disabled && 'messageBox__footer-icon--disabled'}`}
+                        tabIndex="0"
+                    >
+                        <div className="messageBox__footer-icon-inner" tabIndex="-1">
+                            <PlaneIcon />
                         </div>
-                    </div>
-                </div>
-                <div
-                    onClick={sendMessage}
-                    className={`messageBox__footer-icon ${disabled && 'messageBox__footer-icon--disabled'}`}
-                    tabIndex="0"
-                >
-                    <div className="messageBox__footer-icon-inner" tabIndex="-1">
-                        <PlaneIcon />
                     </div>
                 </div>
             </div>

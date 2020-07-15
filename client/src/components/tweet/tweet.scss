@@ -4,7 +4,10 @@
     cursor: pointer;
     transition: all 200ms ease-in-out; 
     outline: none;
-    border-bottom: 1px solid $border;
+    &--border {
+        border-bottom: 1px solid $border;
+        
+    }
     &:hover {
         background: rgba(255, 255, 255, 0.03);
     }

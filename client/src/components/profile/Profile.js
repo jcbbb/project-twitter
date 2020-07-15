@@ -18,7 +18,7 @@ import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 
 import './profile.scss';
 
-const Profile = ({ match }) => {
+const Profile = ({ match, location }) => {
     const { handle } = match.params;
     const { currentUser } = useContext(UserContext);
     const { tweets, fetchTweets, tweetsLoading } = useContext(TweetsContext);
@@ -26,6 +26,7 @@ const Profile = ({ match }) => {
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
 
+    const background = location.state && location.state.background;
     const getUser = useCallback(
         async (handle) => {
             try {
@@ -95,7 +96,14 @@ const Profile = ({ match }) => {
                                         {currentUser.following.includes(user._id) ? null : 'Follow'}
                                     </Button>
                                 ) : (
-                                    <Link to="/settings/profile" tabIndex="-1" style={{ marginBottom: '22px' }}>
+                                    <Link
+                                        to={{
+                                            pathname: '/settings/profile',
+                                            state: { background: location },
+                                        }}
+                                        tabIndex="-1"
+                                        style={{ marginBottom: '22px' }}
+                                    >
                                         <Button styleType="outlined" size="md">
                                             Edit profile
                                         </Button>
@@ -145,13 +153,13 @@ const Profile = ({ match }) => {
                             </ul>
                         </div>
                         <div className="profile__tabs">
-                            <Tab exact to={match.url}>
+                            <Tab exact to={match.url} onClick={() => fetchTweets(user._id)}>
                                 Tweets
                             </Tab>
-                            <Tab exact to={`${match.url}/media`}>
+                            <Tab exact to={`${match.url}/media`} onClick={() => fetchTweets(user._id, 'with_media')}>
                                 Media
                             </Tab>
-                            <Tab exact to={`${match.url}/likes`}>
+                            <Tab exact to={`${match.url}/likes`} onClick={() => fetchTweets(user._id, 'with_likes')}>
                                 Likes
                             </Tab>
                         </div>
@@ -159,11 +167,7 @@ const Profile = ({ match }) => {
                     <Tweets tweets={tweets} loading={tweetsLoading} />
                 </Route>
             </Switch>
-            <Switch>
-                <Route path="/settings/profile">
-                    <ProfileSettings />
-                </Route>
-            </Switch>
+            {background && <Route path="/settings/profile" component={ProfileSettings} />}
         </Wall>
     );
 };

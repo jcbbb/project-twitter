@@ -4,7 +4,7 @@ import MenuItem from '../menuItem/MenuItem';
 import UserContext from '../../context/UserContext';
 import TweetsContext from '../../context/TweetsContext';
 import useHttp from '../../hooks/useHttp';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
 import { ReactComponent as RetweetIcon } from '../../assets/icons/retweet.svg';
 import { ReactComponent as HeartIcon } from '../../assets/icons/heart.svg';
@@ -18,9 +18,10 @@ import './tweetActions.scss';
 const TweetActions = ({ tweet, size, ...props }) => {
     const [accordion, setAccordion] = useState({});
     const { currentUser, setCurrentUser } = useContext(UserContext);
-    const { setReplyingTweetId, setTweets } = useContext(TweetsContext);
+    const { setReplyingTweet, setTweets } = useContext(TweetsContext);
     const { request } = useHttp();
     const history = useHistory();
+    const location = useLocation();
 
     const bookmark = useCallback(
         async (ev) => {
@@ -60,9 +61,14 @@ const TweetActions = ({ tweet, size, ...props }) => {
             <div
                 className="tweet__actions-container"
                 tabIndex="0"
-                onClick={() => {
-                    history.push('/compose/tweet');
-                    setReplyingTweetId(tweet._id);
+                onClick={(ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    history.push({
+                        pathname: '/compose/tweet',
+                        state: { background: location },
+                    });
+                    setReplyingTweet(tweet);
                 }}
             >
                 <span

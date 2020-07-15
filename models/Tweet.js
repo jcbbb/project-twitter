@@ -13,6 +13,7 @@ const TweetSchema = new Schema(
         retweeted: { type: Boolean, default: false },
         media: {
             urls: { type: Array },
+            urls_count: { type: Number, default: 0 },
         },
         comments: [
             {
@@ -23,5 +24,10 @@ const TweetSchema = new Schema(
     },
     { timestamps: true },
 );
+
+TweetSchema.pre('save', async function (next) {
+    this.media.urls_count = this.media.urls.length;
+    next();
+});
 
 module.exports = model('Tweet', TweetSchema);

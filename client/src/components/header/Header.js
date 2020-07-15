@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
 import SearchInput from '../searchInput/SearchInput';
 import Button from '../button/Button';
+import { Link, useLocation } from 'react-router-dom';
+import { ReactComponent as TwitterWhiteIcon } from '../../assets/icons/twitter-white.svg';
+
 import './header.scss';
+
 const Header = () => {
+    const location = useLocation();
     return (
         <header className="header">
             <div className="header__inner container-1000">
@@ -20,7 +23,15 @@ const Header = () => {
                     <Link to="/login" style={{ marginRight: '10px', outline: 'none' }} tabIndex="-1">
                         <Button styleType="outlined">Login</Button>
                     </Link>
-                    <Link to="/signup" style={{ outline: 'none' }} tabIndex="-1">
+                    <Link
+                        to="/signup"
+                        to={{
+                            pathname: '/signup',
+                            state: { background: location },
+                        }}
+                        style={{ outline: 'none' }}
+                        tabIndex="-1"
+                    >
                         <Button styleType="filled">Sign up</Button>
                     </Link>
                 </div>

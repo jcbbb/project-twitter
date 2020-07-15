@@ -9,6 +9,7 @@
     left: 0;
     top: 0;
     overflow-y: auto;
+    z-index: 1;
     &__container {
         display: flex;
         flex-direction: column;
@@ -90,7 +91,7 @@
         left: 65px;
         box-shadow: $shadow;
         border-radius: 5px;
-        z-index: 12;
+        z-index: 10;
     }
     &__menu {
         position: fixed;
@@ -134,7 +135,7 @@
         &__profile-inner {
             padding: 8px;
         }
-        &__profile-info {
+        &__profile-inner > .nav__profile-info {
             display: none;
         }
         &__profile-icon {

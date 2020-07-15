@@ -17,12 +17,12 @@ const App = () => {
         tweetsLoading,
         setTweets,
         fetchTweets,
-        replyingTweetId,
+        replyingTweet,
         tweet,
         setTweet,
         getTweet,
         destroy,
-        setReplyingTweetId,
+        setReplyingTweet,
     } = useTweets();
     const routes = useRoutes(isAuthenticated);
     return (
@@ -42,8 +42,8 @@ const App = () => {
                     setTweets,
                     tweets,
                     tweetsLoading,
-                    replyingTweetId,
-                    setReplyingTweetId,
+                    replyingTweet,
+                    setReplyingTweet,
                     tweet,
                     setTweet,
                     getTweet,

@@ -6,7 +6,8 @@ const TweetsContext = createContext({
     setTweets: () => {},
     setTweet: () => {},
     getTweet: () => {},
-    replyingTweetId: '',
+    replyingTweet: {},
+    setReplyingTweet: () => {},
 });
 
 export default TweetsContext;

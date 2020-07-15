@@ -20,6 +20,7 @@ const userSchema = new Schema(
         password: { type: String, required: true },
         bookmarks: [{ type: Schema.Types.ObjectId, ref: 'Tweet' }],
         threads: { type: Array },
+        pinned_tweet: { type: Schema.Types.ObjectId, ref: 'Tweet' },
     },
     { timestamps: true },
 );

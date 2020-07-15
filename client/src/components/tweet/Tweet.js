@@ -23,7 +23,7 @@ const convertToEditorState = (text) => {
     return editorState;
 };
 
-const Tweet = ({ tweet }) => {
+const Tweet = ({ tweet, hasActions, hasMedia, hasBorder }) => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { currentUser } = useContext(UserContext);
@@ -32,7 +32,7 @@ const Tweet = ({ tweet }) => {
 
     return (
         <div className="tweet-thread" tabIndex="-1">
-            <div className="tweet" tabIndex="0">
+            <div className={`tweet ${hasBorder && 'tweet--border'}`} tabIndex="0">
                 {isModalOpen && (
                     <Modal
                         heading="Delete Tweet?"
@@ -144,7 +144,7 @@ const Tweet = ({ tweet }) => {
                                 <Editor editorState={convertToEditorState(tweet.text)} readOnly />
                             </div>
                         )}
-                        {tweet.media.urls.length > 0 && (
+                        {tweet.media.urls.length > 0 && hasMedia && (
                             <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
                                 {tweet.media.urls.map((url, index) => (
                                     <div
@@ -158,9 +158,11 @@ const Tweet = ({ tweet }) => {
                                 ))}
                             </div>
                         )}
-                        <div style={{ maxWidth: '425px' }}>
-                            <TweetActions tweet={tweet} />
-                        </div>
+                        {hasActions && (
+                            <div style={{ maxWidth: '425px' }}>
+                                <TweetActions tweet={tweet} />
+                            </div>
+                        )}
                     </div>
                 </Link>
             </div>
