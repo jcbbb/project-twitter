@@ -14,13 +14,6 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-if (process.env.NODE_ENV === 'prod') {
-    app.use(express.static(path.join(__dirname, 'client', 'build')));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-    });
-}
-
 io.on('connection', (client) => socket(client));
 
 // Connecting to database...
@@ -55,6 +48,13 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/tweets', require('./routes/tweets'));
 app.use('/api/direct', require('./routes/direct'));
 app.use('/api/upload', require('./routes/upload'));
+
+if (process.env.NODE_ENV === 'prod') {
+    app.use(express.static(path.join(__dirname, 'client', 'build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 app.set('port', process.env.PORT || 5000);
 
