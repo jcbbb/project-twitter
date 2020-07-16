@@ -16,7 +16,6 @@ import { ReactComponent as TrashIcon } from '../../assets/icons/trash.svg';
 import { ReactComponent as PinIcon } from '../../assets/icons/pin.svg';
 import { ReactComponent as FollowIcon } from '../../assets/icons/follow.svg';
 import { ReactComponent as UnfollowIcon } from '../../assets/icons/unfollow.svg';
-import { useParams } from 'react-router-dom';
 
 import './status.scss';
 
@@ -29,16 +28,9 @@ const convertToEditorState = (text) => {
 const Status = () => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { tweetId } = useParams();
-    const { tweet, getTweet, destroy } = useContext(TweetsContext);
+    const { tweet, destroy } = useContext(TweetsContext);
     const { currentUser } = useContext(UserContext);
     const { startFollowing } = useFollow();
-
-    useEffect(() => {
-        let isSubscribed = true;
-        if (Object.keys(tweet).length === 0 && isSubscribed) getTweet(tweetId);
-        return () => (isSubscribed = false);
-    }, [getTweet, tweetId]);
 
     return (
         <Wall>

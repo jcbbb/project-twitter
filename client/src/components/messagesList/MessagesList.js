@@ -3,6 +3,7 @@ import useHttp from '../../hooks/useHttp';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
 import { NavLink, Link, useParams, useLocation } from 'react-router-dom';
+
 import './messagesList.scss';
 
 const MessagesList = () => {
@@ -32,7 +33,6 @@ const MessagesList = () => {
             <div className="messages__list-header">
                 <h2 className="messages__list-header-heading">Messages</h2>
                 <Link
-                    to="/messages/compose"
                     to={{
                         pathname: '/messages/compose',
                         state: { messagesBackground: location },

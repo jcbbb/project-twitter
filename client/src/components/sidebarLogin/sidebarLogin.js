@@ -88,7 +88,6 @@ const SidebarLogin = () => {
                         </form>
                     </Formiz>
                     <Link
-                        to="/signup"
                         to={{
                             pathname: '/signup',
                             state: { background: location },
