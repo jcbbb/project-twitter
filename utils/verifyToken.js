@@ -12,6 +12,8 @@ const verifyToken = (req, res, next) => {
 
         req.user = {
             id: decrypt.id,
+            name: decrypt.name,
+            handle: decrypt.handle,
         };
         next();
     } catch (err) {

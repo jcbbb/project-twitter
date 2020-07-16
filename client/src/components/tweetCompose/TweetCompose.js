@@ -33,7 +33,9 @@ const TweetCompose = () => {
                         </Button>
                     </div>
                 </div>
-                <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} />
+                {Object.keys(replyingTweet).length !== 0 && (
+                    <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} />
+                )}
                 <TweetTextarea size="lg" placeholder={Object.keys(replyingTweet).length !== 0 && 'Tweet your reply'} />
             </div>
         </Backdrop>

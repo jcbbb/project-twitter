@@ -18,7 +18,7 @@ import './tweetActions.scss';
 const TweetActions = ({ tweet, size, ...props }) => {
     const [accordion, setAccordion] = useState({});
     const { currentUser, setCurrentUser } = useContext(UserContext);
-    const { setReplyingTweet, setTweets } = useContext(TweetsContext);
+    const { setReplyingTweet } = useContext(TweetsContext);
     const { request } = useHttp();
     const history = useHistory();
     const location = useLocation();

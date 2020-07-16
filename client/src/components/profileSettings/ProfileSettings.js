@@ -89,7 +89,6 @@ const ProfileSettings = () => {
                 if (response && response.status === 200 && response.status !== 500) {
                     history.goBack();
                     getCurrentUser();
-                    fetchTweets();
                 }
             } catch (e) {}
         },
@@ -97,7 +96,7 @@ const ProfileSettings = () => {
     );
 
     return (
-        <Backdrop>
+        <Backdrop onClick={(ev) => ev.target === ev.currentTarget && history.goBack()}>
             <div className="profileSettings">
                 {loading && (
                     <Backdrop>

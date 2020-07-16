@@ -26,7 +26,8 @@ const Profile = ({ match, location }) => {
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
 
-    const background = location.state && location.state.background;
+    const profileBackground = location.state && location.state.profileBackground;
+
     const getUser = useCallback(
         async (handle) => {
             try {
@@ -53,7 +54,7 @@ const Profile = ({ match, location }) => {
 
     return (
         <Wall>
-            <Switch>
+            <Switch location={profileBackground || location}>
                 <Route exact path={`${match.path}/following`}>
                     <FollowingFollowers userHandle={user.handle} userName={user.name} list="following" />
                 </Route>
@@ -97,9 +98,10 @@ const Profile = ({ match, location }) => {
                                     </Button>
                                 ) : (
                                     <Link
+                                        to="/settings/profile"
                                         to={{
                                             pathname: '/settings/profile',
-                                            state: { background: location },
+                                            state: { profileBackground: location },
                                         }}
                                         tabIndex="-1"
                                         style={{ marginBottom: '22px' }}
@@ -167,7 +169,7 @@ const Profile = ({ match, location }) => {
                     <Tweets tweets={tweets} loading={tweetsLoading} />
                 </Route>
             </Switch>
-            {background && <Route path="/settings/profile" component={ProfileSettings} />}
+            {profileBackground && <Route path="/settings/profile" component={ProfileSettings} />}
         </Wall>
     );
 };

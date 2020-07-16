@@ -126,8 +126,8 @@ router.post(
                 return res.status(400).json({ message: 'Incorrect password or email', status: 400 });
             }
 
-            await generateToken(res, user.id);
-            res.json({ message: 'Successful login', status: 200 });
+            await generateToken(res, user._id, user.handle, user.name);
+            res.json({ message: 'Successful login', status: 200, user });
         } catch (e) {
             res.status(500).json({ message: 'Something went wrong. Try again' });
         }

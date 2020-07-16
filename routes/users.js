@@ -10,7 +10,7 @@ router.get('/user/profile', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
 
-        const user = await User.findById({ _id: id });
+        const user = await User.findById(id);
 
         if (!user) {
             return res.status(400).json({ message: 'User not found', status: 400 });

@@ -20,7 +20,7 @@ const MessagesChatContainer = () => {
                     <Link
                         to={{
                             pathname: '/messages/compose',
-                            state: { background: location },
+                            state: { messagesBackground: location },
                         }}
                     >
                         <Button styleType="filled" size="md">
@@ -28,18 +28,18 @@ const MessagesChatContainer = () => {
                         </Button>
                     </Link>
                 </div>
-            </div>{' '}
+            </div>
         </div>
     );
 };
 
 const Messages = () => {
     const location = useLocation();
-    const background = location.state && location.state.background;
+    const messagesBackground = location.state && location.state.messagesBackground;
     return (
         <>
             <div className="messages">
-                <Switch location={background || location}>
+                <Switch location={messagesBackground || location}>
                     <Route exact path="/messages/:threadId">
                         <MessagesList />
                         <MessagesBox />
@@ -49,12 +49,12 @@ const Messages = () => {
                         <MessagesChatContainer />
                     </Route>
                 </Switch>
-                {background && <Route path="/messages/compose" component={MessagesCompose} />}
+                {messagesBackground && <Route path="/messages/compose" component={MessagesCompose} />}
                 <div className="tweet-fixed-button">
                     <Link
                         to={{
                             pathname: '/messages/compose',
-                            state: { background: location },
+                            state: { messagesBackground: location },
                         }}
                     >
                         <Button

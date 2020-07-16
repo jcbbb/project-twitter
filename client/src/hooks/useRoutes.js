@@ -108,9 +108,7 @@ const useRoutes = (isAuthenticated) => {
                             ))}
                         </Switch>
                     </div>
-                    <Switch>
-                        <Route path="/compose/tweet" component={TweetCompose} />
-                    </Switch>
+                    {background && <Route path="/compose/tweet" component={TweetCompose} />}
                     <FooterNav />
                 </div>
             </>

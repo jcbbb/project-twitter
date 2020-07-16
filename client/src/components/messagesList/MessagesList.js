@@ -32,9 +32,10 @@ const MessagesList = () => {
             <div className="messages__list-header">
                 <h2 className="messages__list-header-heading">Messages</h2>
                 <Link
+                    to="/messages/compose"
                     to={{
                         pathname: '/messages/compose',
-                        state: { background: location },
+                        state: { messagesBackground: location },
                     }}
                     className="messages__list-header-icon"
                     tabIndex="0"

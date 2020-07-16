@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 const UserContext = createContext({
     currentUser: {
-        _id: null,
+        _id: '',
         handle: '',
         name: '',
         bio: '',
@@ -12,8 +12,8 @@ const UserContext = createContext({
         joined: null,
         followers: [],
         following: [],
-        profileImageUrl: null,
-        bannerImageUrl: null,
+        profile_image_url: null,
+        banner_image_url: null,
     },
     isAuthenticated: false,
     getCurrentUser: () => {},

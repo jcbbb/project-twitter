@@ -15,9 +15,9 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 if (process.env.NODE_ENV === 'prod') {
-    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+    app.use(express.static(path.join(__dirname, 'client', 'build')));
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
     });
 }
 
@@ -44,7 +44,8 @@ app.use((req, res, next) => {
 });
 
 app.get('/me', verifyToken, async (req, res) => {
-    res.json({ message: 'Authorization cookie is verified', status: 200 });
+    const user = req.user;
+    res.json({ message: 'Authorization cookie is verified', status: 200, user });
 });
 
 // Routes

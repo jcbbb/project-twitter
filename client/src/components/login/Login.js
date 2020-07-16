@@ -26,7 +26,7 @@ const Login = () => {
                     email: values.email,
                     password: values.password,
                 });
-                if (response.status === 200 && response.status !== 500) {
+                if (response && response.status === 200 && response.status !== 500) {
                     login();
                     getCurrentUser();
                     history.push('/home');

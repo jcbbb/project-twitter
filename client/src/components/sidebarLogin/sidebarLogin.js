@@ -28,7 +28,8 @@ const SidebarLogin = () => {
                 });
 
                 if (response && response.status === 200 && response.status !== 500) {
-                    return login() && getCurrentUser();
+                    login();
+                    getCurrentUser();
                 }
             } catch (e) {}
         },

@@ -3,7 +3,7 @@ import useHttp from '../hooks/useHttp';
 
 const useUser = () => {
     const [currentUser, setCurrentUser] = useState({
-        _id: null,
+        _id: '',
         name: '',
         handle: '',
         location: '',

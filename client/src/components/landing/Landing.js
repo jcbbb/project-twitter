@@ -25,7 +25,6 @@ const Landing = () => {
                             </Button>
                         </Link>
                         <Link
-                            to="/signup"
                             to={{
                                 pathname: '/signup',
                                 state: { background: location },
