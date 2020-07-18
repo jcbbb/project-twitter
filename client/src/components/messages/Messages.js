@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../button/Button';
 import MessagesCompose from '../messagesCompose/MessagesCompose';
 import MessagesBox from '../messagesBox/MessagesBox';
@@ -9,6 +9,7 @@ import './messages.scss';
 
 const MessagesChatContainer = () => {
     const location = useLocation();
+
     return (
         <div className="messages__chat">
             <div className="messages__chat-container">
@@ -36,12 +37,21 @@ const MessagesChatContainer = () => {
 const Messages = () => {
     const location = useLocation();
     const messagesBackground = location.state && location.state.messagesBackground;
+    const [viewport, setViewport] = useState(0);
+    const resize = () => setViewport(window.innerWidth);
+
+    useEffect(() => {
+        setViewport(window.innerWidth);
+        window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
+    }, []);
+
     return (
         <>
             <div className="messages">
                 <Switch location={messagesBackground || location}>
                     <Route exact path="/messages/:threadId">
-                        <MessagesList />
+                        {viewport > 1000 && <MessagesList />}
                         <MessagesBox />
                     </Route>
                     <Route path="/messages">
@@ -50,20 +60,6 @@ const Messages = () => {
                     </Route>
                 </Switch>
                 {messagesBackground && <Route path="/messages/compose" component={MessagesCompose} />}
-                <div className="tweet-fixed-button">
-                    <Link
-                        to={{
-                            pathname: '/messages/compose',
-                            state: { messagesBackground: location },
-                        }}
-                    >
-                        <Button
-                            size="lg"
-                            styleType="filled button__round button__round--lg"
-                            icon={<ComposeMessageIcon />}
-                        ></Button>
-                    </Link>
-                </div>
             </div>
         </>
     );

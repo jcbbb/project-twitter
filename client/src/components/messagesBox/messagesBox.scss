@@ -4,6 +4,7 @@
     position: relative;
     padding-top: 53px;
     max-width: 600px;
+    width: 600px;
     height: 100%;
     transform: translateZ(0);
     &__header {
@@ -17,6 +18,10 @@
         top: 0;
         width: 100%;
         background: $primary-background;
+        &--left {
+            display: flex;
+            align-items: center;
+        }
     }
     &__header-name {
         font-size: 19px;
@@ -39,6 +44,10 @@
         &:focus {
             box-shadow: $outline-shadow;
         }
+    }
+    &__header-icon-back {
+        margin-right: 20px;
+        display: none;
     }
     &__header-icon-inner {
         display: flex;
@@ -187,4 +196,19 @@
     max-width: 100%;
     overflow-wrap: break-word;
     word-break: break-all;
+}
+
+@media only screen and (max-width: 1000px) {
+    .messageBox {
+        &__header-icon-back {
+            display: block;
+        }
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .messageBox {
+        width: 100%;
+        max-width: 100%;
+    }    
 }

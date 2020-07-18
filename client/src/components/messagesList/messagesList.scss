@@ -100,3 +100,20 @@
         color: $non-active;
     }
 }
+
+@media only screen and (max-width: 1074px) {
+    .messages {
+        &__list {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .messages {
+        &__list {
+            border-right: none;
+        }    
+    }
+}

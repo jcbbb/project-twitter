@@ -34,7 +34,7 @@ const Bookmarks = () => {
 
     return (
         <Wall>
-            <WallHeader subheading={currentUser.handle} icon={<DotsIcon />}>
+            <WallHeader subheading={currentUser.handle} icon={<DotsIcon />} arrow={true} arrowHidden={true}>
                 Bookmarks
             </WallHeader>
             <div className="bookmarks relative">

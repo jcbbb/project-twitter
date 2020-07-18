@@ -52,6 +52,9 @@
         &--m22 {
             margin-right: 22px;
         }
+        &--hidden {
+            display: none;
+        }
     }
     &__icon-inner {
         outline: none;
@@ -79,6 +82,11 @@
     .wall-header {
         &__profile {
             display: block;
+        }
+        &__icon {
+            &--hidden {
+                display: block;
+            }
         }
     }
 }

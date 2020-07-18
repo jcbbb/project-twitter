@@ -11,12 +11,13 @@
     &__chat {
         max-width: 600px;
         flex: 1;
-        &-container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    }
+    &__chat-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 600px;
     }
     &__new-message {
         display: flex;
@@ -34,5 +35,28 @@
             color: $non-active;
             margin-bottom: 20px;
         }
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .messages {
+        width: 600px;
+        &__chat-container {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .messages {
+        width: 100%;
+        max-width: 100%;
+        border-right: none;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .messages {
+        border-left: none;
     }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Navlink from '../navlink/Navlink';
+import { withRouter } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as HomeIconFilled } from '../../assets/icons/home-filled.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
@@ -11,7 +12,10 @@ import { ReactComponent as MessageIconFilled } from '../../assets/icons/message-
 
 import './footerNav.scss';
 
-const FooterNav = () => {
+const FooterNav = ({ location }) => {
+    if (location.pathname.match(/messages\/.*/)) {
+        return null;
+    }
     return (
         <div className="footerNav">
             <Navlink to="/home" icon={<HomeIcon />} activeIcon={<HomeIconFilled />} style={{ marginBottom: '0' }} />
@@ -37,4 +41,4 @@ const FooterNav = () => {
     );
 };
 
-export default FooterNav;
+export default withRouter(FooterNav);

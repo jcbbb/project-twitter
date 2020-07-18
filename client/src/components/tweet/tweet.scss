@@ -6,7 +6,6 @@
     outline: none;
     &--border {
         border-bottom: 1px solid $border;
-        
     }
     &:hover {
         background: rgba(255, 255, 255, 0.03);
@@ -18,6 +17,36 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    &__footer {
+        padding: 5px 15px;
+        display: flex;
+        align-items: center;
+        transition: all 200ms ease-in-out;
+        cursor: pointer;
+        &:hover {
+            background: $primary-background-light;
+        }
+        &:focus {
+            box-shadow: $outline-shadow;
+        }
+    }
+    &__footer-dots {
+        display: flex;
+        flex-direction: column;
+        margin: -2px;
+        margin-left: 22px;
+    }
+    &__footer-dot {
+        height: 2px;
+        width: 2px;
+        border-radius: 50%;
+        background: $border;
+        margin: 2px;
+    }
+    &__footer-text {
+        color: $primary;
+        margin-left: 34px;
     }
     &__line {
         width: 2px;

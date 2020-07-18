@@ -4,10 +4,11 @@ import WallHeader from '../wallHeader/WallHeader';
 import Tab from '../tab/Tab';
 import Button from '../button/Button';
 import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
-import { useRouteMatch, Link } from 'react-router-dom';
+import { useRouteMatch, Link, useLocation } from 'react-router-dom';
 
 const Notifications = () => {
     const match = useRouteMatch();
+    const location = useLocation();
     return (
         <Wall>
             <WallHeader noBorder>Notifications</WallHeader>
@@ -20,7 +21,12 @@ const Notifications = () => {
                 </Tab>
             </div>
             <div className="tweet-fixed-button">
-                <Link to="/compose/tweet">
+                <Link
+                    to={{
+                        pathname: '/compose/tweet',
+                        state: { background: location },
+                    }}
+                >
                     <Button
                         size="lg"
                         styleType="filled button__round button__round--lg"

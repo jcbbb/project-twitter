@@ -6,13 +6,14 @@ import Wall from '../wall/Wall';
 import TweetsContext from '../../context/TweetsContext';
 import Button from '../button/Button';
 import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './explore.scss';
 
 const Explore = () => {
     const { request } = useHttp();
     const { tweets, setTweets } = useContext(TweetsContext);
+    const location = useLocation();
 
     const fetchAllTweets = useCallback(async () => {
         try {
@@ -38,7 +39,12 @@ const Explore = () => {
                 <Tweets tweets={tweets} />
             </div>
             <div className="tweet-fixed-button">
-                <Link to="/compose/tweet">
+                <Link
+                    to={{
+                        pathname: '/compose/tweet',
+                        state: { background: location },
+                    }}
+                >
                     <Button
                         size="lg"
                         styleType="filled button__round button__round--lg"

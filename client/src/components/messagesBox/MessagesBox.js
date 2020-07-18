@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback, useContext } from 'rea
 import useHttp from '../../hooks/useHttp';
 import UserContext from '../../context/UserContext';
 import io from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
 import { compositeDecorator, messageBoxDecorator } from '../../helpers/decorators';
@@ -11,6 +11,7 @@ import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import { ReactComponent as PlaneIcon } from '../../assets/icons/plane.svg';
+import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
 
 import './messagesBox.scss';
 
@@ -28,6 +29,7 @@ const MessagesBox = () => {
     const [socket, setSocket] = useState({});
     const { currentUser } = useContext(UserContext);
     const { request } = useHttp();
+    const history = useHistory();
     const footerRef = useRef(null);
     const messagesRef = useRef(null);
     const editorRef = useRef(null);
@@ -100,8 +102,19 @@ const MessagesBox = () => {
             <div className="messageBox" style={{ paddingBottom: `${offsetHeight}px` }}>
                 <div className="messageBox__header">
                     <div className="messageBox__header--left">
-                        <h2 className="messageBox__header-name">Gary Simon</h2>
-                        <span className="messageBox__header-handle">@designcoursecom</span>
+                        <div className="messageBox__header-icon messageBox__header-icon-back" tabIndex="0">
+                            <span
+                                className="messageBox__header-icon-inner"
+                                tabIndex="-1"
+                                onClick={() => history.goBack()}
+                            >
+                                <BackArrowIcon />
+                            </span>
+                        </div>
+                        <div classsName="messageBox__header-info">
+                            <h2 className="messageBox__header-name">Gary Simon</h2>
+                            <span className="messageBox__header-handle">@designcoursecom</span>
+                        </div>
                     </div>
                     <div className="messageBox__header-icon" tabIndex="0">
                         <div className="messageBox__header-icon-inner" tabIndex="-1">

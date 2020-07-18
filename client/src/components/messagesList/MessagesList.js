@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useHttp from '../../hooks/useHttp';
+import Button from '../button/Button';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
 import { NavLink, Link, useParams, useLocation } from 'react-router-dom';
@@ -98,6 +99,20 @@ const MessagesList = () => {
                     </li>
                 ))}
             </ul>
+            <div className="tweet-fixed-button">
+                <Link
+                    to={{
+                        pathname: '/messages/compose',
+                        state: { messagesBackground: location },
+                    }}
+                >
+                    <Button
+                        size="lg"
+                        styleType="filled button__round button__round--lg"
+                        icon={<ComposeMessageIcon />}
+                    ></Button>
+                </Link>
+            </div>
         </div>
     );
 };

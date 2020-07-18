@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';
 import './wallHeader.scss';
 
-const WallHeader = ({ children, arrow, subheading, icon, noBorder, profile }) => {
+const WallHeader = ({ children, arrow, arrowHidden, subheading, icon, noBorder, profile }) => {
     const history = useHistory();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [accountInfoActive, setAccountInfoActive] = useState(false);
@@ -33,7 +33,9 @@ const WallHeader = ({ children, arrow, subheading, icon, noBorder, profile }) =>
             <div className={`wall-header ${noBorder && 'wall-header--no-border'}`}>
                 {arrow && (
                     <div
-                        className="wall-header__icon wall-header__icon--m22"
+                        className={`wall-header__icon wall-header__icon--m22 ${
+                            arrowHidden && 'wall-header__icon--hidden'
+                        }`}
                         tabIndex="0"
                         onClick={() => history.goBack()}
                     >
