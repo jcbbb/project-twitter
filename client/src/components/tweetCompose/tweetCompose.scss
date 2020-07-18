@@ -13,6 +13,9 @@
         align-items: center;
         justify-content: space-between;
     }
+    &__textarea {
+        height: 9em;
+    }
     &__header-button {
         display: none;
     }

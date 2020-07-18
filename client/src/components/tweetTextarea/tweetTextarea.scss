@@ -57,6 +57,11 @@
         width: 100%;
         overflow-x: hidden;
         margin-top: 12px;
+        justify-content: space-between;
+        font-size: 19px;
+        &--lg {
+            min-height: 10em;
+        }
     }
     &__image-preview-container {
         max-height: 300px;
@@ -92,9 +97,6 @@
     }
     &__editable {
         margin-bottom: 10px;
-        &--lg {
-            height: 9em;
-        }
     }
     .DraftEditor-root {
         font-size: 19px;

@@ -48,6 +48,15 @@
         color: $primary;
         margin-left: 34px;
     }
+    &__replying {
+        color: $primary;
+        display: block;
+        padding: 10px 0;
+    }
+    &__replying-text {
+        color: $non-active;
+        margin-right: 5px;
+    }
     &__line {
         width: 2px;
         height: 100%;

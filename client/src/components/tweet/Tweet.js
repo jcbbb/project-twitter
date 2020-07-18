@@ -23,7 +23,7 @@ const convertToEditorState = (text) => {
     return editorState;
 };
 
-const Tweet = ({ tweet, hasActions, hasMedia, hasBorder }) => {
+const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying }) => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { currentUser } = useContext(UserContext);
@@ -71,74 +71,76 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder }) => {
                                     {tweet.user.name}
                                 </h2>
                                 <span className="tweeter__info-handle">{tweet.user.handle}</span>
-                                <div data-id="chevron" className="tweet__dropdown-icon-container" tabIndex="0">
-                                    <span
-                                        className="tweet__dropdown-icon"
-                                        tabIndex="-1"
-                                        data-id="chevron"
-                                        onClick={(ev) => {
-                                            ev.preventDefault();
-                                            setAccordion({ id: ev.target.dataset.id });
-                                        }}
-                                    >
-                                        <ChevronIcon />
-                                    </span>
-                                    {accordion.id === 'chevron' && (
-                                        <Backdrop
-                                            noBg
+                                {!replying && (
+                                    <div data-id="chevron" className="tweet__dropdown-icon-container" tabIndex="0">
+                                        <span
+                                            className="tweet__dropdown-icon"
+                                            tabIndex="-1"
+                                            data-id="chevron"
                                             onClick={(ev) => {
                                                 ev.preventDefault();
-                                                ev.stopPropagation();
-                                                setAccordion({});
+                                                setAccordion({ id: ev.target.dataset.id });
                                             }}
-                                        />
-                                    )}
-                                    <ul
-                                        tabIndex="-1"
-                                        className={`tweet__actions-menu ${
-                                            accordion.id === 'chevron' && 'tweet__actions-menu--active'
-                                        }`}
-                                    >
-                                        {tweet.user._id === currentUser._id && (
-                                            <>
+                                        >
+                                            <ChevronIcon />
+                                        </span>
+                                        {accordion.id === 'chevron' && (
+                                            <Backdrop
+                                                noBg
+                                                onClick={(ev) => {
+                                                    ev.preventDefault();
+                                                    ev.stopPropagation();
+                                                    setAccordion({});
+                                                }}
+                                            />
+                                        )}
+                                        <ul
+                                            tabIndex="-1"
+                                            className={`tweet__actions-menu ${
+                                                accordion.id === 'chevron' && 'tweet__actions-menu--active'
+                                            }`}
+                                        >
+                                            {tweet.user._id === currentUser._id && (
+                                                <>
+                                                    <MenuItem
+                                                        icon={<TrashIcon />}
+                                                        danger={true}
+                                                        onClick={(ev) => {
+                                                            ev.preventDefault();
+                                                            setIsModalOpen((prev) => !prev);
+                                                            setAccordion({});
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </MenuItem>
+                                                    <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
+                                                </>
+                                            )}
+                                            {!currentUser.following.includes(tweet.user._id) &&
+                                            currentUser._id !== tweet.user._id ? (
                                                 <MenuItem
-                                                    icon={<TrashIcon />}
-                                                    danger={true}
-                                                    onClick={(ev) => {
-                                                        ev.preventDefault();
-                                                        setIsModalOpen((prev) => !prev);
+                                                    icon={<FollowIcon />}
+                                                    onClick={() => {
+                                                        startFollowing(tweet.user._id);
                                                         setAccordion({});
                                                     }}
                                                 >
-                                                    Delete
+                                                    Follow {tweet.user.handle}
                                                 </MenuItem>
-                                                <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
-                                            </>
-                                        )}
-                                        {!currentUser.following.includes(tweet.user._id) &&
-                                        currentUser._id !== tweet.user._id ? (
-                                            <MenuItem
-                                                icon={<FollowIcon />}
-                                                onClick={() => {
-                                                    startFollowing(tweet.user._id);
-                                                    setAccordion({});
-                                                }}
-                                            >
-                                                Follow {tweet.user.handle}
-                                            </MenuItem>
-                                        ) : currentUser._id === tweet.user._id ? null : (
-                                            <MenuItem
-                                                icon={<UnfollowIcon />}
-                                                onClick={() => {
-                                                    startFollowing(tweet.user._id);
-                                                    setAccordion({});
-                                                }}
-                                            >
-                                                Unfollow {tweet.user.handle}
-                                            </MenuItem>
-                                        )}
-                                    </ul>
-                                </div>
+                                            ) : currentUser._id === tweet.user._id ? null : (
+                                                <MenuItem
+                                                    icon={<UnfollowIcon />}
+                                                    onClick={() => {
+                                                        startFollowing(tweet.user._id);
+                                                        setAccordion({});
+                                                    }}
+                                                >
+                                                    Unfollow {tweet.user.handle}
+                                                </MenuItem>
+                                            )}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                             {tweet.text && (
                                 <div className="tweeter__tweet">
@@ -164,21 +166,25 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder }) => {
                                     <TweetActions tweet={tweet} />
                                 </div>
                             )}
-                            <Link className="tweet__replying" to={`/${tweet.user.handle}`}>
-                                <span className="tweet__replying-text">Replying to</span>
-                                {tweet.user.handle}
-                            </Link>
+                            {replying && (
+                                <Link className="tweet__replying" to={`/${tweet.user.handle}`}>
+                                    <span className="tweet__replying-text">Replying to</span>
+                                    {tweet.user.handle}
+                                </Link>
+                            )}
                         </div>
                     </Link>
                 </div>
-                <div className="tweet__footer">
-                    <div className="tweet__footer-dots">
-                        <span className="tweet__footer-dot"></span>
-                        <span className="tweet__footer-dot"></span>
-                        <span className="tweet__footer-dot"></span>
+                {!replying && (
+                    <div className="tweet__footer">
+                        <div className="tweet__footer-dots">
+                            <span className="tweet__footer-dot"></span>
+                            <span className="tweet__footer-dot"></span>
+                            <span className="tweet__footer-dot"></span>
+                        </div>
+                        <div className="tweet__footer-text">Show thread</div>
                     </div>
-                    <div className="tweet__footer-text">Show thread</div>
-                </div>
+                )}
             </div>
         </>
     );

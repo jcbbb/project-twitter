@@ -15,7 +15,7 @@ import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = ({ size, placeholder }) => {
+const TweetTextarea = ({ size, placeholder, ...props }) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
@@ -70,7 +70,7 @@ const TweetTextarea = ({ size, placeholder }) => {
 
     return (
         <>
-            <div className="tweet-textarea">
+            <div className="tweet-textarea" {...props}>
                 <div className="tweet-textarea__left">
                     <div
                         className="tweet-textarea__profile-image"
@@ -78,8 +78,8 @@ const TweetTextarea = ({ size, placeholder }) => {
                         style={{ backgroundImage: `url(${currentUser.profile_image_url})` }}
                     ></div>
                 </div>
-                <div className="tweet-textarea__right">
-                    <div className={`tweet-textarea__editable ${size && `tweet-textarea__editable--${size}`}`}>
+                <div className={`tweet-textarea__right ${size && `tweet-textarea__right--${size}`}`}>
+                    <div className="tweet-textarea__editable">
                         <Editor
                             ref={editorRef}
                             editorState={editorState}
