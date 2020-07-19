@@ -92,7 +92,7 @@ const ProfileSettings = () => {
                 }
             } catch (e) {}
         },
-        [request, getCurrentUser, fetchTweets, history],
+        [request, getCurrentUser, history],
     );
 
     return (

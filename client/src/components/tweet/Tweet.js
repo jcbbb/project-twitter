@@ -1,11 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import MenuItem from '../menuItem/MenuItem';
 import useFollow from '../../hooks/useFollow';
 import UserContext from '../../context/UserContext';
 import TweetsContext from '../../context/TweetsContext';
 import Modal from '../modal/Modal';
+import Loader from '../loader/Loader';
 import Backdrop from '../backdrop/Backdrop';
 import TweetActions from '../tweetActions/TweetActions';
+import useHttp from '../../hooks/useHttp';
+import { formatDate } from '../../helpers/formatDate';
 import { Link } from 'react-router-dom';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
 import { ReactComponent as ChevronIcon } from '../../assets/icons/chevron.svg';
@@ -23,169 +26,198 @@ const convertToEditorState = (text) => {
     return editorState;
 };
 
-const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying }) => {
+const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [replies, setReplies] = useState(null)
+    const [isOpened, setIsOpened] = useState(false);
     const { currentUser } = useContext(UserContext);
+    const {request, loading} = useHttp();
     const { setTweet, destroy } = useContext(TweetsContext);
     const { startFollowing } = useFollow();
 
+    const fetchReplies = useCallback(async () => {
+        try {
+            const response = await request(`/api/tweets/tweet/${tweet._id}/replies`, 'GET')
+            if(response && response.status === 200 && response.status !== 500) {
+                setReplies(response.replies);
+                setIsOpened((prevState) => !prevState);
+            }
+        } catch(e) {}
+    }, [setReplies, request, setIsOpened])
+
+    useEffect(() => {
+        if(isOpened) fetchReplies();
+    }, [isOpened, fetchReplies])
+
     return (
         <>
-            <div className="tweet-thread">
-                <div className={`tweet ${hasBorder && 'tweet--border'}`} tabIndex="0">
-                    {isModalOpen && (
-                        <Modal
-                            heading="Delete Tweet?"
-                            info="This can’t be undone and it will be removed from your profile, 
-                          the timeline of any accounts that follow 
-                          you, and from Twitter search results. "
-                            primaryButtonText="Delete"
-                            primaryButtonProps={{
-                                styleType: 'danger',
-                                size: 'md',
-                                onClick: () => destroy(tweet._id, setIsModalOpen),
-                            }}
-                            buttonProps={{ onClick: () => setIsModalOpen((prev) => !prev) }}
-                            backdropProps={{
-                                onClick: (ev) => ev.target === ev.currentTarget && setIsModalOpen((prev) => !prev),
-                            }}
-                        />
-                    )}
-                    <Link
-                        className="tweet__inner"
-                        tabIndex="-1"
-                        to={`/${tweet.user.handle}/status/${tweet._id}`}
-                        onClick={() => setTweet(tweet)}
-                    >
-                        <div className="tweet__left">
-                            <div
-                                className="tweeter__profile-image-container"
-                                style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
-                            ></div>
-                            <div className="tweet__line"></div>
-                        </div>
-                        <div className="tweet__content">
-                            <div className="tweeter__info">
-                                <h2 className="tweeter__info-name" tabIndex="0">
-                                    {tweet.user.name}
-                                </h2>
-                                <span className="tweeter__info-handle">{tweet.user.handle}</span>
-                                {!replying && (
-                                    <div data-id="chevron" className="tweet__dropdown-icon-container" tabIndex="0">
-                                        <span
-                                            className="tweet__dropdown-icon"
-                                            tabIndex="-1"
-                                            data-id="chevron"
+            <div className={`tweet ${hasBorder && 'tweet--border'}`} tabIndex="0">
+                {isModalOpen && (
+                    <Modal
+                        heading="Delete Tweet?"
+                        info="This can’t be undone and it will be removed from your profile, 
+                        the timeline of any accounts that follow 
+                        you, and from Twitter search results. "
+                        primaryButtonText="Delete"
+                        primaryButtonProps={{
+                            styleType: 'danger',
+                            size: 'md',
+                            onClick: () => destroy(tweet._id, setIsModalOpen),
+                        }}
+                        buttonProps={{ onClick: () => setIsModalOpen((prev) => !prev) }}
+                        backdropProps={{
+                            onClick: (ev) => ev.target === ev.currentTarget && setIsModalOpen((prev) => !prev),
+                        }}
+                    />
+                )}
+                <Link
+                    className="tweet__inner"
+                    tabIndex="-1"
+                    to={`/${tweet.user.handle}/status/${tweet._id}`}
+                    onClick={() => setTweet(tweet)}
+                >
+                    <div className="tweet__left">
+                        <div
+                            className="tweeter__profile-image-container"
+                            style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
+                        ></div>
+                        {tweet.reply_count > 0 && <div className="tweet__line"></div>}
+                    </div>
+                    <div className="tweet__content">
+                        <div className="tweeter__info">
+                            <h2 className="tweeter__info-name" tabIndex="0">
+                                {tweet.user.name}
+                            </h2>
+                            <span className="tweeter__info-handle">{tweet.user.handle}</span>
+                            <span className="status__date-middle-dot">&#183;</span>
+                            <span className="tweet__content-date">{
+                                formatDate(tweet.createdAt)
+                            }</span>
+                            {!replying && (
+                                <div data-id="chevron" className="tweet__dropdown-icon-container" tabIndex="0">
+                                    <span
+                                        className="tweet__dropdown-icon"
+                                        tabIndex="-1"
+                                        data-id="chevron"
+                                        onClick={(ev) => {
+                                            ev.preventDefault();
+                                            setAccordion({ id: ev.target.dataset.id });
+                                        }}
+                                    >
+                                        <ChevronIcon />
+                                    </span>
+                                    {accordion.id === 'chevron' && (
+                                        <Backdrop
+                                            noBg
                                             onClick={(ev) => {
                                                 ev.preventDefault();
-                                                setAccordion({ id: ev.target.dataset.id });
+                                                ev.stopPropagation();
+                                                setAccordion({});
                                             }}
-                                        >
-                                            <ChevronIcon />
-                                        </span>
-                                        {accordion.id === 'chevron' && (
-                                            <Backdrop
-                                                noBg
-                                                onClick={(ev) => {
-                                                    ev.preventDefault();
-                                                    ev.stopPropagation();
+                                        />
+                                    )}
+                                    <ul
+                                        tabIndex="-1"
+                                        className={`tweet__actions-menu ${
+                                            accordion.id === 'chevron' && 'tweet__actions-menu--active'
+                                        }`}
+                                    >
+                                        {tweet.user._id === currentUser._id && (
+                                            <>
+                                                <MenuItem
+                                                    icon={<TrashIcon />}
+                                                    danger={true}
+                                                    onClick={(ev) => {
+                                                        ev.preventDefault();
+                                                        setIsModalOpen((prev) => !prev);
+                                                        setAccordion({});
+                                                    }}
+                                                >
+                                                    Delete
+                                                </MenuItem>
+                                                <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
+                                            </>
+                                        )}
+                                        {!currentUser.following.includes(tweet.user._id) &&
+                                        currentUser._id !== tweet.user._id ? (
+                                            <MenuItem
+                                                icon={<FollowIcon />}
+                                                onClick={() => {
+                                                    startFollowing(tweet.user._id);
                                                     setAccordion({});
                                                 }}
-                                            />
+                                            >
+                                                Follow {tweet.user.handle}
+                                            </MenuItem>
+                                        ) : currentUser._id === tweet.user._id ? null : (
+                                            <MenuItem
+                                                icon={<UnfollowIcon />}
+                                                onClick={() => {
+                                                    startFollowing(tweet.user._id);
+                                                    setAccordion({});
+                                                }}
+                                            >
+                                                Unfollow {tweet.user.handle}
+                                            </MenuItem>
                                         )}
-                                        <ul
-                                            tabIndex="-1"
-                                            className={`tweet__actions-menu ${
-                                                accordion.id === 'chevron' && 'tweet__actions-menu--active'
-                                            }`}
-                                        >
-                                            {tweet.user._id === currentUser._id && (
-                                                <>
-                                                    <MenuItem
-                                                        icon={<TrashIcon />}
-                                                        danger={true}
-                                                        onClick={(ev) => {
-                                                            ev.preventDefault();
-                                                            setIsModalOpen((prev) => !prev);
-                                                            setAccordion({});
-                                                        }}
-                                                    >
-                                                        Delete
-                                                    </MenuItem>
-                                                    <MenuItem icon={<PinIcon />}>Pin to your profile</MenuItem>
-                                                </>
-                                            )}
-                                            {!currentUser.following.includes(tweet.user._id) &&
-                                            currentUser._id !== tweet.user._id ? (
-                                                <MenuItem
-                                                    icon={<FollowIcon />}
-                                                    onClick={() => {
-                                                        startFollowing(tweet.user._id);
-                                                        setAccordion({});
-                                                    }}
-                                                >
-                                                    Follow {tweet.user.handle}
-                                                </MenuItem>
-                                            ) : currentUser._id === tweet.user._id ? null : (
-                                                <MenuItem
-                                                    icon={<UnfollowIcon />}
-                                                    onClick={() => {
-                                                        startFollowing(tweet.user._id);
-                                                        setAccordion({});
-                                                    }}
-                                                >
-                                                    Unfollow {tweet.user.handle}
-                                                </MenuItem>
-                                            )}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                            {tweet.text && (
-                                <div className="tweeter__tweet">
-                                    <Editor editorState={convertToEditorState(tweet.text)} readOnly />
+                                    </ul>
                                 </div>
-                            )}
-                            {tweet.media.urls.length > 0 && hasMedia && (
-                                <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
-                                    {tweet.media.urls.map((url, index) => (
-                                        <div
-                                            key={index}
-                                            className="tweet-textarea__image-preview"
-                                            style={{
-                                                backgroundImage: `url(${url})`,
-                                                gridRow: index === 1 && tweet.media.urls.length === 3 && 'span 2',
-                                            }}
-                                        ></div>
-                                    ))}
-                                </div>
-                            )}
-                            {hasActions && (
-                                <div style={{ maxWidth: '425px' }}>
-                                    <TweetActions tweet={tweet} />
-                                </div>
-                            )}
-                            {replying && (
-                                <Link className="tweet__replying" to={`/${tweet.user.handle}`}>
-                                    <span className="tweet__replying-text">Replying to</span>
-                                    {tweet.user.handle}
-                                </Link>
                             )}
                         </div>
-                    </Link>
-                </div>
-                {!replying && (
-                    <div className="tweet__footer">
+                        {tweet.text && (
+                            <div className="tweeter__tweet">
+                                <Editor editorState={convertToEditorState(tweet.text)} readOnly />
+                            </div>
+                        )}
+                        {tweet.media.urls.length > 0 && hasMedia && (
+                            <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
+                                {tweet.media.urls.map((url, index) => (
+                                    <div
+                                        key={index}
+                                        className="tweet-textarea__image-preview"
+                                        style={{
+                                            backgroundImage: `url(${url})`,
+                                            gridRow: index === 1 && tweet.media.urls.length === 3 && 'span 2',
+                                        }}
+                                    ></div>
+                                ))}
+                            </div>
+                        )}
+                        {hasActions && (
+                            <div style={{ maxWidth: '425px' }}>
+                                <TweetActions tweet={tweet} idx={idx}/>
+                            </div>
+                        )}
+                        {replying && (
+                            <Link className="tweet__replying" to={`/${tweet.user.handle}`}>
+                                <span className="tweet__replying-text">Replying to</span>
+                                {tweet.user.handle}
+                            </Link>
+                        )}
+                    </div>
+                </Link>
+            </div>
+            {!replying && tweet.reply_count > 0 && !replies && !isOpened && (
+                <div className="tweet__footer relative" onClick={fetchReplies}>
+                    {loading ?  <Loader /> : (
+                        <>
                         <div className="tweet__footer-dots">
                             <span className="tweet__footer-dot"></span>
                             <span className="tweet__footer-dot"></span>
                             <span className="tweet__footer-dot"></span>
                         </div>
-                        <div className="tweet__footer-text">Show thread</div>
-                    </div>
-                )}
-            </div>
+                        <div className="tweet__footer-text">
+                            {tweet.reply_count > 1 ? `${tweet.reply_count} more replies` : `1 more reply`}
+                        </div>
+                        </>
+
+                    )}
+                </div>
+            )}
+            {replies && replies.map((reply, index) => (
+                <Tweet tweet={reply} idx={index} hasActions={true}/>
+            ))}
         </>
     );
 };

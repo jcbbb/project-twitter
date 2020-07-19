@@ -24,7 +24,6 @@ const Header = () => {
                         <Button styleType="outlined">Login</Button>
                     </Link>
                     <Link
-                        to="/signup"
                         to={{
                             pathname: '/signup',
                             state: { background: location },

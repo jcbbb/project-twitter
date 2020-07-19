@@ -24,7 +24,7 @@ const upload = multer({
 });
 
 router.post('/tweet/create', verifyToken, upload.any(), async (req, res) => {
-    const { folder } = req.body;
+    const { folder, text, in_reply_to_user_id = null, in_reply_to_tweet_id = null } = req.body;
     const urls = [];
 
     if (req.files.length) {
@@ -58,19 +58,24 @@ router.post('/tweet/create', verifyToken, upload.any(), async (req, res) => {
 
     try {
         const { id } = req.user;
-        const { tweet } = req.body;
+        if(in_reply_to_tweet_id) {
+            const counter = in_reply_to_tweet_id ? 1 : 0;
+            await Tweet.updateOne({_id: in_reply_to_tweet_id}, {$inc: { reply_count: counter } })
+        }
 
-        const newTweet = new Tweet({
-            text: tweet,
+        const tweet = new Tweet({
+            text,
+            in_reply_to_user_id,
+            in_reply_to_tweet_id,
             user: id,
             media: { urls },
         });
 
-        if (!newTweet) {
+        if (!tweet) {
             return res.status(400).json({ message: 'Unable to create new tweet', status: 400 });
         }
 
-        await newTweet.save();
+        await tweet.save();
         res.json({ message: 'Successfully created a new tweet', status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Please try again.', status: 500 });
@@ -114,7 +119,11 @@ router.post('/tweet/react/:tweetId', verifyToken, async (req, res) => {
         const { tweetId } = req.params;
         const { reaction } = req.body;
         const counter = reaction === 'Like' ? 1 : -1;
-        await Tweet.updateOne({ _id: tweetId }, { $inc: { like_count: counter } });
+        const likedBoolean = reaction === 'Like' ? true : false;
+        const updatedTweet = await Tweet.updateOne({ _id: tweetId }, { $inc: { like_count: counter }, $set: {liked: likedBoolean} });
+        if(!updatedTweet.nModified) {
+            return res.status(400).json({message: 'Unable to react to tweet', status: 400});
+        }
         res.json({ message: 'Reacted', status: 200, counter, reaction });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Try again' });
@@ -163,9 +172,19 @@ router.get('/tweet/:id', async (req, res) => {
     }
 });
 
+router.get('/tweet/:replyToId/replies', async(req, res) => {
+    try {
+        const { replyToId } = req.params;
+        const replies = await Tweet.find({ in_reply_to_tweet_id: replyToId }).populate('user');
+        res.json({ message: `Retrieved replies for ${replyToId}`, replies, status: 200});
+    } catch(e) {
+
+    }
+})
+
 router.get('/all', async (req, res) => {
     try {
-        const tweets = await Tweet.find({}).sort({ _id: -1 }).limit(20).populate('user');
+        const tweets = await Tweet.find({ in_reply_to_tweet_id: null }).sort({ _id: -1 }).limit(20).populate('user');
         res.json({ message: 'Retrieved last 20 tweets', tweets, status: 200 });
     } catch (e) {
         return res.status(500).json({ message: 'Something went wrong. Please try again.', status: 500 });

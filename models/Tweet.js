@@ -7,20 +7,14 @@ const TweetSchema = new Schema(
         retweet_count: { type: Number, default: 0 },
         like_count: { type: Number, default: 0 },
         reply_count: { type: Number, default: 0 },
-        in_reply_to_tweet_id: { type: Schema.Types.ObjectId, ref: 'Tweet' },
-        in_reply_to_user_id: { type: Schema.Types.ObjectId, ref: 'Tweet' },
+        in_reply_to_tweet_id: { type: Schema.Types.ObjectId, ref: 'Tweea', default: null },
+        in_reply_to_user_id: { type: Schema.Types.ObjectId, ref: 'User', default: null },
         liked: { type: Boolean, default: false },
         retweeted: { type: Boolean, default: false },
         media: {
             urls: { type: Array },
             urls_count: { type: Number, default: 0 },
         },
-        comments: [
-            {
-                body: String,
-                authorId: String,
-            },
-        ],
     },
     { timestamps: true },
 );

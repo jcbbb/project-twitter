@@ -21,7 +21,7 @@ import './profile.scss';
 const Profile = ({ match, location }) => {
     const { handle } = match.params;
     const { currentUser } = useContext(UserContext);
-    const { tweets, fetchTweets, tweetsLoading } = useContext(TweetsContext);
+    const { fetchTweets, tweets } = useContext(TweetsContext);
     const { request } = useHttp();
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
@@ -166,7 +166,7 @@ const Profile = ({ match, location }) => {
                             </Tab>
                         </div>
                     </div>
-                    <Tweets tweets={tweets} loading={tweetsLoading} />
+                    <Tweets />
                 </Route>
             </Switch>
             {profileBackground && <Route path="/settings/profile" component={ProfileSettings} />}

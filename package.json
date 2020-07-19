@@ -6,8 +6,10 @@
     "license": "MIT",
     "scripts": {
         "start": "cross-env NODE_ENV=prod PORT=8080 node server.js",
-        "server": "nodemon server.js",
+        "server-nodemon": "nodemon server.js",
+        "server": "node server.js",
         "client": "npm run start --prefix client",
+        "dev-nodemon": "cross-env NODE_ENV=dev concurrently \"npm run server-nodemon\" \"npm run client\"",
         "dev": "cross-env NODE_ENV=dev concurrently \"npm run server\" \"npm run client\"",
         "test": "cross-env NODE_ENV=test jest"
     },

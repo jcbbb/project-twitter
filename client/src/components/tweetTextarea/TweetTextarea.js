@@ -15,20 +15,24 @@ import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = ({ size, placeholder, ...props }) => {
+const TweetTextarea = ({ size, ...props }) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
-    const { replyingTweetId } = useContext(TweetsContext);
+    const { replyingTweet } = useContext(TweetsContext);
     const [images, setImages] = useState([]);
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
     const editorRef = useRef();
 
     const handleTweetSubmit = useCallback(async () => {
-        const tweet = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+        const text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
         const formData = new FormData();
         formData.append('folder', 'tweetMedia');
-        formData.append('tweet', tweet);
+        formData.append('text', text);
+        if(Object.keys(replyingTweet).length !== 0) {
+            formData.append('in_reply_to_tweet_id', replyingTweet._id);
+            formData.append('in_reply_to_user_id', replyingTweet.user._id);
+        }
         images.forEach((image) => {
             formData.append(image.file.name, image.file);
         });
@@ -50,7 +54,7 @@ const TweetTextarea = ({ size, placeholder, ...props }) => {
                 editorRef.current.focus();
             }
         } catch (e) {}
-    }, [request, editorState, images]);
+    }, [request, editorState, images, replyingTweet]);
 
     const preview = ({ target }) => {
         [...target.files].map((file) => {
@@ -88,7 +92,7 @@ const TweetTextarea = ({ size, placeholder, ...props }) => {
                                 setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
                                 setEditorState(editorState);
                             }}
-                            placeholder={placeholder || "What's happening?"}
+                            placeholder={Object.keys(replyingTweet).length !== 0 ? "Tweet your reply" : "What's happening"}
                         />
                     </div>
                     {images.length > 0 && (
@@ -154,7 +158,7 @@ const TweetTextarea = ({ size, placeholder, ...props }) => {
                                 disabled={loading || disabled}
                                 onClick={handleTweetSubmit}
                             >
-                                Tweet
+                                {Object.keys(replyingTweet).length !== 0 ? 'Reply' : 'Tweet'}
                             </Button>
                         </div>
                     </div>

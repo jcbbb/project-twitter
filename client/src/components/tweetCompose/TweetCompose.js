@@ -29,14 +29,17 @@ const TweetCompose = () => {
                     </div>
                     <div className="tweetCompose__header-button">
                         <Button styleType="filled" size="sm" fit>
-                            Tweet
+                            {Object.keys(replyingTweet).length !== 0 ? 'Reply' : 'Tweet'}
                         </Button>
                     </div>
                 </div>
                 {Object.keys(replyingTweet).length !== 0 && (
                     <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} replying={true} />
                 )}
-                <TweetTextarea size="lg" placeholder={Object.keys(replyingTweet).length !== 0 && 'Tweet your reply'} style={{paddingTop: '0'}}/>
+                <TweetTextarea 
+                    size="lg" 
+                    style={{paddingTop: '0'}}
+                />
             </div>
         </Backdrop>
     );

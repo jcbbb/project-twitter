@@ -15,10 +15,10 @@ import { ReactComponent as ExternalLinkIcon } from '../../assets/icons/external-
 
 import './tweetActions.scss';
 
-const TweetActions = ({ tweet, size, ...props }) => {
+const TweetActions = ({ tweet, size, idx, ...props }) => {
     const [accordion, setAccordion] = useState({});
     const { currentUser, setCurrentUser } = useContext(UserContext);
-    const { setReplyingTweet } = useContext(TweetsContext);
+    const { setReplyingTweet, reactOnTweet } = useContext(TweetsContext);
     const { request } = useHttp();
     const history = useHistory();
     const location = useLocation();
@@ -46,21 +46,12 @@ const TweetActions = ({ tweet, size, ...props }) => {
         },
         [request, currentUser, setCurrentUser],
     );
-    const reactOnTweet = useCallback(
-        async (tweet) => {
-            try {
-                const response = await request(`/api/tweets/tweet/react/${tweet._id}`, 'POST', {
-                    reaction: !tweet.liked ? 'Like' : 'Dislike',
-                });
-            } catch (e) {}
-        },
-        [request],
-    );
+
     return (
         <div className="tweet__actions" {...props}>
             <div
                 className="tweet__actions-container"
-                tabIndex="0"
+                tabIndex="-1"
                 onClick={(ev) => {
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -71,50 +62,59 @@ const TweetActions = ({ tweet, size, ...props }) => {
                     setReplyingTweet(tweet);
                 }}
             >
-                <span
-                    className={`tweet__actions-icon ${size && `tweet__actions-icon--${size}`} tweet__actions-comment`}
-                    tabIndex="-1"
-                >
-                    <CommentIcon />
-                </span>
+                <div className="tweet__actions-icon" tabIndex="0">
+                    <span
+                        className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`}`}
+                        tabIndex="-1"
+                    >
+                        <CommentIcon />
+                    </span>
+                </div>
                 <span className="tweet__actions-count">{tweet.reply_count > 0 && tweet.reply_count}</span>
             </div>
-            <div className="tweet__actions-container tweet__actions-container--retweet" tabIndex="0">
-                <span
-                    className={`tweet__actions-icon ${size && `tweet__actions-icon--${size}`} tweet__actions-retweet`}
-                    tabIndex="-1"
-                >
-                    <RetweetIcon />
-                </span>
+            <div className="tweet__actions-container" tabIndex="-1">
+                <div className="tweet__actions-icon tweet__actions-icon--retweet" tabIndex="0">
+                    <span
+                        className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`} tweet__actions-retweet`}
+                        tabIndex="-1"
+                    >
+                        <RetweetIcon />
+                    </span>
+                </div>
                 <span className="tweet__actions-count">{tweet.retweet_count > 0 && tweet.retweet_count}</span>
             </div>
-            <div className="tweet__actions-container tweet__actions-container--heart" tabIndex="0">
-                <span
-                    className={`tweet__actions-icon ${size && `tweet__actions-icon--${size}`} tweet__actions-heart`}
-                    tabIndex="-1"
+            <div className="tweet__actions-container" tabIndex="-1">
+                <div
+                    className={`tweet__actions-icon tweet__actions-icon--heart ${tweet.liked && 'tweet__actions-icon--heart--liked'}`}
+                    tabIndex="0"
                     onClick={(ev) => {
                         ev.preventDefault();
                         ev.stopPropagation();
-                        reactOnTweet(tweet);
-                    }}
+                        reactOnTweet(idx, tweet); 
+                        }
+                    } 
                 >
-                    {tweet.liked ? <HeartIconFilled /> : <HeartIcon />}
-                </span>
+                    <span tabIndex="-1" className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`}`}>
+                        {tweet.liked ? <HeartIconFilled /> : <HeartIcon />}
+                    </span>
+                </div>
                 <span className="tweet__actions-count">{tweet.like_count > 0 && tweet.like_count}</span>
             </div>
-            <div className="tweet__actions-container" tabIndex="0">
-                <span
-                    className={`tweet__actions-icon ${size && `tweet__actions-icon--${size}`} tweet__actions-share`}
-                    data-id="share"
-                    tabIndex="-1"
-                    onClick={(ev) => {
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        setAccordion({ id: ev.target.dataset.id });
-                    }}
-                >
-                    <ShareIcon />
-                </span>
+            <div className="tweet__actions-container" tabIndex="-1">
+                <div className="tweet__actions-icon" tabIndex="0">
+                    <span
+                        className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`}`}
+                        data-id="share"
+                        tabIndex="-1"
+                        onClick={(ev) => {
+                            ev.preventDefault();
+                            ev.stopPropagation();
+                            setAccordion({ id: ev.target.dataset.id });
+                        }}
+                    >
+                        <ShareIcon />
+                    </span>
+                </div>
                 <span className="tweet__actions-count"></span>
                 {accordion.id === 'share' && (
                     <Backdrop

@@ -22,6 +22,7 @@ const App = () => {
         setTweet,
         getTweet,
         destroy,
+        reactOnTweet,
         setReplyingTweet,
     } = useTweets();
     const routes = useRoutes(isAuthenticated);
@@ -48,6 +49,7 @@ const App = () => {
                     setTweet,
                     getTweet,
                     destroy,
+                    reactOnTweet,
                 }}
             >
                 {loading ? (

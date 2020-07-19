@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Tweet from '../tweet/Tweet';
 import Loader from '../loader/Loader';
+import TweetsContext from '../../context/TweetsContext';
 
-const Tweets = ({ tweets, loading }) => {
+const Tweets = () => {
+    const { tweets } = useContext(TweetsContext)
     return (
         <div className="relative">
-            {loading && <Loader />}
             {tweets.map((tweet, index) => (
-                <Tweet key={index} tweet={tweet} hasActions={true} hasMedia={true} hasBorder={true} />
+                <Tweet key={index} tweet={tweet} idx={index} hasActions={true} hasMedia={true} hasBorder={true} />
             ))}
         </div>
     );

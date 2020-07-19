@@ -79,12 +79,14 @@ const MessagesBox = () => {
             });
             editorRef.current.focus();
         } catch (e) {}
-    }, [request, editorState, params.threadId, socket, EditorState, ContentState]);
+    }, [request, editorState, params.threadId]);
 
     useEffect(() => {
-        if (footerRef.current) observer.current.observe(footerRef.current);
+        const footerRefCurrent = footerRef.current;
+        const observerCurrent = observer.current;
+        if (footerRef.current) observerCurrent.observe(footerRef.current);
         return () => {
-            observer.current.unobserve(footerRef.current);
+            observerCurrent.unobserve(footerRefCurrent);
         };
     }, [footerRef, observer]);
 

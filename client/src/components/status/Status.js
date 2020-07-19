@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import TweetActions from '../tweetActions/TweetActions';

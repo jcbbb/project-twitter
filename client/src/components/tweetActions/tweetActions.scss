@@ -32,51 +32,16 @@
         transition: all 200ms ease-in-out;
         color: $primary;
         cursor: pointer;
-        &:hover {
-            background: $primary-light;
-        }
-        &:focus {
-            box-shadow: $outline-shadow;
-            background: $primary-light;
-        }
-        &:focus .tweet__actions-count, &:hover .tweet__actions-count {
-            color: $primary;
-        }
-        &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
-            color: $primary;
-        }
-
-        &--retweet {
-            &:hover {
-                background: $green-light;
-            }
-            &:hover .tweet__actions-count, &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
-                color: $green;
-            }
-            &:focus {
-                box-shadow: $green 0 0 0 2px;  
-                background: $green-light;
-            }
-        }
-        &--heart {
-            &:hover {
-                background: $error-light;
-            }
-            &:hover .tweet__actions-count, &:hover .tweet__actions-icon, &:focus .tweet__actions-icon {
-                color: $error;
-            }
-            &:focus {
-                box-shadow: $error 0 0 0 2px;
-                background: $error-light;
-            }
-        }
     }
     &__actions-count {
         font-size: 13px;
         transition: color 200ms ease-in-out;
         color: $non-active;
     }
-    &__actions-icon {
+    &__actions-heart--liked {
+        color: $error !important;
+    }
+    &__actions-icon-inner {
         font-size: 20px;
         height: 34px;
         width: 34px;
@@ -84,9 +49,49 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
+        outline: none;
+    }
+    &__actions-icon {
+        border-radius: 50%;
         transition: all 200ms ease-in-out;
         outline: none;
         color: $non-active;
+        &:focus {
+            box-shadow: $outline-shadow;
+            color: $primary;
+            background: $primary-light;
+        }
+        &:hover {
+            background: $primary-light;
+            color: $primary;
+        }
+        &--heart {
+            &:hover, &:focus {
+                background: $error-light;
+                color: $error;
+            }
+            &:focus {
+                box-shadow: $error 0 0 0 2px;
+            }
+            &:hover + .tweet__actions-count {
+                color: $error;
+            }
+            &--liked {
+                color: $error;
+            }
+        }
+        &--retweet {
+            &:hover, &:focus {
+                background: $green-light;
+                color: $green;
+            }
+            &:focus {
+                box-shadow: $green 0 0 0 2px;
+            }
+            &:hover + .tweet__actions-count {
+                color: $green;
+            }
+        }
         svg {
             pointer-events: none;
         }
