@@ -2,7 +2,8 @@ import React, { useState, useCallback, useEffect, useRef, useContext } from 'rea
 import Button from '../button/Button';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
+import { MessagesContext } from '../../context/MessagesContext';
+import { UserContext } from '../../context/UserContext';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
@@ -13,6 +14,7 @@ const MessagesCompose = () => {
     const history = useHistory();
     const inputRef = useRef();
     const { currentUser } = useContext(UserContext);
+    const { createThread } = useContext(MessagesContext);
     const { request, loading } = useHttp();
     const [value, setValue] = useState(null);
     const [users, setUsers] = useState([]);
@@ -66,7 +68,9 @@ const MessagesCompose = () => {
                             styleType="filled"
                             size="sm"
                             disabled={selectedUsers.length < 1 || loading}
-                            onClick={createNewThread}
+                            onClick={() => {
+                                createThread(selectedUsers);
+                            }}
                         >
                             Next
                         </Button>

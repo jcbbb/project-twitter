@@ -3,7 +3,7 @@ import SearchInput from '../searchInput/SearchInput';
 import Button from '../button/Button';
 import useHttp from '../../hooks/useHttp';
 import useFollow from '../../hooks/useFollow';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { Link } from 'react-router-dom';
 
 import './sidebar.scss';

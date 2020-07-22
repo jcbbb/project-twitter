@@ -1,9 +1,10 @@
 import React, { useContext, useState, useCallback } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import MenuItem from '../menuItem/MenuItem';
-import UserContext from '../../context/UserContext';
-import TweetsContext from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import useHttp from '../../hooks/useHttp';
+import { formatNumber } from '../../helpers/formatNumber';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';
 import { ReactComponent as RetweetIcon } from '../../assets/icons/retweet.svg';
@@ -15,7 +16,7 @@ import { ReactComponent as ExternalLinkIcon } from '../../assets/icons/external-
 
 import './tweetActions.scss';
 
-const TweetActions = ({ tweet, size, idx, ...props }) => {
+const TweetActions = ({ tweet, size, idx, hasCount, ...props }) => {
     const [accordion, setAccordion] = useState({});
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const { setReplyingTweet, reactOnTweet } = useContext(TweetsContext);
@@ -44,7 +45,7 @@ const TweetActions = ({ tweet, size, idx, ...props }) => {
                 }
             } catch (e) {}
         },
-        [request, currentUser, setCurrentUser],
+        [request, currentUser, setCurrentUser, tweet._id],
     );
 
     return (
@@ -70,35 +71,53 @@ const TweetActions = ({ tweet, size, idx, ...props }) => {
                         <CommentIcon />
                     </span>
                 </div>
-                <span className="tweet__actions-count">{tweet.reply_count > 0 && tweet.reply_count}</span>
+                {hasCount && (
+                    <span className="tweet__actions-count">
+                        {tweet.reply_count > 0 && formatNumber(tweet.reply_count)}
+                    </span>
+                )}
             </div>
             <div className="tweet__actions-container" tabIndex="-1">
                 <div className="tweet__actions-icon tweet__actions-icon--retweet" tabIndex="0">
                     <span
-                        className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`} tweet__actions-retweet`}
+                        className={`tweet__actions-icon-inner ${
+                            size && `tweet__actions-icon--${size}`
+                        } tweet__actions-retweet`}
                         tabIndex="-1"
                     >
                         <RetweetIcon />
                     </span>
                 </div>
-                <span className="tweet__actions-count">{tweet.retweet_count > 0 && tweet.retweet_count}</span>
+                {hasCount && (
+                    <span className="tweet__actions-count">
+                        {tweet.retweet_count > 0 && formatNumber(tweet.retweet_count)}
+                    </span>
+                )}
             </div>
             <div className="tweet__actions-container" tabIndex="-1">
                 <div
-                    className={`tweet__actions-icon tweet__actions-icon--heart ${tweet.liked && 'tweet__actions-icon--heart--liked'}`}
+                    className={`tweet__actions-icon tweet__actions-icon--heart ${
+                        tweet.liked && 'tweet__actions-icon--heart--liked'
+                    }`}
                     tabIndex="0"
                     onClick={(ev) => {
                         ev.preventDefault();
                         ev.stopPropagation();
-                        reactOnTweet(idx, tweet); 
-                        }
-                    } 
+                        reactOnTweet(idx, tweet);
+                    }}
                 >
-                    <span tabIndex="-1" className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`}`}>
+                    <span
+                        tabIndex="-1"
+                        className={`tweet__actions-icon-inner ${size && `tweet__actions-icon--${size}`}`}
+                    >
                         {tweet.liked ? <HeartIconFilled /> : <HeartIcon />}
                     </span>
                 </div>
-                <span className="tweet__actions-count">{tweet.like_count > 0 && tweet.like_count}</span>
+                {hasCount && (
+                    <span className="tweet__actions-count">
+                        {tweet.like_count > 0 && formatNumber(tweet.like_count)}
+                    </span>
+                )}
             </div>
             <div className="tweet__actions-container" tabIndex="-1">
                 <div className="tweet__actions-icon" tabIndex="0">

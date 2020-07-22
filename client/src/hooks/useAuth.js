@@ -5,13 +5,14 @@ import useUser from '../hooks/useUser';
 
 const useAuth = () => {
     const { request, loading } = useHttp();
-    const { setCurrentUser } = useUser();
+    const { setCurrentUser, getCurrentUser } = useUser();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const history = useHistory();
 
     const login = useCallback(() => {
         setIsAuthenticated(true);
-    }, [setIsAuthenticated]);
+        getCurrentUser();
+    }, [setIsAuthenticated, getCurrentUser]);
 
     const logout = useCallback(() => {
         setIsAuthenticated(false);
@@ -30,7 +31,7 @@ const useAuth = () => {
             }
             setIsAuthenticated(false);
         } catch (e) {}
-    }, [request, history]);
+    }, [request, setCurrentUser, setIsAuthenticated, history]);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -40,7 +41,7 @@ const useAuth = () => {
         return () => (isSubscribed = false);
     }, [verifyToken]);
 
-    return { isAuthenticated, loading, login, logout };
+    return { isAuthenticated, loading, login, logout, verifyToken };
 };
 
 export default useAuth;

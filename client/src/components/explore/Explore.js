@@ -3,7 +3,7 @@ import useHttp from '../../hooks/useHttp';
 import Tweets from '../tweets/Tweets';
 import SearchInput from '../searchInput/SearchInput';
 import Wall from '../wall/Wall';
-import TweetsContext from '../../context/TweetsContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import Button from '../button/Button';
 import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
 import { Link, useLocation } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Home from '../components/home/Home';
 import Landing from '../components/landing/Landing';
 import Login from '../components/login/Login';
@@ -15,8 +15,9 @@ import Sidebar from '../components/sidebar/Sidebar';
 import Status from '../components/status/Status';
 import TweetCompose from '../components/tweetCompose/TweetCompose';
 import FooterNav from '../components/footerNav/FooterNav';
+import { UserContext } from '../context/UserContext';
 import { ReactComponent as TwitterWhiteIcon } from '../assets/icons/twitter-white.svg';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 
 const routes = [
     {
@@ -76,9 +77,9 @@ const routes = [
     },
 ];
 
-const useRoutes = (isAuthenticated) => {
+const useRoutes = () => {
     const location = useLocation();
-
+    const { isAuthenticated } = useContext(UserContext);
     const background = location.state && location.state.background;
     if (isAuthenticated) {
         return (
@@ -124,7 +125,7 @@ const useRoutes = (isAuthenticated) => {
                 <Route path="/login">
                     <Login />
                 </Route>
-                <Redirect to="/" />
+                {!isAuthenticated && <Redirect to="/" />}
             </Switch>
             {background && <Route path="/signup" component={Signup} />}
         </>

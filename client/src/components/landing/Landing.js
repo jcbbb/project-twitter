@@ -3,18 +3,19 @@ import Header from '../header/Header';
 import Wall from '../wall/Wall';
 import SidebarLogin from '../sidebarLogin/sidebarLogin';
 import Button from '../button/Button';
+import Profile from '../profile/Profile';
 import { Link, useLocation } from 'react-router-dom';
 
 import './landing.scss';
 
-const Landing = () => {
+const Landing = ({ profile }) => {
     const location = useLocation();
     return (
         <div className="landing">
             <Header />
             <main className="lading__main">
                 <div className="flex flex-align-vertical landing__main-content">
-                    <Wall />
+                    {profile ? <Profile /> : <Wall />}
                     <SidebarLogin />
                 </div>
                 <div className="landing__footer">

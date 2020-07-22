@@ -3,7 +3,6 @@ const { Schema, model } = require('mongoose');
 const threadSchema = Schema(
     {
         initiated_by: { type: Schema.Types.ObjectId, required: true },
-        thread_id: { type: String, required: true, trim: true },
         last_message: { type: Schema.Types.ObjectId, ref: 'Message', default: null },
         participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     },

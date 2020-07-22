@@ -3,7 +3,7 @@ import Input from '../input/Input';
 import Button from '../button/Button';
 import sidebarIllustration from '../../assets/images/twitter_login_sidebar_illustration.png';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import Loader from '../loader/Loader';
 import Backdrop from '../backdrop/Backdrop';
 import { Link, useHistory, useLocation } from 'react-router-dom';
@@ -15,7 +15,7 @@ const SidebarLogin = () => {
     const history = useHistory();
     const location = useLocation();
     const { request, loading, error } = useHttp();
-    const { login, getCurrentUser } = useContext(UserContext);
+    const { login } = useContext(UserContext);
 
     const sidebarLoginForm = useForm();
 
@@ -29,11 +29,11 @@ const SidebarLogin = () => {
 
                 if (response && response.status === 200 && response.status !== 500) {
                     login();
-                    getCurrentUser();
+                    history.push('/home');
                 }
             } catch (e) {}
         },
-        [request, login, getCurrentUser],
+        [request, login, history],
     );
 
     return (

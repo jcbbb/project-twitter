@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState, useCallback } from 'react';
 import Button from '../button/Button';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
-import UserContext from '../../context/UserContext';
-import TweetsContext from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import Tab from '../tab/Tab';
 import Tweets from '../tweets/Tweets';
 import ProfileSettings from '../profileSettings/ProfileSettings';
@@ -22,7 +22,7 @@ const Profile = ({ match, location }) => {
     const { handle } = match.params;
     const { currentUser } = useContext(UserContext);
     const { fetchTweets, tweets } = useContext(TweetsContext);
-    const { request } = useHttp();
+    const { request, loading } = useHttp();
     const { startFollowing } = useFollow();
     const [user, setUser] = useState(currentUser);
 
@@ -98,7 +98,6 @@ const Profile = ({ match, location }) => {
                                     </Button>
                                 ) : (
                                     <Link
-                                        to="/settings/profile"
                                         to={{
                                             pathname: '/settings/profile',
                                             state: { profileBackground: location },
@@ -166,7 +165,7 @@ const Profile = ({ match, location }) => {
                             </Tab>
                         </div>
                     </div>
-                    <Tweets />
+                    <Tweets loading={loading} tweets={tweets} />
                 </Route>
             </Switch>
             {profileBackground && <Route path="/settings/profile" component={ProfileSettings} />}

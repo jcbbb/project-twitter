@@ -74,6 +74,9 @@ li {
     width: 100%;
 }
 
+.transformed {
+    transform: translateZ(0);
+}
 @media only screen and (max-width: 1270px) {
     .container-1265 {
         justify-content: center;

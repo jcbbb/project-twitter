@@ -1,9 +1,12 @@
 const { Router } = require('express');
 const env = process.env.NODE_ENV || 'dev';
 const config = require(`../config/${env}`);
-const sgMail = require('@sendgrid/mail');
+const Mailgun = require('mailgun-js');
 
-sgMail.setApiKey(config.sgApiKey);
+const mailgun = new Mailgun({
+    apiKey: config.mgApiKey,
+    domain: 'verify.juraev.codes',
+});
 
 const router = Router();
 
@@ -11,30 +14,21 @@ router.post('/verification', async (req, res) => {
     const { email, verificationCode } = req.body;
 
     const msg = {
-        personalizations: [
-            {
-                to: [{ email }],
-                dynamic_template_data: {
-                    code: verificationCode,
-                },
-                subject: `${verificationCode} - Verification Code`,
-            },
-        ],
-        from: {
-            email: 'verify@twitter-doom.com',
-            name: 'Twitter Doom Ltd.',
-        },
-        template_id: 'd-7fa3a0c0ec934da3b169e8d7c5b9b5ec',
+        from: 'Twitter Doom <verify@twitter-doom.com>',
+        to: email,
+        subject: `Verification code - ${verificationCode}`,
+        template: 'verify',
+        'v:code': verificationCode,
     };
 
     try {
-        await sgMail.send(msg);
+        await mailgun.messages().send(msg);
         res.json({ message: 'Email sent successfully' });
     } catch (err) {
+        console.error(err);
         return res.status(400).json({
             message: 'Something went wrong while sending email',
             status: 400,
-            err: err.response.body.errors,
         });
     }
 });

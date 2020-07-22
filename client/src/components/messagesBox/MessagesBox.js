@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
-import io from 'socket.io-client';
+import { UserContext } from '../../context/UserContext';
+import { SocketContext } from '../../context/SocketContext';
 import { useParams, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
 import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
@@ -26,17 +26,13 @@ const MessagesBox = () => {
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
     const [disabled, setDisabled] = useState(true);
     const [offsetHeight, setOffsetHeight] = useState();
-    const [socket, setSocket] = useState({});
     const { currentUser } = useContext(UserContext);
+    const { socket } = useContext(SocketContext);
     const { request } = useHttp();
     const history = useHistory();
     const footerRef = useRef(null);
     const messagesRef = useRef(null);
     const editorRef = useRef(null);
-
-    useEffect(() => {
-        setSocket(io(process.env.REACT_APP_DOMAIN));
-    }, [setSocket]);
 
     useEffect(() => {
         if (Object.keys(socket).length !== 0) {

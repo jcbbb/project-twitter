@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import useHttp from '../hooks/useHttp';
 
 const useUser = () => {
@@ -29,14 +29,6 @@ const useUser = () => {
             setCurrentUser((prev) => ({ ...prev }));
         } catch (e) {}
     }, [request, setCurrentUser]);
-
-    useEffect(() => {
-        let isSubscribed = true;
-        if (isSubscribed) {
-            getCurrentUser();
-        }
-        return () => (isSubscribed = false);
-    }, [getCurrentUser]);
 
     return {
         getCurrentUser,

@@ -1,20 +1,10 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
+import useAuth from '../hooks/useAuth';
+import useUser from '../hooks/useUser';
 
-const UserContext = createContext({
-    currentUser: {
-        _id: '',
-        handle: '',
-        name: '',
-        bio: '',
-        website: '',
-        location: '',
-        bookmarks: [],
-        joined: null,
-        followers: [],
-        following: [],
-        profile_image_url: null,
-        banner_image_url: null,
-    },
+export const UserContext = createContext({
+    currentUser: {},
+    initialCurrentUserState: {},
     isAuthenticated: false,
     getCurrentUser: () => {},
     login: () => {},
@@ -23,4 +13,23 @@ const UserContext = createContext({
     setIsAuthenticated: () => {},
 });
 
-export default UserContext;
+const UserContextProvider = ({ children }) => {
+    const { isAuthenticated, login, logout } = useAuth();
+    const { currentUser, getCurrentUser, setCurrentUser } = useUser();
+    return (
+        <UserContext.Provider
+            value={{
+                isAuthenticated,
+                login,
+                logout,
+                currentUser,
+                getCurrentUser,
+                setCurrentUser,
+            }}
+        >
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export default UserContextProvider;

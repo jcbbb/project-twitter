@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import useHttp from '../../hooks/useHttp';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from '../button/Button';
+import { MessagesContext } from '../../context/MessagesContext';
+import { UserContext } from '../../context/UserContext';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
 import { NavLink, Link, useParams, useLocation } from 'react-router-dom';
@@ -10,18 +11,9 @@ import './messagesList.scss';
 const MessagesList = () => {
     const params = useParams();
     const location = useLocation();
-    const { request } = useHttp();
     const [value, setValue] = useState(null);
-    const [threads, setThreads] = useState([]);
-
-    const getThreads = useCallback(async () => {
-        try {
-            const response = await request('/api/direct/threads', 'GET');
-            if (response && response.status === 200 && response.status !== 500) {
-                setThreads(response.threads);
-            }
-        } catch (e) {}
-    }, [request, setThreads]);
+    const { threads, getThreads } = useContext(MessagesContext);
+    const { currentUser } = useContext(UserContext);
 
     useEffect(() => {
         let isSubscribed = true;
@@ -79,8 +71,10 @@ const MessagesList = () => {
                             <div className="messages__list-item-image"></div>
                             <div className="messages__list-item-info">
                                 <div className="messages__list-user">
-                                    {thread.participants.map((participant) => (
-                                        <span className="messages__list-user-name">{participant.name}</span>
+                                    {thread.participants.map((participant, key) => (
+                                        <span className="messages__list-user-name" key={key}>
+                                            {currentUser._id !== participant._id && participant.name}
+                                        </span>
                                     ))}
                                     {thread.participants < 2 && (
                                         <span className="messages__list-user-handle">
@@ -90,7 +84,7 @@ const MessagesList = () => {
                                 </div>
                                 <div className="messages__list-user-last-message">
                                     <span className="messages__list-user-last-message-text">
-                                        {thread.last_message.message_text}
+                                        {thread.last_message && thread.last_message.message_text}
                                     </span>
                                 </div>
                             </div>

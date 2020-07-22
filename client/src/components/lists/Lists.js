@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import Button from '../button/Button';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { ReactComponent as DotsIcon } from '../../assets/icons/dots.svg';
 
 import './lists.scss';

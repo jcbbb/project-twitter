@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import MenuItem from '../menuItem/MenuItem';
 import Backdrop from '../backdrop/Backdrop';
 import AccountInfo from '../accountInfo/AccountInfo';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as BackArrowIcon } from '../../assets/icons/back-arrow.svg';

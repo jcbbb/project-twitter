@@ -1,13 +1,11 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import MenuItem from '../menuItem/MenuItem';
 import useFollow from '../../hooks/useFollow';
-import UserContext from '../../context/UserContext';
-import TweetsContext from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import Modal from '../modal/Modal';
-import Loader from '../loader/Loader';
 import Backdrop from '../backdrop/Backdrop';
 import TweetActions from '../tweetActions/TweetActions';
-import useHttp from '../../hooks/useHttp';
 import { formatDate } from '../../helpers/formatDate';
 import { Link } from 'react-router-dom';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
@@ -29,30 +27,13 @@ const convertToEditorState = (text) => {
 const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [replies, setReplies] = useState(null)
-    const [isOpened, setIsOpened] = useState(false);
     const { currentUser } = useContext(UserContext);
-    const {request, loading} = useHttp();
     const { setTweet, destroy } = useContext(TweetsContext);
     const { startFollowing } = useFollow();
 
-    const fetchReplies = useCallback(async () => {
-        try {
-            const response = await request(`/api/tweets/tweet/${tweet._id}/replies`, 'GET')
-            if(response && response.status === 200 && response.status !== 500) {
-                setReplies(response.replies);
-                setIsOpened((prevState) => !prevState);
-            }
-        } catch(e) {}
-    }, [setReplies, request, setIsOpened])
-
-    useEffect(() => {
-        if(isOpened) fetchReplies();
-    }, [isOpened, fetchReplies])
-
     return (
         <>
-            <div className={`tweet ${hasBorder && 'tweet--border'}`} tabIndex="0">
+            <div className="tweet" tabIndex="0">
                 {isModalOpen && (
                     <Modal
                         heading="Delete Tweet?"
@@ -91,9 +72,7 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
                             </h2>
                             <span className="tweeter__info-handle">{tweet.user.handle}</span>
                             <span className="status__date-middle-dot">&#183;</span>
-                            <span className="tweet__content-date">{
-                                formatDate(tweet.createdAt)
-                            }</span>
+                            <span className="tweet__content-date">{formatDate(tweet.createdAt)}</span>
                             {!replying && (
                                 <div data-id="chevron" className="tweet__dropdown-icon-container" tabIndex="0">
                                     <span
@@ -186,7 +165,7 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
                         )}
                         {hasActions && (
                             <div style={{ maxWidth: '425px' }}>
-                                <TweetActions tweet={tweet} idx={idx}/>
+                                <TweetActions tweet={tweet} idx={idx} hasCount={true} />
                             </div>
                         )}
                         {replying && (
@@ -198,26 +177,29 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
                     </div>
                 </Link>
             </div>
-            {!replying && tweet.reply_count > 0 && !replies && !isOpened && (
-                <div className="tweet__footer relative" onClick={fetchReplies}>
-                    {loading ?  <Loader /> : (
-                        <>
-                        <div className="tweet__footer-dots">
-                            <span className="tweet__footer-dot"></span>
-                            <span className="tweet__footer-dot"></span>
-                            <span className="tweet__footer-dot"></span>
-                        </div>
-                        <div className="tweet__footer-text">
-                            {tweet.reply_count > 1 ? `${tweet.reply_count} more replies` : `1 more reply`}
-                        </div>
-                        </>
-
-                    )}
-                </div>
-            )}
-            {replies && replies.map((reply, index) => (
-                <Tweet tweet={reply} idx={index} hasActions={true}/>
-            ))}
+            {/*
+                TODO: Have to display tweet replies but I don't understand what twitter considers replies.
+                Leaving marking for 'More replies' section of tweet.
+                {!replying && tweet.reply_count > 0 && (
+                    <div className="tweet__footer relative">
+                        {loading ? (
+                            <Loader />
+                        ) : (
+                            <>
+                                <div className="tweet__footer-dots">
+                                    <span className="tweet__footer-dot"></span>
+                                    <span className="tweet__footer-dot"></span>
+                                    <span className="tweet__footer-dot"></span>
+                                </div>
+                                <div className="tweet__footer-text">
+                                    {tweet.reply_count > 1 ? `${tweet.reply_count} more replies` : `1 more reply`}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
+            */}
+            {hasBorder && <span className="border-bottom"></span>}
         </>
     );
 };

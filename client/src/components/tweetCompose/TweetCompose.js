@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import TweetTextarea from '../tweetTextarea/TweetTextarea';
-import TweetsContext from '../../context/TweetsContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import Button from '../button/Button';
 import Tweet from '../tweet/Tweet';
 import { useHistory } from 'react-router-dom';
@@ -36,10 +36,7 @@ const TweetCompose = () => {
                 {Object.keys(replyingTweet).length !== 0 && (
                     <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} replying={true} />
                 )}
-                <TweetTextarea 
-                    size="lg" 
-                    style={{paddingTop: '0'}}
-                />
+                <TweetTextarea size="lg" style={{ paddingTop: '0' }} />
             </div>
         </Backdrop>
     );

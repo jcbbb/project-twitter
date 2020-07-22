@@ -1,6 +1,6 @@
 import { useContext, useCallback } from 'react';
 import useHttp from '../hooks/useHttp';
-import UserContext from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 
 const useFollow = () => {
     const { request } = useHttp();

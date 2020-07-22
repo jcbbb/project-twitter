@@ -8,18 +8,11 @@ const router = Router();
 router.post('/thread/new', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
-        const { selectedUsers, threadId } = req.body;
-
-        const candidateThread = await Thread.findOne({ thread_id: threadId });
-        if (candidateThread) {
-            return res.status(409).json({ message: 'Thread already exists' });
-        }
-        const participantIds = selectedUsers.map((user) => user._id);
+        const { participants } = req.body;
 
         const thread = new Thread({
             initiated_by: id,
-            thread_id: threadId,
-            participants: participantIds,
+            participants,
         });
 
         await thread.save();

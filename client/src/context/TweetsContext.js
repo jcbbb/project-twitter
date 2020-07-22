@@ -1,13 +1,41 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
+import useTweets from '../hooks/useTweets';
 
-const TweetsContext = createContext({
-    tweets: [],
-    fetchTweets: () => {},
-    setTweets: () => {},
-    setTweet: () => {},
-    getTweet: () => {},
-    replyingTweet: {},
-    setReplyingTweet: () => {},
-});
+export const TweetsContext = createContext({});
 
-export default TweetsContext;
+const TweetsContextProvider = ({ children }) => {
+    const {
+        tweets,
+        tweetsLoading,
+        setTweets,
+        fetchTweets,
+        replyingTweet,
+        tweet,
+        setTweet,
+        getTweet,
+        destroy,
+        reactOnTweet,
+        setReplyingTweet,
+    } = useTweets();
+
+    return (
+        <TweetsContext.Provider
+            value={{
+                tweets,
+                tweetsLoading,
+                setTweets,
+                fetchTweets,
+                replyingTweet,
+                tweet,
+                setTweet,
+                getTweet,
+                destroy,
+                reactOnTweet,
+                setReplyingTweet,
+            }}
+        >
+            {children}
+        </TweetsContext.Provider>
+    );
+};
+export default TweetsContextProvider;

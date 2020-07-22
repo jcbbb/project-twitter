@@ -12,15 +12,24 @@ const MenuItem = ({ children, icon, danger, to, href, ...props }) => {
                 </li>
             </Link>
         );
-    }
-    return (
-        <a href={href} className="menuItem" tabIndex="0">
-            <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
-                {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
-                {children}
-            </li>
-        </a>
-    );
+    } else if (href) {
+        return (
+            <a href={href} className="menuItem" tabIndex="0">
+                <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
+                    {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
+                    {children}
+                </li>
+            </a>
+        );
+    } else
+        return (
+            <div href={href} className="menuItem" tabIndex="0">
+                <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
+                    {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
+                    {children}
+                </li>
+            </div>
+        );
 };
 
 export default MenuItem;

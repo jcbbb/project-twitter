@@ -3,7 +3,7 @@ import Button from '../button/Button';
 import Input from '../input/Input';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { useHistory } from 'react-router-dom';
 import { useForm, Formiz, FormizStep } from '@formiz/core';
 import { isEmail, isNumber, isMinLength } from '@formiz/validations';
@@ -52,7 +52,7 @@ const Signup = () => {
                     email,
                 });
                 if (status === 201 || status === 200) {
-                    const response = await request('/api/send/verification', 'POST', {
+                    await request('/api/send/verification', 'POST', {
                         email,
                         verificationCode,
                     });

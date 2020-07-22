@@ -1,13 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import TweetActions from '../tweetActions/TweetActions';
-import TweetsContext from '../../context/TweetsContext';
-import UserContext from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
 import MenuItem from '../menuItem/MenuItem';
 import Backdrop from '../backdrop/Backdrop';
 import useFollow from '../../hooks/useFollow';
+import useHttp from '../../hooks/useHttp';
 import Modal from '../modal/Modal';
+import Tweets from '../tweets/Tweets';
 import { format } from 'date-fns';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
 import { compositeDecorator } from '../../helpers/decorators';
@@ -28,9 +30,25 @@ const convertToEditorState = (text) => {
 const Status = () => {
     const [accordion, setAccordion] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { tweet, destroy } = useContext(TweetsContext);
+    const { tweet, destroy, setTweets, tweets } = useContext(TweetsContext);
     const { currentUser } = useContext(UserContext);
     const { startFollowing } = useFollow();
+    const { request, loading } = useHttp();
+
+    const fetchReplies = useCallback(async () => {
+        try {
+            const response = await request(`/api/tweets/tweet/${tweet._id}/replies`, 'GET');
+            if (response && response.status === 200 && response.status !== 500) {
+                setTweets(response.replies);
+            }
+        } catch (e) {}
+    }, [setTweets, request, tweet._id]);
+
+    useEffect(() => {
+        let isSubscribed = true;
+        if (isSubscribed) fetchReplies();
+        return () => (isSubscribed = false);
+    }, [fetchReplies]);
 
     return (
         <Wall>
@@ -159,22 +177,48 @@ const Status = () => {
                     <span className="status__date-middle-dot">&#183;</span>
                     <span>{format(new Date(tweet.createdAt), 'MMM dd, yyyy')}</span>
                 </div>
-                <div className="status__metrics">
-                    <div className="status__metric">
-                        <span className="status__metric-count">46</span>
-                        <a className="status__metric-link">
-                            <span className="status__metric-text">Retweets and comments</span>
-                        </a>
+                {(tweet.reply_count > 0 || tweet.retweet_count > 0 || tweet.like_count > 0) && (
+                    <div className="status__metrics">
+                        {(tweet.reply_count || tweet.retweet_count) && (
+                            <div className="status__metric">
+                                <span className="status__metric-count">
+                                    {tweet.reply_count > 0
+                                        ? tweet.reply_count
+                                        : tweet.retweet_count > 0
+                                        ? tweet.retweet_count
+                                        : tweet.reply_count + tweet.retweet_count}
+                                </span>
+                                <a className="status__metric-link">
+                                    <span className="status__metric-text">
+                                        {tweet.reply_count === 1
+                                            ? 'Comment'
+                                            : tweet.retweet_count === 1
+                                            ? 'Retweet'
+                                            : tweet.reply_count > 1
+                                            ? 'Comments'
+                                            : tweet.retweet_count > 1
+                                            ? 'Retweets'
+                                            : 'Comments and retweets '}
+                                    </span>
+                                </a>
+                            </div>
+                        )}
+                        {tweet.like_count && (
+                            <div className="status__metric">
+                                <span className="status__metric-count">{tweet.like_count}</span>
+                                <a className="status__metric-link">
+                                    <span className="status__metric-text">
+                                        {tweet.like_count === 1 ? 'Like' : 'Likes'}
+                                    </span>
+                                </a>
+                            </div>
+                        )}
                     </div>
-                    <div className="status__retweet-comment-metric">
-                        <span className="status__metric-count">428</span>
-                        <a className="status__metric-link">
-                            <span className="status__metric-text">Likes</span>
-                        </a>
-                    </div>
-                </div>
+                )}
                 <TweetActions size="lg" tweet={tweet} style={{ justifyContent: 'space-around' }} />
             </div>
+            {tweets.length > 0 && <span className="border-bottom"></span>}
+            <Tweets loading={loading} tweets={tweets} />
         </Wall>
     );
 };

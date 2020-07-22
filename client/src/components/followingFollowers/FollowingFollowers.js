@@ -2,7 +2,7 @@ import React, { useContext, useCallback, useState, useEffect } from 'react';
 import Tab from '../tab/Tab';
 import Button from '../button/Button';
 import WallHeader from '../wallHeader/WallHeader';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import useHttp from '../../hooks/useHttp';
 import useFollow from '../../hooks/useFollow';
 import { Link } from 'react-router-dom';

@@ -1,8 +1,7 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import Button from '../button/Button';
-import UserContext from '../../context/UserContext';
-import TweetsContext from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
 import Input from '../input/Input';
 import useHttp from '../../hooks/useHttp';
 import Loader from '../loader/Loader';
@@ -16,7 +15,6 @@ import './profileSettings.scss';
 const ProfileSettings = () => {
     const { request, loading } = useHttp();
     const { currentUser, getCurrentUser } = useContext(UserContext);
-    const { fetchTweets } = useContext(TweetsContext);
     const history = useHistory();
 
     const [counts, setCounts] = useState({

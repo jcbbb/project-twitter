@@ -8,7 +8,7 @@ const {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    SENDGRID_API_KEY,
+    MAILGUN_API_KEY,
 } = process.env;
 
 module.exports = {
@@ -17,5 +17,5 @@ module.exports = {
     TEST_DATABASE_URI,
     JWTSECRET,
     GCSPROJECTID,
-    SENDGRID_API_KEY,
+    MAILGUN_API_KEY,
 };

@@ -72,13 +72,21 @@ router.get('/user/tweets', verifyToken, async (req, res) => {
 
         switch (type) {
             case 'with_media':
-                tweets = await Tweet.find({ user: userId, 'media.urls_count': { $gt: 0 } }).populate('user');
+                tweets = await Tweet.find({
+                    user: userId,
+                    'media.urls_count': { $gt: 0 },
+                    in_reply_to_tweet_id: null,
+                }).populate('user');
                 break;
             case 'with_likes':
-                tweets = await Tweet.find({ user: userId, liked: { $ne: false } }).populate('user');
+                tweets = await Tweet.find({ user: userId, liked: { $ne: false }, in_reply_to_tweet_id: null }).populate(
+                    'user',
+                );
                 break;
             default:
-                tweets = await Tweet.find({ user: userId }).sort({ _id: -1 }).populate('user');
+                tweets = await Tweet.find({ user: userId, in_reply_to_tweet_id: null })
+                    .sort({ _id: -1 })
+                    .populate('user');
                 break;
         }
 

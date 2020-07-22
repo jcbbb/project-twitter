@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import Loader from '../../components/loader/Loader';
 import Backdrop from '../../components/backdrop/Backdrop';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -17,8 +17,9 @@ const Login = () => {
     const myForm = useForm();
     const location = useLocation();
     const history = useHistory();
-    const { login, getCurrentUser } = useContext(UserContext);
+    const { login } = useContext(UserContext);
     const { request, loading, error } = useHttp();
+
     const handleSubmit = useCallback(
         async (values) => {
             try {
@@ -28,12 +29,11 @@ const Login = () => {
                 });
                 if (response && response.status === 200 && response.status !== 500) {
                     login();
-                    getCurrentUser();
                     history.push('/home');
                 }
             } catch (e) {}
         },
-        [request, login, getCurrentUser, history],
+        [request, login, history],
     );
 
     const params = new URLSearchParams(location.search);

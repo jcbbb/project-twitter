@@ -4,9 +4,6 @@
     cursor: pointer;
     transition: all 200ms ease-in-out; 
     outline: none;
-    &--border {
-        border-bottom: 1px solid $border;
-    }
     &:hover {
         background: rgba(255, 255, 255, 0.03);
     }
@@ -146,5 +143,10 @@
     &__info-handle {
         color: $non-active;
     }
+}
+
+.border-bottom {
+    border-bottom: 1px solid $border;
+    display: block;
 }
 

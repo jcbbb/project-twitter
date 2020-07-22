@@ -3,7 +3,7 @@ import Navlink from '../navlink/Navlink';
 import Button from '../button/Button';
 import MenuItem from '../../components/menuItem/MenuItem';
 import Backdrop from '../../components/backdrop/Backdrop';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg';
 import { ReactComponent as HomeIconFilled } from '../../assets/icons/home-filled.svg';

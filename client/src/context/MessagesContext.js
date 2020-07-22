@@ -1,16 +1,27 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
+import useMessage from '../hooks/useMessage';
 
-const MessagesContext = createContext({
-    threads: [
-        {
-            id: '',
-            initiatedBy: '',
-            participants: [],
-        },
-    ],
-    createNewThread: () => {},
+export const MessagesContext = createContext({
+    threads: [],
+    getThreads: () => {},
+    createThread: () => {},
     selectedParticpants: [],
     setSelectedParticipants: () => {},
 });
 
-export default MessagesContext;
+const MessagesContextProvider = ({ children }) => {
+    const { getThreads, threads, createThread } = useMessage();
+    return (
+        <MessagesContext.Provider
+            value={{
+                getThreads,
+                threads,
+                createThread,
+            }}
+        >
+            {children}
+        </MessagesContext.Provider>
+    );
+};
+
+export default MessagesContextProvider;

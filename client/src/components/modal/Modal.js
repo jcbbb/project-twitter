@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Button from '../../components/button/Button';
 import Backdrop from '../../components/backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import Loader from '../loader/Loader';
 import { useHistory } from 'react-router-dom';
 import './modal.scss';
@@ -25,6 +25,7 @@ const Modal = ({
             const response = await request('/api/auth/logout');
             if (response && response.status === 200 && response.status !== 500) {
                 logout();
+                history.push('/');
             }
         } catch (e) {}
     };

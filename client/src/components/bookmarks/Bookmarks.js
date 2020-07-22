@@ -4,14 +4,14 @@ import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import Loader from '../loader/Loader';
 import Tweet from '../tweet/Tweet';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { ReactComponent as DotsIcon } from '../../assets/icons/dots.svg';
 
 import './bookmarks.scss';
 
 const Bookmarks = () => {
     const { currentUser } = useContext(UserContext);
-    const [ tweets, setTweets ] = useState([]);
+    const [tweets, setTweets] = useState([]);
     const { request, loading } = useHttp();
 
     const getBookmarkedTweets = useCallback(async () => {
@@ -39,9 +39,17 @@ const Bookmarks = () => {
             </WallHeader>
             <div className="bookmarks relative">
                 {loading && <Loader />}
-                {tweets.length > 0 && tweets.map((tweet, index) => (
-                    <Tweet key={index} tweet={tweet} idx={index} hasActions={true} hasMedia={true} hasBorder={true} />
-                ))}
+                {tweets.length > 0 &&
+                    tweets.map((tweet, index) => (
+                        <Tweet
+                            key={index}
+                            tweet={tweet}
+                            idx={index}
+                            hasActions={true}
+                            hasMedia={true}
+                            hasBorder={true}
+                        />
+                    ))}
                 {!tweets.length && (
                     <div className="no-bookmarks">
                         <h2>You haven't added any Tweets to you Bookmarks yet</h2>

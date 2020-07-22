@@ -1,5 +1,8 @@
 module.exports = (socket) => {
-    socket.on('thread opened', ({ id }) => {
+    socket.on('subscribe to thread', ({ id }) => {
         socket.join(id);
+    });
+    socket.on('subscribe', ({ ids }) => {
+        socket.join(ids);
     });
 };

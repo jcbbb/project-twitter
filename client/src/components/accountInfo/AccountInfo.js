@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import MenuItem from '../menuItem/MenuItem';
-import UserContext from '../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { Link } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { ReactComponent as ProfileIcon } from '../../assets/icons/profile.svg';

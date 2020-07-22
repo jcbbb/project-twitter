@@ -48,9 +48,9 @@ const useTweets = () => {
                 const response = await request(`/api/tweets/tweet/react/${tweet._id}`, 'POST', {
                     reaction: !tweet.liked ? 'Like' : 'Dislike',
                 });
-                if(response && response.status === 200 && response.status !== 500) {
+                if (response && response.status === 200 && response.status !== 500) {
                     const tweetsArr = [...tweets];
-                    tweetsArr[idx].liked = !tweetsArr[idx].liked
+                    tweetsArr[idx].liked = !tweetsArr[idx].liked;
                     tweetsArr[idx].like_count = !tweet.liked ? tweets[idx].like_count - 1 : tweets[idx].like_count + 1;
                     setTweets(tweetsArr);
                 }

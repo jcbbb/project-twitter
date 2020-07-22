@@ -1,7 +1,7 @@
 import React, { useState, useContext, useCallback, useEffect, useRef } from 'react';
 import Button from '../button/Button';
-import UserContext from '../../context/UserContext';
-import TweetsContext from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import useHttp from '../../hooks/useHttp';
 import { Editor, EditorState, convertToRaw, ContentState } from 'draft-js';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
@@ -29,7 +29,7 @@ const TweetTextarea = ({ size, ...props }) => {
         const formData = new FormData();
         formData.append('folder', 'tweetMedia');
         formData.append('text', text);
-        if(Object.keys(replyingTweet).length !== 0) {
+        if (Object.keys(replyingTweet).length !== 0) {
             formData.append('in_reply_to_tweet_id', replyingTweet._id);
             formData.append('in_reply_to_user_id', replyingTweet.user._id);
         }
@@ -92,7 +92,9 @@ const TweetTextarea = ({ size, ...props }) => {
                                 setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
                                 setEditorState(editorState);
                             }}
-                            placeholder={Object.keys(replyingTweet).length !== 0 ? "Tweet your reply" : "What's happening"}
+                            placeholder={
+                                Object.keys(replyingTweet).length !== 0 ? 'Tweet your reply' : "What's happening"
+                            }
                         />
                     </div>
                     {images.length > 0 && (
