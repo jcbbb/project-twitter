@@ -10,6 +10,9 @@ const path = require('path');
 const db = require('./db');
 const socket = require('./routes/socket');
 
+const env = process.env.NODE_ENV || 'dev';
+const config = require(`./config/${env}`);
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -26,7 +29,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ['http://localhost:3000'],
+        origin: config.domain,
         credentials: true,
     }),
 );
