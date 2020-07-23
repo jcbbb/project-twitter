@@ -119,9 +119,11 @@ const MessagesBox = () => {
                         </div>
                         <div classsName="messageBox__header-info">
                             <h2 className="messageBox__header-name">
-                                {Object.keys(thread).length !== 0 && formatName(thread.participants, currentUser)}
+                                {thread &&
+                                    Object.keys(thread).length !== 0 &&
+                                    formatName(thread.participants, currentUser)}
                             </h2>
-                            {Object.keys(thread).length !== 0 && thread.participants < 2 && (
+                            {thread && Object.keys(thread).length !== 0 && thread.participants < 2 && (
                                 <span className="messageBox__header-handle">{thread.participants[0].handle}</span>
                             )}
                         </div>
