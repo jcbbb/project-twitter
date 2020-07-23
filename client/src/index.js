@@ -13,11 +13,11 @@ ReactDOM.render(
         <React.StrictMode>
             <UserContextProvider>
                 <TweetsContextProvider>
-                    <SocketContextProvider>
-                        <MessagesContextProvider>
+                    <MessagesContextProvider>
+                        <SocketContextProvider>
                             <App />
-                        </MessagesContextProvider>
-                    </SocketContextProvider>
+                        </SocketContextProvider>
+                    </MessagesContextProvider>
                 </TweetsContextProvider>
             </UserContextProvider>
         </React.StrictMode>

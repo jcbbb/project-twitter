@@ -1,9 +1,9 @@
 import React, { useContext, useState, useCallback } from 'react';
 import Backdrop from '../backdrop/Backdrop';
 import MenuItem from '../menuItem/MenuItem';
+import useHttp from '../../hooks/useHttp';
 import { UserContext } from '../../context/UserContext';
 import { TweetsContext } from '../../context/TweetsContext';
-import useHttp from '../../hooks/useHttp';
 import { formatNumber } from '../../helpers/formatNumber';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../../assets/icons/comment.svg';

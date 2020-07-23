@@ -1,30 +1,31 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useContext, useEffect } from 'react';
 import useHttp from '../hooks/useHttp';
+import { UserContext } from '../context/UserContext';
 import { useHistory } from 'react-router-dom';
 
 const useMessage = () => {
     const [threads, setThreads] = useState([]);
-    const [selectedParticpants, setSelectedParticipants] = useState([]);
+    const { currentUser, isAuthenticated } = useContext(UserContext);
     const { request } = useHttp();
     const history = useHistory();
 
     const getThreads = useCallback(async () => {
         try {
+            if (!isAuthenticated) return;
             const response = await request('/api/direct/threads', 'GET');
             if (response && response.status === 200 && response.status !== 500) {
                 setThreads(response.threads);
             }
         } catch (e) {}
-    }, [request, setThreads]);
+    }, [request, setThreads, isAuthenticated]);
 
-    // TODO: Current set of selectedParticpants is one short of current user. Should fix it tomorrow!
+    const getThread = useCallback((id) => threads.filter((thread) => thread._id === id), [threads]);
     const findExistingThread = (threadList, participants) => {
-        console.log(threadList, participants);
         let matched;
         const boolArr = threadList.map(
             (threadItem) =>
                 threadItem.participants.length === participants.length &&
-                threadItem.participants.every((participant) => participants.includes(participant)),
+                threadItem.participants.every((participant) => participants.includes(participant._id)),
         );
 
         for (let i = 0, len = boolArr.length; i < len; i += 1) {
@@ -39,24 +40,31 @@ const useMessage = () => {
     const createThread = useCallback(
         async (participants) => {
             try {
+                participants.push(currentUser);
                 const participantsIds = participants.map((user) => user._id);
                 const existingThread = findExistingThread(threads, participantsIds);
-                console.log(existingThread);
-                if (existingThread) {
-                    return history.push(`/messages/${existingThread._id}`);
+                if (!existingThread) {
+                    const response = await request('/api/direct/thread/new', 'POST', {
+                        participants: participantsIds,
+                    });
+                    if (response && response.status === 200 && response.status !== 500) {
+                        return history.push(`/messages/${response.thread._id}`);
+                    }
                 }
-                const response = await request('/api/direct/thread/new', 'POST', {
-                    participants: participantsIds,
-                });
 
-                if (response && response.status === 200 && response.status !== 500) {
-                    history.push(`/messages/${response.thread._id}`);
-                }
+                history.push(`/messages/${existingThread._id}`);
             } catch (e) {}
         },
-        [threads, history, request],
+        [threads, history, request, currentUser],
     );
-    return { threads, getThreads, createThread, findExistingThread };
+
+    useEffect(() => {
+        let isSubscribed = true;
+        if (isSubscribed) getThreads();
+        return () => (isSubscribed = false);
+    }, [getThreads]);
+
+    return { threads, getThreads, createThread, getThread };
 };
 
 export default useMessage;

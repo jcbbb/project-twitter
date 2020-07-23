@@ -5,6 +5,7 @@
         border-right: 1px solid $border;
         max-width: 390px;
         width: 390px;
+        overflow-y: auto;
     }
     &__list-header {
         color: #fff;
@@ -75,12 +76,18 @@
     &__list-item-image {
         min-width: 50px;
         min-height: 50px;
+        max-width: 50px;
+        max-height: 50px;
         background: $banner;
         border-radius: 50%;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
         margin-right: 10px;
+        overflow: hidden;
+        img {
+            max-width: 100%;
+        }
     }
     &__list-item-date {
         color: $non-active;
@@ -94,7 +101,6 @@
     &__list-user-name {
         color: #fff;
         font-weight: $bold;
-        margin-right: 6px;
     }
     &__list-user-handle, &__list-user-last-message-text {
         color: $non-active;

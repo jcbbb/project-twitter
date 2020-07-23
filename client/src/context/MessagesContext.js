@@ -5,18 +5,18 @@ export const MessagesContext = createContext({
     threads: [],
     getThreads: () => {},
     createThread: () => {},
-    selectedParticpants: [],
-    setSelectedParticipants: () => {},
+    getThread: () => {},
 });
 
 const MessagesContextProvider = ({ children }) => {
-    const { getThreads, threads, createThread } = useMessage();
+    const { getThreads, threads, createThread, getThread } = useMessage();
     return (
         <MessagesContext.Provider
             value={{
                 getThreads,
                 threads,
                 createThread,
+                getThread,
             }}
         >
             {children}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Button from '../button/Button';
+import { formatName } from '../../helpers/formatName';
 import { MessagesContext } from '../../context/MessagesContext';
 import { UserContext } from '../../context/UserContext';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
@@ -19,7 +20,7 @@ const MessagesList = () => {
         let isSubscribed = true;
         if (isSubscribed) getThreads();
         return () => (isSubscribed = false);
-    }, [getThreads, params.threadId]);
+    }, [params.threadId]);
 
     return (
         <div className="messages__list">
@@ -56,27 +57,33 @@ const MessagesList = () => {
                 {threads.map((thread, index) => (
                     <li
                         className={`messages__list-item ${
-                            params.threadId === thread.thread_id && 'messages__list-item--active'
+                            params.threadId === thread._id && 'messages__list-item--active'
                         }`}
                         tabIndex="0"
                         key={index}
                     >
                         <NavLink
                             exact
-                            to={`/messages/${thread.thread_id}`}
+                            to={`/messages/${thread._id}`}
                             activeClassName="messages__list-item--active"
                             className="messages__list-item-inner"
                             tabIndex="-1"
                         >
-                            <div className="messages__list-item-image"></div>
+                            <div className="messages__list-item-image">
+                                {thread.participants.map((participant, key) => (
+                                    <>
+                                        {currentUser._id !== participant._id && (
+                                            <img key={key} src={participant.profile_image_url} />
+                                        )}
+                                    </>
+                                ))}
+                            </div>
                             <div className="messages__list-item-info">
                                 <div className="messages__list-user">
-                                    {thread.participants.map((participant, key) => (
-                                        <span className="messages__list-user-name" key={key}>
-                                            {currentUser._id !== participant._id && participant.name}
-                                        </span>
-                                    ))}
-                                    {thread.participants < 2 && (
+                                    <span className="messages__list-user-name">
+                                        {formatName(thread.participants, currentUser)}
+                                    </span>
+                                    {thread.participants.length < 2 && (
                                         <span className="messages__list-user-handle">
                                             {thread.participants[0].handle}
                                         </span>

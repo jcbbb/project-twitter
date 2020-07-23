@@ -13,7 +13,6 @@ import './messagesCompose.scss';
 const MessagesCompose = () => {
     const history = useHistory();
     const inputRef = useRef();
-    const { currentUser } = useContext(UserContext);
     const { createThread } = useContext(MessagesContext);
     const { request, loading } = useHttp();
     const [value, setValue] = useState(null);
@@ -31,17 +30,6 @@ const MessagesCompose = () => {
         },
         [request],
     );
-
-    const createNewThread = useCallback(async () => {
-        try {
-            const threadId = selectedUsers[0]._id.concat(currentUser._id);
-            const response = await request('/api/direct/thread/new', 'POST', {
-                selectedUsers,
-                threadId,
-            });
-            if (response && response.status === 200 && response.status !== 500) history.push(`/messages/${threadId}`);
-        } catch (e) {}
-    }, [request, selectedUsers, currentUser._id, history]);
 
     useEffect(() => {
         let isSubscribed = true;

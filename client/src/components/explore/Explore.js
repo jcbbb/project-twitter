@@ -3,15 +3,15 @@ import useHttp from '../../hooks/useHttp';
 import Tweets from '../tweets/Tweets';
 import SearchInput from '../searchInput/SearchInput';
 import Wall from '../wall/Wall';
-import { TweetsContext } from '../../context/TweetsContext';
 import Button from '../button/Button';
+import { TweetsContext } from '../../context/TweetsContext';
 import { ReactComponent as FeatherIcon } from '../../assets/icons/feather.svg';
 import { Link, useLocation } from 'react-router-dom';
 
 import './explore.scss';
 
 const Explore = () => {
-    const { request } = useHttp();
+    const { request, loading } = useHttp();
     const { tweets, setTweets } = useContext(TweetsContext);
     const location = useLocation();
 
@@ -36,7 +36,7 @@ const Explore = () => {
                 <div className="explore__header">
                     <SearchInput />
                 </div>
-                <Tweets tweets={tweets} />
+                <Tweets tweets={tweets} loading={loading} />
             </div>
             <div className="tweet-fixed-button">
                 <Link

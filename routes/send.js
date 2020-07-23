@@ -22,10 +22,9 @@ router.post('/verification', async (req, res) => {
     };
 
     try {
-        await mailgun.messages().send(msg);
+        const response = await mailgun.messages().send(msg);
         res.json({ message: 'Email sent successfully' });
     } catch (err) {
-        console.error(err);
         return res.status(400).json({
             message: 'Something went wrong while sending email',
             status: 400,

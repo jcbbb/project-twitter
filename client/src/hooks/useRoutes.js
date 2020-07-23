@@ -125,7 +125,6 @@ const useRoutes = () => {
                 <Route path="/login">
                     <Login />
                 </Route>
-                {!isAuthenticated && <Redirect to="/" />}
             </Switch>
             {background && <Route path="/signup" component={Signup} />}
         </>

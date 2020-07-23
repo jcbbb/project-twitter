@@ -63,7 +63,6 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
                             className="tweeter__profile-image-container"
                             style={{ backgroundImage: `url(${tweet.user.profile_image_url})` }}
                         ></div>
-                        {tweet.reply_count > 0 && <div className="tweet__line"></div>}
                     </div>
                     <div className="tweet__content">
                         <div className="tweeter__info">

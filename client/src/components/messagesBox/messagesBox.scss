@@ -21,12 +21,15 @@
         &--left {
             display: flex;
             align-items: center;
+            width: 100%;
         }
     }
     &__header-name {
         font-size: 19px;
         font-weight: $x-bold;
         color: #fff;
+        display: inline-block;
+        margin-right: 3px;
     }
     &__header-handle {
         color: $non-active;

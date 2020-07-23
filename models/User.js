@@ -19,7 +19,6 @@ const userSchema = new Schema(
         email: { type: String, required: true, unique: true, lowercase: true, trim: true },
         password: { type: String, required: true },
         bookmarks: [{ type: Schema.Types.ObjectId, ref: 'Tweet' }],
-        threads: { type: Array },
         pinned_tweet: { type: Schema.Types.ObjectId, ref: 'Tweet' },
     },
     { timestamps: true },

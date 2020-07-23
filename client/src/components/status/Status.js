@@ -179,7 +179,7 @@ const Status = () => {
                 </div>
                 {(tweet.reply_count > 0 || tweet.retweet_count > 0 || tweet.like_count > 0) && (
                     <div className="status__metrics">
-                        {(tweet.reply_count || tweet.retweet_count) && (
+                        {(tweet.reply_count > 0 || tweet.retweet_count > 0) && (
                             <div className="status__metric">
                                 <span className="status__metric-count">
                                     {tweet.reply_count > 0
@@ -203,7 +203,7 @@ const Status = () => {
                                 </a>
                             </div>
                         )}
-                        {tweet.like_count && (
+                        {tweet.like_count > 0 && (
                             <div className="status__metric">
                                 <span className="status__metric-count">{tweet.like_count}</span>
                                 <a className="status__metric-link">

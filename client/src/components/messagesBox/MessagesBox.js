@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect, useCallback, useContext } from 'rea
 import useHttp from '../../hooks/useHttp';
 import { UserContext } from '../../context/UserContext';
 import { SocketContext } from '../../context/SocketContext';
+import { MessagesContext } from '../../context/MessagesContext';
 import { useParams, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
+import { formatName } from '../../helpers/formatName';
 import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
 import { compositeDecorator, messageBoxDecorator } from '../../helpers/decorators';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg';
@@ -28,11 +30,18 @@ const MessagesBox = () => {
     const [offsetHeight, setOffsetHeight] = useState();
     const { currentUser } = useContext(UserContext);
     const { socket } = useContext(SocketContext);
+    const { getThread } = useContext(MessagesContext);
     const { request } = useHttp();
+    const [thread, setThread] = useState({});
     const history = useHistory();
     const footerRef = useRef(null);
     const messagesRef = useRef(null);
     const editorRef = useRef(null);
+    const params = useParams();
+
+    useEffect(() => {
+        setThread(...getThread(params.threadId));
+    }, [params.threadId]);
 
     useEffect(() => {
         if (Object.keys(socket).length !== 0) {
@@ -42,7 +51,6 @@ const MessagesBox = () => {
         }
     }, [socket]);
 
-    const params = useParams();
     const observer = useRef(
         new ResizeObserver((entries) => {
             const { offsetHeight } = entries[0].target;
@@ -53,7 +61,6 @@ const MessagesBox = () => {
     const getMessages = useCallback(
         async (id) => {
             try {
-                socket.emit('thread opened', { id });
                 const response = await request(`/api/direct/messages?threadId=${id}`, 'GET');
                 if (response && response.status === 200 && response.status !== 500) {
                     setMessages(response.messages);
@@ -93,6 +100,7 @@ const MessagesBox = () => {
     useEffect(() => {
         let isSubscribed = true;
         if (isSubscribed) getMessages(params.threadId);
+        return () => (isSubscribed = false);
     }, [getMessages, params.threadId]);
 
     return (
@@ -110,8 +118,12 @@ const MessagesBox = () => {
                             </span>
                         </div>
                         <div classsName="messageBox__header-info">
-                            <h2 className="messageBox__header-name">Gary Simon</h2>
-                            <span className="messageBox__header-handle">@designcoursecom</span>
+                            <h2 className="messageBox__header-name">
+                                {Object.keys(thread).length !== 0 && formatName(thread.participants, currentUser)}
+                            </h2>
+                            {Object.keys(thread).length !== 0 && thread.participants < 2 && (
+                                <span className="messageBox__header-handle">{thread.participants[0].handle}</span>
+                            )}
                         </div>
                     </div>
                     <div className="messageBox__header-icon" tabIndex="0">
