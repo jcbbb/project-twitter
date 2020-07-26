@@ -16,6 +16,7 @@ const useUser = () => {
         following: [],
         profile_image_url: null,
         banner_image_url: null,
+        socket_id: null,
     });
 
     const { request } = useHttp();

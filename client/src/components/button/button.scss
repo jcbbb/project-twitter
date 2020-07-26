@@ -82,6 +82,11 @@
         background: $error;
         color: #fff;
         border: none;
+        &:disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
         &:hover {
             background: $error-dark;
         }

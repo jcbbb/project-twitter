@@ -40,7 +40,7 @@ const Home = ({ title }) => {
     useEffect(() => {
         if (Object.keys(socket).length !== 0) {
             socket.on('new tweet', (data) => {
-                setTweets((prev) => [...prev, data]);
+                setTweets((prev) => [data, ...prev]);
             });
         }
     }, [socket, setTweets]);
@@ -60,7 +60,7 @@ const Home = ({ title }) => {
             </HelmetProvider>
             <Wall>
                 <WallHeader profile={true}>Home</WallHeader>
-                {viewport > 500 && <TweetTextarea />}
+                {viewport > 500 && <TweetTextarea home={true} />}
                 <div className="home">{viewport > 500 && <div className="divider"></div>}</div>
                 <div className="tweet-fixed-button">
                     <Link

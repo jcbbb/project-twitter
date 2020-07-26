@@ -6,6 +6,7 @@ import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import './searchInput.scss';
 
+// TODO: This crap doesn't close when clicked outside of it. Have to fix asap
 const SearchInput = ({ ...props }) => {
     const { request, loading } = useHttp();
     const [value, setValue] = useState(null);
@@ -14,6 +15,7 @@ const SearchInput = ({ ...props }) => {
 
     const findUsers = useCallback(
         async (value) => {
+            if (!value) return;
             try {
                 const response = await request(`/api/users/search/${value}`);
 

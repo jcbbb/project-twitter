@@ -17,7 +17,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-io.on('connection', (client) => socket(client));
+io.on('connection', (client) => socket(client, io));
 
 // Connecting to database...
 db.connect();

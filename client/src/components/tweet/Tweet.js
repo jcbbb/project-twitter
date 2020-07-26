@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import MenuItem from '../menuItem/MenuItem';
 import useFollow from '../../hooks/useFollow';
-import { UserContext } from '../../context/UserContext';
-import { TweetsContext } from '../../context/TweetsContext';
 import Modal from '../modal/Modal';
 import Backdrop from '../backdrop/Backdrop';
 import TweetActions from '../tweetActions/TweetActions';
+import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import { formatDate } from '../../helpers/formatDate';
 import { Link } from 'react-router-dom';
 import { Editor, EditorState, convertFromRaw } from 'draft-js';
@@ -178,7 +178,7 @@ const Tweet = ({ tweet, hasActions, hasMedia, hasBorder, replying, idx }) => {
             </div>
             {/*
                 TODO: Have to display tweet replies but I don't understand what twitter considers replies.
-                Leaving marking for 'More replies' section of tweet.
+                Leaving markup for 'More replies' section of tweet.
                 {!replying && tweet.reply_count > 0 && (
                     <div className="tweet__footer relative">
                         {loading ? (

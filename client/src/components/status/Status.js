@@ -2,14 +2,14 @@ import React, { useContext, useState, useCallback, useEffect } from 'react';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
 import TweetActions from '../tweetActions/TweetActions';
-import { TweetsContext } from '../../context/TweetsContext';
-import { UserContext } from '../../context/UserContext';
 import MenuItem from '../menuItem/MenuItem';
 import Backdrop from '../backdrop/Backdrop';
 import useFollow from '../../hooks/useFollow';
 import useHttp from '../../hooks/useHttp';
 import Modal from '../modal/Modal';
 import Tweets from '../tweets/Tweets';
+import { TweetsContext } from '../../context/TweetsContext';
+import { UserContext } from '../../context/UserContext';
 import { format } from 'date-fns';
 import { convertFromRaw, EditorState, Editor } from 'draft-js';
 import { compositeDecorator } from '../../helpers/decorators';
@@ -155,9 +155,11 @@ const Status = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="status__content">
-                    <Editor editorState={convertToEditorState(tweet.text)} readOnly />
-                </div>
+                {tweet.text && (
+                    <div className="status__content">
+                        <Editor editorState={convertToEditorState(tweet.text)} readOnly />
+                    </div>
+                )}
                 {tweet.media.urls.length > 0 && (
                     <div className="tweet-textarea__image-preview-container" style={{ marginTop: '20px' }}>
                         {tweet.media.urls.map((url, index) => (

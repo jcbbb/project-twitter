@@ -2,8 +2,9 @@ import React, { useState, useCallback, useEffect, useRef, useContext } from 'rea
 import Button from '../button/Button';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import { MessagesContext } from '../../context/MessagesContext';
+import { SocketContext } from '../../context/SocketContext';
 import { UserContext } from '../../context/UserContext';
+import { MessagesContext } from '../../context/MessagesContext';
 import { useHistory } from 'react-router-dom';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
@@ -13,7 +14,8 @@ import './messagesCompose.scss';
 const MessagesCompose = () => {
     const history = useHistory();
     const inputRef = useRef();
-    const { createThread } = useContext(MessagesContext);
+    const { findExistingThread, threads } = useContext(MessagesContext);
+    const { currentUser } = useContext(UserContext);
     const { request, loading } = useHttp();
     const [value, setValue] = useState(null);
     const [users, setUsers] = useState([]);
@@ -31,6 +33,27 @@ const MessagesCompose = () => {
         [request],
     );
 
+    const createThread = useCallback(
+        async (selected) => {
+            try {
+                const participants = selected;
+                participants.push(currentUser);
+                const participantsIds = participants.map((user) => user._id);
+                const existingThread = findExistingThread(threads, participantsIds);
+                if (!existingThread) {
+                    const response = await request('/api/direct/thread/new', 'POST', {
+                        participants: participantsIds,
+                    });
+                    if (response && response.status === 200 && response.status !== 500) {
+                        return history.push(`/messages/${response.thread._id}`);
+                    }
+                }
+
+                history.push(`/messages/${existingThread._id}`);
+            } catch (e) {}
+        },
+        [findExistingThread, threads],
+    );
     useEffect(() => {
         let isSubscribed = true;
         if (isSubscribed) getUsers(value);

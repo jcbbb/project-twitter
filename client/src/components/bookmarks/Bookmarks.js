@@ -5,13 +5,14 @@ import WallHeader from '../wallHeader/WallHeader';
 import Loader from '../loader/Loader';
 import Tweet from '../tweet/Tweet';
 import { UserContext } from '../../context/UserContext';
+import { TweetsContext } from '../../context/TweetsContext';
 import { ReactComponent as DotsIcon } from '../../assets/icons/dots.svg';
 
 import './bookmarks.scss';
 
 const Bookmarks = () => {
     const { currentUser } = useContext(UserContext);
-    const [tweets, setTweets] = useState([]);
+    const { tweets, setTweets } = useContext(TweetsContext);
     const { request, loading } = useHttp();
 
     const getBookmarkedTweets = useCallback(async () => {

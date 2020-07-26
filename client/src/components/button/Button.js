@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import './button.scss';
 
-const Button = ({ className, children, size, styleType, fit, inner, icon, ...props }) => {
+const Button = ({ className, children, size, styleType, fit, inner, icon, ...props }, ref) => {
     return (
         <button
+            ref={ref}
             className={`button ${!inner ? `button__${styleType}` : ''} ${fit && 'button--fit'}`}
             tabIndex="0"
             {...props}
@@ -16,4 +17,4 @@ const Button = ({ className, children, size, styleType, fit, inner, icon, ...pro
     );
 };
 
-export default Button;
+export default forwardRef(Button);

@@ -5,14 +5,14 @@ import io from 'socket.io-client';
 
 const useSocket = () => {
     const [socket, setSocket] = useState({});
-    const { currentUser, isAuthenticated } = useContext(UserContext);
+    const { isAuthenticated, currentUser } = useContext(UserContext);
     const { threads } = useContext(MessagesContext);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            setSocket(io(process.env.REACT_APP_DOMAIN));
+        if (isAuthenticated && currentUser._id) {
+            setSocket(io(process.env.REACT_APP_DOMAIN, { query: `userId=${currentUser._id}` }));
         }
-    }, [setSocket, isAuthenticated]);
+    }, [setSocket, isAuthenticated, currentUser._id]);
 
     const subscribe = useCallback(
         (ids) => {
@@ -24,12 +24,6 @@ const useSocket = () => {
     );
 
     const unsubscribe = useCallback(async () => {}, []);
-
-    useEffect(() => {
-        if (isAuthenticated && currentUser.following.length > 0) {
-            subscribe(currentUser.following);
-        }
-    }, [currentUser.following, subscribe, isAuthenticated]);
 
     useEffect(() => {
         if (isAuthenticated && threads.length) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Button from '../button/Button';
 import { formatName } from '../../helpers/formatName';
 import { MessagesContext } from '../../context/MessagesContext';
+import { SocketContext } from '../../context/SocketContext';
 import { UserContext } from '../../context/UserContext';
 import { ReactComponent as ComposeMessageIcon } from '../../assets/icons/compose-message.svg';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search-icon.svg';
@@ -13,15 +14,36 @@ const MessagesList = () => {
     const params = useParams();
     const location = useLocation();
     const [value, setValue] = useState(null);
-    const { threads, getThreads } = useContext(MessagesContext);
+    const { threads, setThreads } = useContext(MessagesContext);
+    const { socket } = useContext(SocketContext);
     const { currentUser } = useContext(UserContext);
 
     useEffect(() => {
-        let isSubscribed = true;
-        if (isSubscribed) getThreads();
-        return () => (isSubscribed = false);
-    }, [params.threadId]);
+        if (Object.keys(socket).length !== 0) {
+            socket.on('latest message', (message) => {
+                const newThreads = [...threads];
+                newThreads.map((thread) => {
+                    if (thread._id === message.thread_id) {
+                        thread.last_message = message;
+                    }
+                });
+                setThreads(newThreads);
+            });
+        }
+    }, [socket, threads]);
 
+    useEffect(() => {
+        if (Object.keys(socket).length !== 0) {
+            socket.on('thread init', ({ thread }) => {
+                setThreads((prevThreads) => [thread, ...prevThreads]);
+            });
+        }
+    }, [socket, setThreads]);
+
+    // TODO: Have to setup search for threads;
+    useEffect(() => {
+        const participants = threads.map((thread) => thread.participants);
+    }, [value]);
     return (
         <div className="messages__list">
             <div className="messages__list-header">
@@ -69,15 +91,10 @@ const MessagesList = () => {
                             className="messages__list-item-inner"
                             tabIndex="-1"
                         >
-                            <div className="messages__list-item-image">
-                                {thread.participants.map((participant, key) => (
-                                    <>
-                                        {currentUser._id !== participant._id && (
-                                            <img key={key} src={participant.profile_image_url} />
-                                        )}
-                                    </>
-                                ))}
-                            </div>
+                            <div
+                                className="messages__list-item-image"
+                                style={{ backgroundImage: `url(${thread.participants[0].profile_image_url})` }}
+                            ></div>
                             <div className="messages__list-item-info">
                                 <div className="messages__list-user">
                                     <span className="messages__list-user-name">

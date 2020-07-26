@@ -4,9 +4,9 @@ import { UserContext } from '../../context/UserContext';
 import { SocketContext } from '../../context/SocketContext';
 import { MessagesContext } from '../../context/MessagesContext';
 import { useParams, useHistory } from 'react-router-dom';
-import { format } from 'date-fns';
+import { formatDate } from '../../helpers/formatDate';
 import { formatName } from '../../helpers/formatName';
-import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, ContentState, convertToRaw, convertFromRaw, getDefaultKeyBinding } from 'draft-js';
 import { compositeDecorator, messageBoxDecorator } from '../../helpers/decorators';
 import { ReactComponent as InfoIcon } from '../../assets/icons/info.svg';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
@@ -84,6 +84,17 @@ const MessagesBox = () => {
         } catch (e) {}
     }, [request, editorState, params.threadId]);
 
+    const keyBindingFn = (e) => {
+        if (e.keyCode === 13) return 'send-message';
+        return getDefaultKeyBinding(e);
+    };
+    const handleKeyCommand = (command) => {
+        if (command === 'send-message') {
+            sendMessage();
+            return 'handled';
+        }
+        return 'not-handled';
+    };
     useEffect(() => {
         const footerRefCurrent = footerRef.current;
         const observerCurrent = observer.current;
@@ -139,22 +150,25 @@ const MessagesBox = () => {
                         {messages.map((message, index) => (
                             <div
                                 className={`messageBox__message ${
-                                    message.sender_id === currentUser._id && 'messageBox__message--current'
+                                    message.sender._id === currentUser._id && 'messageBox__message--current'
                                 }`}
                                 key={index}
                             >
-                                {message.sender_id !== currentUser._id && (
-                                    <div className="messageBox__message-author-image"></div>
+                                {message.sender._id !== currentUser._id && (
+                                    <div
+                                        className="messageBox__message-author-image"
+                                        style={{ backgroundImage: `url(${message.sender.profile_image_url})` }}
+                                    ></div>
                                 )}
                                 <div
                                     className={`messageBox__message-container ${
-                                        message.sender_id === currentUser._id &&
+                                        message.sender._id === currentUser._id &&
                                         'messageBox__message-container--current'
                                     }`}
                                 >
                                     <div
                                         className={`messageBox__message-content ${
-                                            message.sender_id === currentUser._id &&
+                                            message.sender._id === currentUser._id &&
                                             'messageBox__message-content--current'
                                         }`}
                                     >
@@ -165,10 +179,11 @@ const MessagesBox = () => {
                                     </div>
                                     <span
                                         className={`messageBox__message-date ${
-                                            message.sender_id === currentUser._id && 'messageBox__message-date--current'
+                                            message.sender._id === currentUser._id &&
+                                            'messageBox__message-date--current'
                                         }`}
                                     >
-                                        {format(new Date(message.createdAt), 'MMM dd, yyyy, KK:mm a')}
+                                        {formatDate(message.createdAt, true)}
                                     </span>
                                 </div>
                             </div>
@@ -197,6 +212,8 @@ const MessagesBox = () => {
                                     setDisabled(textLength < 1 ? true : false);
                                     setEditorState(editorState);
                                 }}
+                                keyBindingFn={keyBindingFn}
+                                handleKeyCommand={handleKeyCommand}
                                 placeholder="Start a new message"
                             />
                         </div>

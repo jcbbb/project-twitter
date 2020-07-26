@@ -2,6 +2,7 @@ const { Router } = require('express');
 const verifyToken = require('../utils/verifyToken');
 const User = require('../models/User');
 const Tweet = require('../models/Tweet');
+const Like = require('../models/Like');
 const mongoose = require('mongoose');
 
 const router = Router();
@@ -68,25 +69,94 @@ router.post('/user/profile/update', verifyToken, async (req, res) => {
 router.get('/user/tweets', verifyToken, async (req, res) => {
     try {
         const { userId, type } = req.query;
+        const liked = await Like.find({ user_id: userId });
+        const likedTweetIds = liked.map((tweet) => tweet.tweet_id);
+        const mongoUserId = new mongoose.Types.ObjectId(userId);
         let tweets;
 
         switch (type) {
             case 'with_media':
-                tweets = await Tweet.find({
-                    user: userId,
-                    'media.urls_count': { $gt: 0 },
-                    in_reply_to_tweet_id: null,
-                }).populate('user');
+                tweets = await Tweet.aggregate()
+                    .match({
+                        user: mongoUserId,
+                        'media.urls_count': { $gt: 0 },
+                        in_reply_to_tweet_id: null,
+                    })
+                    .limit(20)
+                    .sort({ _id: -1 })
+                    .addFields({
+                        liked: {
+                            $gt: [
+                                {
+                                    $size: {
+                                        $filter: {
+                                            input: likedTweetIds,
+                                            as: 'likedTweet',
+                                            cond: {
+                                                $eq: ['$$likedTweet', '$_id'],
+                                            },
+                                        },
+                                    },
+                                },
+                                0,
+                            ],
+                        },
+                    })
+                    .lookup({ from: 'users', localField: 'user', foreignField: '_id', as: 'user' })
+                    .unwind('$user');
                 break;
             case 'with_likes':
-                tweets = await Tweet.find({ user: userId, liked: { $ne: false }, in_reply_to_tweet_id: null }).populate(
-                    'user',
-                );
+                tweets = await Tweet.aggregate()
+                    .match({ user: mongoUserId, in_reply_to_tweet_id: null })
+                    .limit(20)
+                    .sort({ _id: -1 })
+                    .addFields({
+                        liked: {
+                            $gt: [
+                                {
+                                    $size: {
+                                        $filter: {
+                                            input: likedTweetIds,
+                                            as: 'likedTweet',
+                                            cond: {
+                                                $eq: ['$$likedTweet', '$_id'],
+                                            },
+                                        },
+                                    },
+                                },
+                                0,
+                            ],
+                        },
+                    })
+                    .match({ liked: true })
+                    .lookup({ from: 'users', localField: 'user', foreignField: '_id', as: 'user' })
+                    .unwind('$user');
                 break;
             default:
-                tweets = await Tweet.find({ user: userId, in_reply_to_tweet_id: null })
+                tweets = await Tweet.aggregate()
+                    .match({ user: mongoUserId, in_reply_to_tweet_id: null })
+                    .limit(20)
                     .sort({ _id: -1 })
-                    .populate('user');
+                    .addFields({
+                        liked: {
+                            $gt: [
+                                {
+                                    $size: {
+                                        $filter: {
+                                            input: likedTweetIds,
+                                            as: 'likedTweet',
+                                            cond: {
+                                                $eq: ['$$likedTweet', '$_id'],
+                                            },
+                                        },
+                                    },
+                                },
+                                0,
+                            ],
+                        },
+                    })
+                    .lookup({ from: 'users', localField: 'user', foreignField: '_id', as: 'user' })
+                    .unwind('$user');
                 break;
         }
 

@@ -4,19 +4,21 @@ import useMessage from '../hooks/useMessage';
 export const MessagesContext = createContext({
     threads: [],
     getThreads: () => {},
-    createThread: () => {},
     getThread: () => {},
+    setThreads: () => {},
+    findExistingThread: () => {},
 });
 
 const MessagesContextProvider = ({ children }) => {
-    const { getThreads, threads, createThread, getThread } = useMessage();
+    const { getThreads, threads, getThread, setThreads, findExistingThread } = useMessage();
     return (
         <MessagesContext.Provider
             value={{
                 getThreads,
                 threads,
-                createThread,
                 getThread,
+                setThreads,
+                findExistingThread,
             }}
         >
             {children}

@@ -1,31 +1,37 @@
-import React, { useState, useContext, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useContext, useCallback, useEffect, useRef, forwardRef } from 'react';
 import Button from '../button/Button';
+import useHttp from '../../hooks/useHttp';
 import { UserContext } from '../../context/UserContext';
 import { TweetsContext } from '../../context/TweetsContext';
-import useHttp from '../../hooks/useHttp';
 import { Editor, EditorState, convertToRaw, ContentState } from 'draft-js';
 import { ReactComponent as ImageIcon } from '../../assets/icons/image.svg';
 import { ReactComponent as GifIcon } from '../../assets/icons/gif.svg';
 import { ReactComponent as SmileIcon } from '../../assets/icons/smile.svg';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 import { compositeDecorator } from '../../helpers/decorators';
+import { useHistory } from 'react-router-dom';
 
 import './tweetTextarea.scss';
 import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = ({ size, ...props }) => {
+const TweetTextarea = ({ size, home, ...props }, ref) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
-    const { replyingTweet } = useContext(TweetsContext);
+    const { replyingTweet, setTweets } = useContext(TweetsContext);
     const [images, setImages] = useState([]);
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty(compositeDecorator));
     const editorRef = useRef();
+    const history = useHistory();
 
     const handleTweetSubmit = useCallback(async () => {
-        const text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+        let text = '';
+        const plaintext = editorState.getCurrentContent().getPlainText();
+        if (plaintext.trim()) {
+            text = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+        }
         const formData = new FormData();
         formData.append('folder', 'tweetMedia');
         formData.append('text', text);
@@ -52,6 +58,7 @@ const TweetTextarea = ({ size, ...props }) => {
                 setEditorState((prevState) => EditorState.push(prevState, ContentState.createFromText('')));
                 setImages([]);
                 editorRef.current.focus();
+                setTweets((prevTweets) => [response.tweet, ...prevTweets]);
             }
         } catch (e) {}
     }, [request, editorState, images, replyingTweet]);
@@ -88,13 +95,17 @@ const TweetTextarea = ({ size, ...props }) => {
                             ref={editorRef}
                             editorState={editorState}
                             onChange={(editorState) => {
-                                const textLength = editorState.getCurrentContent().getPlainText().length;
-                                setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
+                                const textLength = editorState.getCurrentContent().getPlainText().trim().length;
                                 setEditorState(editorState);
+                                if (images.length >= 1) {
+                                    return setDisabled(false);
+                                }
+                                setDisabled(textLength > TWEET_LIMIT || textLength < 1 ? true : false);
                             }}
                             placeholder={
                                 Object.keys(replyingTweet).length !== 0 ? 'Tweet your reply' : "What's happening"
                             }
+                            readOnly={loading}
                         />
                     </div>
                     {images.length > 0 && (
@@ -108,14 +119,16 @@ const TweetTextarea = ({ size, ...props }) => {
                                         gridRow: index === 1 && images.length === 3 && 'span 2',
                                     }}
                                 >
-                                    <span
-                                        className="tweet-textarea__image-preview-icon"
-                                        onClick={() => {
-                                            setImages((prev) => prev.filter(({ blob }) => image.blob !== blob));
-                                        }}
-                                    >
-                                        <CloseIcon />
-                                    </span>
+                                    {!loading && (
+                                        <span
+                                            className="tweet-textarea__image-preview-icon"
+                                            onClick={() => {
+                                                setImages((prev) => prev.filter(({ blob }) => image.blob !== blob));
+                                            }}
+                                        >
+                                            <CloseIcon />
+                                        </span>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -125,7 +138,7 @@ const TweetTextarea = ({ size, ...props }) => {
                             <label
                                 htmlFor="image-file-input"
                                 className={`tweet-textarea__icon ${
-                                    images.length >= 4 && 'tweet-textarea__icon--disabled'
+                                    (images.length >= 4 || loading) && 'tweet-textarea__icon--disabled'
                                 }`}
                                 tabIndex="0"
                             >
@@ -152,13 +165,17 @@ const TweetTextarea = ({ size, ...props }) => {
                                 </span>
                             </span>
                         </div>
-                        <div className="tweet-textarea__button">
+                        <div className={`tweet-textarea__button ${home ? 'tweet-textarea__button-home' : null}`}>
                             <Button
                                 styleType="filled"
                                 fit
                                 size="md"
                                 disabled={loading || disabled}
-                                onClick={handleTweetSubmit}
+                                ref={ref}
+                                onClick={() => {
+                                    handleTweetSubmit();
+                                    Object.keys(replyingTweet).length !== 0 && history.goBack();
+                                }}
                             >
                                 {Object.keys(replyingTweet).length !== 0 ? 'Reply' : 'Tweet'}
                             </Button>
@@ -170,4 +187,4 @@ const TweetTextarea = ({ size, ...props }) => {
     );
 };
 
-export default TweetTextarea;
+export default forwardRef(TweetTextarea);
