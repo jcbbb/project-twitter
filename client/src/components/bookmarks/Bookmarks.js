@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useCallback, useState } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import useHttp from '../../hooks/useHttp';
 import Wall from '../wall/Wall';
 import WallHeader from '../wallHeader/WallHeader';
@@ -23,7 +23,7 @@ const Bookmarks = () => {
                 setTweets(response.tweets);
             }
         } catch (e) {}
-    }, [request, currentUser]);
+    }, [request, currentUser, setTweets]);
 
     useEffect(() => {
         let isSubscribed = true;

@@ -16,7 +16,7 @@ import 'draft-js/dist/Draft.css';
 
 const TWEET_LIMIT = 280;
 
-const TweetTextarea = ({ size, home, ...props }, ref) => {
+const TweetTextarea = ({ size, home, composer, ...props }, ref) => {
     const [disabled, setDisabled] = useState(true);
     const { request, loading } = useHttp();
     const { currentUser } = useContext(UserContext);
@@ -61,7 +61,7 @@ const TweetTextarea = ({ size, home, ...props }, ref) => {
                 setTweets((prevTweets) => [response.tweet, ...prevTweets]);
             }
         } catch (e) {}
-    }, [request, editorState, images, replyingTweet]);
+    }, [request, editorState, images, replyingTweet, setTweets]);
 
     const preview = ({ target }) => {
         [...target.files].map((file) => {
@@ -174,7 +174,7 @@ const TweetTextarea = ({ size, home, ...props }, ref) => {
                                 ref={ref}
                                 onClick={() => {
                                     handleTweetSubmit();
-                                    Object.keys(replyingTweet).length !== 0 && history.goBack();
+                                    Object.keys(replyingTweet).length !== 0 || (composer && history.goBack());
                                 }}
                             >
                                 {Object.keys(replyingTweet).length !== 0 ? 'Reply' : 'Tweet'}

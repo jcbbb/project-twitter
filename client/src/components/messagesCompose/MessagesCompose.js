@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useRef, useContext } from 'rea
 import Button from '../button/Button';
 import Backdrop from '../backdrop/Backdrop';
 import useHttp from '../../hooks/useHttp';
-import { SocketContext } from '../../context/SocketContext';
 import { UserContext } from '../../context/UserContext';
 import { MessagesContext } from '../../context/MessagesContext';
 import { useHistory } from 'react-router-dom';
@@ -36,7 +35,7 @@ const MessagesCompose = () => {
     const createThread = useCallback(
         async (selected) => {
             try {
-                const participants = selected;
+                const participants = [...selected];
                 participants.push(currentUser);
                 const participantsIds = participants.map((user) => user._id);
                 const existingThread = findExistingThread(threads, participantsIds);
@@ -52,7 +51,7 @@ const MessagesCompose = () => {
                 history.push(`/messages/${existingThread._id}`);
             } catch (e) {}
         },
-        [findExistingThread, threads],
+        [findExistingThread, threads, history, currentUser, request],
     );
     useEffect(() => {
         let isSubscribed = true;

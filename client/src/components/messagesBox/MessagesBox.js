@@ -41,7 +41,7 @@ const MessagesBox = () => {
 
     useEffect(() => {
         setThread(...getThread(params.threadId));
-    }, [params.threadId]);
+    }, [params.threadId, getThread]);
 
     useEffect(() => {
         if (Object.keys(socket).length !== 0) {
@@ -67,7 +67,7 @@ const MessagesBox = () => {
                 }
             } catch (e) {}
         },
-        [request, socket],
+        [request],
     );
 
     const sendMessage = useCallback(async () => {

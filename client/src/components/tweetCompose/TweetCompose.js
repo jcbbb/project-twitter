@@ -37,7 +37,7 @@ const TweetCompose = () => {
                 {Object.keys(replyingTweet).length !== 0 && (
                     <Tweet tweet={replyingTweet} hasActions={false} hasMedia={false} replying={true} />
                 )}
-                <TweetTextarea ref={tweetSubmitRef} size="lg" style={{ paddingTop: '0' }} />
+                <TweetTextarea ref={tweetSubmitRef} size="lg" style={{ paddingTop: '0' }} composer={true} />
             </div>
         </Backdrop>
     );

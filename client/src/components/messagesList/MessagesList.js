@@ -30,7 +30,7 @@ const MessagesList = () => {
                 setThreads(newThreads);
             });
         }
-    }, [socket, threads]);
+    }, [socket, threads, setThreads]);
 
     useEffect(() => {
         if (Object.keys(socket).length !== 0) {
@@ -41,9 +41,9 @@ const MessagesList = () => {
     }, [socket, setThreads]);
 
     // TODO: Have to setup search for threads;
-    useEffect(() => {
-        const participants = threads.map((thread) => thread.participants);
-    }, [value]);
+    //useEffect(() => {
+    //    const participants = threads.map((thread) => thread.participants);
+    //}, [value]);
     return (
         <div className="messages__list">
             <div className="messages__list-header">
