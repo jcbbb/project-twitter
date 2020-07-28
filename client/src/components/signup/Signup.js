@@ -31,6 +31,7 @@ const Signup = () => {
                     email: values.email,
                     name: values.name,
                     password: values.password,
+                    verificationCode: values.verificationCode,
                 });
 
                 if (response && response.status === 201 && response.status !== 500) {
@@ -48,15 +49,7 @@ const Signup = () => {
             ev.preventDefault();
             try {
                 const { email } = myForm.values;
-                const { status, verificationCode } = await request('/api/auth/tempuser', 'POST', {
-                    email,
-                });
-                if (status === 201 || status === 200) {
-                    await request('/api/send/verification', 'POST', {
-                        email,
-                        verificationCode,
-                    });
-                }
+                await request('/api/auth/tempuser', 'POST', { email });
             } catch (e) {}
         },
         [request, myForm.values],

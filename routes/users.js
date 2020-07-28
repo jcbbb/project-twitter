@@ -11,7 +11,7 @@ router.get('/user/profile', verifyToken, async (req, res) => {
     try {
         const { id } = req.user;
 
-        const user = await User.findById(id);
+        const user = await User.findById(id, { password: 0 });
 
         if (!user) {
             return res.status(400).json({ message: 'User not found', status: 400 });
@@ -31,7 +31,7 @@ router.post('/user/profile', async (req, res) => {
     try {
         const { handle } = req.query;
 
-        const user = await User.findOne({ handle });
+        const user = await User.findOne({ handle }, { password: 0 });
 
         if (!user) {
             return res.status(400).json({ message: 'Profile not found', status: 400 });
