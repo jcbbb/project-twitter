@@ -11,7 +11,7 @@ const Mailgun = require('mailgun-js');
 
 const mailgun = new Mailgun({
     apiKey: config.mgApiKey,
-    domain: 'verify.juraev.codes',
+    domain: 'verify.juraev.design',
 });
 const router = Router();
 
