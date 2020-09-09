@@ -8,7 +8,7 @@ const MenuItem = ({ children, icon, danger, to, href, ...props }) => {
             <Link to={to} className="menuItem" tabIndex="0">
                 <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
                     {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
-                    {children}
+                    <span className="menuItem__inner-text">{children}</span>
                 </li>
             </Link>
         );
@@ -17,7 +17,7 @@ const MenuItem = ({ children, icon, danger, to, href, ...props }) => {
             <a href={href} className="menuItem" tabIndex="0">
                 <li {...props} className={`menuItem__inner ${danger && 'danger'}`} tabIndex="-1">
                     {icon && <span className={`menuItem__icon ${danger && 'danger'}`}>{icon}</span>}
-                    {children}
+                    <span className="menuItem__inner-text">{children}</span>
                 </li>
             </a>
         );

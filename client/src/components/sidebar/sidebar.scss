@@ -55,6 +55,7 @@
        align-self: center;
        margin-left: 10px;
        transition: all 200ms ease-in-out;
+       overflow: hidden;
        &:hover .sidebar__list-item-name, &:focus .sidebar__list-item-name {
             text-decoration: underline;
        } 
@@ -64,10 +65,16 @@
         font-weight: $bold;
         cursor: pointer;
         pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     &__list-item-handle {
         color: $non-active;
         pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     &__list-item-image-container {
         min-width: 50px;

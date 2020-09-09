@@ -23,6 +23,11 @@
         display: flex;
         align-items: center;
     }
+    &__inner-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
     &__icon {
         font-size: 18px;
         height: 18px;
