@@ -1,2 +1,3 @@
 ## Twitter Clone for The Odin Project
-[Live Demo](https://juraev.design)  
+
+[Live Demo](https://twitter.pluto.uz)

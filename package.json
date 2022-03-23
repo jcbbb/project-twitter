@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "@google-cloud/storage": "^5.0.1",
+        "@sendgrid/mail": "^7.6.2",
         "bcryptjs": "^2.4.3",
         "compression": "^1.7.4",
         "concurrently": "^5.2.0",
@@ -34,12 +35,6 @@
     },
     "devDependencies": {
         "cross-env": "^7.0.2",
-        "eslint": "^6.6.0",
-        "eslint-config-airbnb": "^18.1.0",
-        "eslint-plugin-import": "^2.20.2",
-        "eslint-plugin-jsx-a11y": "^6.2.3",
-        "eslint-plugin-react": "^7.20.0",
-        "eslint-plugin-react-hooks": "^4.0.2",
         "jest": "^24.9.0",
         "nodemon": "^2.0.3",
         "supertest": "^4.0.2"

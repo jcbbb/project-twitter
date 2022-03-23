@@ -29,7 +29,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: config.domain,
+    origin: config.origin,
     credentials: true,
   })
 );
@@ -58,6 +58,6 @@ if (process.env.NODE_ENV === "prod") {
   });
 }
 
-app.set("port", process.env.PORT || 5000);
+app.set("port", process.env.PORT || 4000);
 
 module.exports = { server, app };
